@@ -142,14 +142,12 @@ jobs:
             for die_name in ${EFFECTED_DIE_LIST}
             do
               echo "Generating $die_name"
-              ls
-              cd die_name
+              cd $die_name
               ls
             
               ./makeRegs.sh
            
               cd ../
-              ls
             done            
           fi
           
