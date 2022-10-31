@@ -21,6 +21,9 @@ env:
   # Die name will refer to the die type name of micrcontroller like ME15 and AI85
   # Part will mean the microcontroller product itself, could refer to chip name or die name
   AFFECTED_PARTS: none
+  
+  # Don't run the workflow if none of the register files changed.
+  DIFF_FILES_FLAG: false
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -44,6 +47,7 @@ jobs:
             rm -rf *
           fi
           set -e
+          
       # Checks-out MSDK and MSDK-INTERNAL repositories under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout msdk repository
         uses: actions/checkout@v3
@@ -63,17 +67,27 @@ jobs:
           #ssh-key: ''
           path: ${{ env.MSDK-INTERNAL_DIR }}
           
-      - name: Install required packages to generate register files.
-        if: ${{git diff --ignore-submodules --name-only remotes/origin/master '*_regs.h'}}
+      - name: Checking if register files were changed.
         run: |
-            # Can't run Windows .exe on Ubuntu. Install wine to run.
-            sudo apt-get install -y wine
-            # Install XMLFormatter for scripts.
-            sudo apt-get install -y xmlformat-perl
-            
-            sudo dpkg --add-architecture i386
-            sudo apt-get update
-            sudo apt-get install wine32:i386
+          CHANGED_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master '*_regs.h')
+          if [[ -n $CHANGED_FILES]]; then
+            #echo "DIFF_FILES_FLAGS=true" >> $GITHUB_ENV
+          fi
+          
+      - name: Install required packages to generate register files.
+        if: ${{DIFF_FILES_FLAG}}
+        run: |
+          # Can't run Windows .exe on Ubuntu. Install wine to run.
+          sudo apt-get install -y wine
+          
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install wine32:i386
+          
+          # Install XMLFormatter for scripts.
+          sudo apt-get install -y xmlformat-perl
+          
+
             
       # We grab the chip name, but the SVD Scripts references the equivalent die name
       - name: Generate Register Files for all Affected Parts
