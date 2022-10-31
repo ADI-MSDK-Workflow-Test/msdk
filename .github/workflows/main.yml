@@ -137,6 +137,7 @@ jobs:
           #run: |
           # Exit out of msdk directory.
           cd ..
+          ls
           cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
           echo $GITHUB_WORKSPACE
           echo ${{ env.EFFECTED_PARTS }}
