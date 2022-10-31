@@ -71,9 +71,9 @@ jobs:
         run: |
           cd ${{ env.MSDK_DIR }}
           CHANGED_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master '*_regs.h')
-          if [[ -n ${CHANGED_FILES} ]]; then
+          #if [[ -n ${CHANGED_FILES} ]]; then
             #echo "DIFF_FILES_FLAGS=true" >> $GITHUB_ENV
-          fi
+          #fi
           
       - name: Install required packages to generate register files.
         if: ${{ env.DIFF_FILES_FLAG }}
