@@ -97,8 +97,7 @@ jobs:
           # Can't run Windows .exe on Ubuntu. Install wine to run.
           sudo apt-get install -y wine
           
-          sudo dpkg --add-architecture i386
-          sudo apt-get update
+          sudo dpkg --add-architecture i386 && sudo apt-get update && sudo apt-get install wine32 && sudo apt-get install wine32:i386 && sudo apt-get install libwine:i386
           #sudo apt-get install libwine:i386
           
           #sudo apt-get install libfaudio0:i386
@@ -107,12 +106,12 @@ jobs:
           #sudo apt-get install libgstreamer-plugins-base1.0-0:i386
           #sudo apt-get install libgstreamer1.0-0:i386
           
-          sudo apt-get install wine32
-          echo "wine32"
-          sudo apt-get install wine32:i386
-          echo "Wine32:i386"
-          sudo apt-get install libwine:i386
-          echo "libwine"
+          #sudo apt-get install wine32
+          #echo "wine32"
+          #sudo apt-get install wine32:i386
+          #echo "Wine32:i386"
+          #sudo apt-get install libwine:i386
+          #echo "libwine"
           
           # Install XMLFormatter for scripts.
           sudo apt-get install -y xmlformat-perl
