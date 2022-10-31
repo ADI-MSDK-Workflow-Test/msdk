@@ -77,7 +77,13 @@ jobs:
             echo "No register file changed."
           fi
           
-      - name: Install required packages to generate register files.
+      - name: No register files changed. Finish.
+        if: env.DIFF_FILES_FLAG == 'false'
+        run: |
+          echo "None of the committed files were updated register files. No need to check differences."
+          exit 0
+          
+      - name: Detected Register File Change. Install required packages for scripts.
         if: env.DIFF_FILES_FLAG == 'true'
         run: |
           # Can't run Windows .exe on Ubuntu. Install wine to run.
@@ -89,12 +95,6 @@ jobs:
           
           # Install XMLFormatter for scripts.
           sudo apt-get install -y xmlformat-perl
-      
-      - name: No register files changed. Finish.
-        if: env.DIFF_FILES_FLAG == 'false'
-        run: |
-          echo "None of the committed files were updated register files. No need to check differences."
-          exit 0
             
       # We grab the chip name, but the SVD Scripts references the equivalent die name
       - name: Generate Register Files for all Affected Parts
