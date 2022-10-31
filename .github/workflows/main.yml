@@ -97,21 +97,8 @@ jobs:
           # Can't run Windows .exe on Ubuntu. Install wine to run.
           sudo apt-get install -y wine
           
+          # This all needs to be on one line due to dependencies errors.
           sudo dpkg --add-architecture i386 && sudo apt-get update && sudo apt-get install wine32 && sudo apt-get install wine32:i386 && sudo apt-get install libwine:i386
-          #sudo apt-get install libwine:i386
-          
-          #sudo apt-get install libfaudio0:i386
-          #sudo apt-get install libglib2.0-0:i386
-          #sudo apt-get install libgphoto2-6:i386
-          #sudo apt-get install libgstreamer-plugins-base1.0-0:i386
-          #sudo apt-get install libgstreamer1.0-0:i386
-          
-          #sudo apt-get install wine32
-          #echo "wine32"
-          #sudo apt-get install wine32:i386
-          #echo "Wine32:i386"
-          #sudo apt-get install libwine:i386
-          #echo "libwine"
           
           # Install XMLFormatter for scripts.
           sudo apt-get install -y xmlformat-perl
@@ -141,6 +128,7 @@ jobs:
           CHIP_DIE_NAMES[MAX32680]=ME20
           CHIP_DIE_NAMES[MAX32672]=ME21
           
+          ls
           CHANGED_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master '*_regs.h')
 
           # This set keeps tracks of all the parts with updated register files. (No duplicates).
