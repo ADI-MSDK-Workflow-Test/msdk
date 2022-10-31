@@ -84,6 +84,8 @@ jobs:
           CHIP_DIE_NAMES[MAX32690]=ME18
           CHIP_DIE_NAMES[MAX32680]=ME20
           CHIP_DIE_NAMES[MAX32672]=ME21
+          
+          echo ${CHIP_DIE_NAMES[*]}
 
       - name: Echo
         run: |
@@ -92,7 +94,6 @@ jobs:
       
       - name: Find all parts relating to updated register files
         run: |    
-          git status
           CHANGED_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master '*_regs.h')
           
       - name: Tracker
