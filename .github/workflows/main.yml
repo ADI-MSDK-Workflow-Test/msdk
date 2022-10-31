@@ -128,7 +128,8 @@ jobs:
           CHIP_DIE_NAMES[MAX32680]=ME20
           CHIP_DIE_NAMES[MAX32672]=ME21
           
-          ls
+          # Find diff in MSDK repo
+          cd ${{ env.MSDK_DIR }}
           CHANGED_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master '*_regs.h')
 
           # This set keeps tracks of all the parts with updated register files. (No duplicates).
