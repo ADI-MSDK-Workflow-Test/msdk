@@ -233,8 +233,5 @@ jobs:
           
       - name: Generate Register Files for all Affected Parts
         run: |
-          cd ${{ env.MSDK-INTERNAL_DIR }}
-          dir
-          cd SVD\Workflow
-          dir
-          bash SVDConv.sh
+          # Start in workspace.
+          bash SVDConv.sh ${{ env.MSDK_DIR }} ${{ env.MSDK-INTERNAL_DIR }}
