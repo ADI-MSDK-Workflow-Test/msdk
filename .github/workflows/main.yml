@@ -122,7 +122,6 @@ jobs:
               if [[ ! -z "$EFFECTED_DIE_LIST" ]]; then
                 EFFECTED_DIE_LIST+=" "
               fi
-              echo "Adding part $CHIP_NAME"
               EFFECTED_DIE_LIST+="${CHIP_DIE_NAMES[$CHIP_NAME]}"
               
             fi
@@ -131,17 +130,16 @@ jobs:
           echo ${EFFECTED_DIE_LIST[*]}
           
           # Update environment variable for next steps.
-          echo "EFECTED_PARTS=EFFECTED_DIE_LIST" >> $GITHUB_ENV
+          #echo "EFECTED_PARTS=EFFECTED_DIE_LIST" >> $GITHUB_ENV
           
           #- name: Run SVD scripts to generate register files
           #run: |
           # Exit out of msdk directory.
           cd ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
           ls
-          echo $GITHUB_WORKSPACE
-          echo ${{ env.EFFECTED_PARTS }}
-          if [ ${{ env.EFFECTED_PARTS }} != none ]; then
-            for die_name in ${{ env.EFFECTED_PARTS}}
+          
+          if [[ -n $EFFECTED_DIE_LIST ]]; then
+            for die_name in ${EFFECTED_DIE_LIST}
             do
               cd die_name
             
