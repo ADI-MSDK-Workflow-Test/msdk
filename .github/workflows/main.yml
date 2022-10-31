@@ -139,14 +139,17 @@ jobs:
           # Exit out of msdk directory.
           cd  ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
           echo $GITHUB_WORKSPACE
-          for die_name in ${{ env.EFFECTED_PARTS}}
-          do
-            cd die_name
+          echo ${{ env.EFFECTED_PARTS}}
+          if ${{ env.EFFECTED_PARTS}}
+            for die_name in ${{ env.EFFECTED_PARTS}}
+            do
+              cd die_name
             
-            ./makeRegs.sh
+              ./makeRegs.sh
            
-            cd ../
-          done            
+              cd ../
+            done            
+          fi
           
           #- name: Compare updated register files to SVD files
           #run: |
