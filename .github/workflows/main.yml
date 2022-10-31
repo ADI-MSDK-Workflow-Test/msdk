@@ -122,6 +122,7 @@ jobs:
               if [[ ! -z "$EFFECTED_DIE_LIST" ]]; then
                 EFFECTED_DIE_LIST+=" "
               fi
+              echo "Adding part $CHIP_NAME"
               EFFECTED_DIE_LIST+="${CHIP_DIE_NAMES[$CHIP_NAME]}"
               
             fi
@@ -138,7 +139,7 @@ jobs:
           cd  ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
           echo $GITHUB_WORKSPACE
           echo ${{ env.EFFECTED_PARTS}}
-          if [ ${{ env.EFFECTED_PARTS}} ]; then
+          if [ ${{ env.EFFECTED_PARTS}} != none ]; then
             for die_name in ${{ env.EFFECTED_PARTS}}
             do
               cd die_name
