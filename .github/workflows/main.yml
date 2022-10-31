@@ -132,6 +132,8 @@ jobs:
           CHIP_DIE_NAMES[MAX32680]=ME20
           CHIP_DIE_NAMES[MAX32672]=ME21
           
+          declare -A DIFF_FILES_LIST
+          
           # Find diff in MSDK repo
           cd ${{ env.MSDK_DIR }}
           CHANGED_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master '*_regs.h')
@@ -147,10 +149,13 @@ jobs:
           # Grab the part relating to the changed register file and add to list for env variable assignment.
           # Note: This only works for register files in this path:
           #   msdk/Libraries/CMSIS/Device/Maxim/[CHIP_NAME]/Include/*_regs.h
-          for chip in ${CHANGED_FILES}
+          for changed_reg_file in ${CHANGED_FILES}
           do
+            # Save path to changed file start at the workspace location (outside msdk and msdk-internal repo)
+            changed_reg_file_ws=${{ env.MSDK_DIR }}/$changed_reg_file          
+          
             # Removing (prefix) path to [CHIP_NAME]/Include/*_regs.h
-            CHIP_NAME=${chip#*/Maxim/}
+            CHIP_NAME=${changed_reg_file#*/Maxim/}
             # Remove (suffix) following path /Include/*_regs.h to get the [CHIP_NAME]
             CHIP_NAME=${CHIP_NAME%%/*}
             
@@ -167,7 +172,14 @@ jobs:
               AFFECTED_DIE_LIST+="${CHIP_DIE_NAMES[$CHIP_NAME]}"
               
             fi
+            
+            # Keep track of all diff files.
+            DIFF_FILES_LIST[changed_reg_file_ws]=${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/chip_test/${changed_reg_file#*_regs.h}
+            
+            
           done
+          
+          echo "These are the diff files: $DIFF_FILES_LIST[*]}"
           
           echo "These are the affected parts: ${AFFECTED_DIE_LIST[*]}"
           
@@ -192,7 +204,41 @@ jobs:
           fi
           
           echo "Finished Generating Register Files."
-         
+          
+      - name: Comparing updated register files with generated register files.
+        run: |
+          # Create associative array for dictionary for this step
+          declare -A CHIP_DIE_NAMES
+          
+          # Add future parts to this dictionary
+          CHIP_DIE_NAMES[MAX78000]=AI85
+          CHIP_DIE_NAMES[MAX78002]=AI87
+          CHIP_DIE_NAMES[MAX32520]=ES17
+          CHIP_DIE_NAMES[MAX32650]=ME10
+          CHIP_DIE_NAMES[MAX32660]=ME11
+          CHIP_DIE_NAMES[MAX32662]=ME12
+          CHIP_DIE_NAMES[MAX32570]=ME13
+          CHIP_DIE_NAMES[MAX32665]=ME14
+          CHIP_DIE_NAMES[MAX32670]=ME15
+          CHIP_DIE_NAMES[MAX32675]=ME16
+          CHIP_DIE_NAMES[MAX32655]=ME17
+          CHIP_DIE_NAMES[MAX32690]=ME18
+          CHIP_DIE_NAMES[MAX32680]=ME20
+          CHIP_DIE_NAMES[MAX32672]=ME21
+          
+          # Find diff in MSDK repo
+          cd ${{ env.MSDK_DIR }}
+          CHANGED_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master '*_regs.h')
+          
+          set +e
+          for updated_reg_file in ${CHANGED_FILES}
+          do
+            if [[ $? != 0]]; then
+              exit 1
+            fi
+          done
+          set -e
+          
   #-------------------------------------
   # Job 2
   SVDConv:
@@ -202,8 +248,6 @@ jobs:
     # Finish first job before running this next one.
     strategy:
       max-parallel: 1
-      
-      
 
     steps:
       - name: Clean
