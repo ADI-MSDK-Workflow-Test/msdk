@@ -92,6 +92,7 @@ jobs:
       
       - name: Find all parts relating to updated register files
         run: |    
+          git status
           CHANGED_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master '*_regs.h')
           
       - name: Tracker
