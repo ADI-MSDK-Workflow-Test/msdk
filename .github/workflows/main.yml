@@ -237,3 +237,4 @@ jobs:
           dir
           cd SVD\Workflow
           dir
+          bash SVDConv.sh
