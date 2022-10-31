@@ -139,6 +139,8 @@ jobs:
           ls
           echo "-----------------"
           if [[ -n $EFFECTED_DIE_LIST ]]; then
+            chmod u+x makeRegs.sh
+          
             for die_name in ${EFFECTED_DIE_LIST}
             do
               echo "Generating $die_name"
