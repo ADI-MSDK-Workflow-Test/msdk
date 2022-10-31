@@ -138,7 +138,9 @@ jobs:
           cd ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
           ls
           echo "-----------------"
-          if [[ -n $EFFECTED_DIE_LIST ]]; then          
+          if [[ -n $EFFECTED_DIE_LIST ]]; then
+            chmod u+x ../SVDConv.exe
+            
             for die_name in ${EFFECTED_DIE_LIST}
             do
               echo "Generating $die_name"
