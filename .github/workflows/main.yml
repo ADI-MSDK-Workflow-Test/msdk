@@ -136,11 +136,8 @@ jobs:
           #- name: Run SVD scripts to generate register files
           #run: |
           # Exit out of msdk directory.
-          cd ..
+          cd ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
           ls
-          cd ./${{ env.MSDK-INTERNAL_DIR }}
-          ls
-          cd ./SVD/Devices/
           echo $GITHUB_WORKSPACE
           echo ${{ env.EFFECTED_PARTS }}
           if [ ${{ env.EFFECTED_PARTS }} != none ]; then
