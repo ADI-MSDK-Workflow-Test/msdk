@@ -90,14 +90,17 @@ jobs:
       - name: Echo
         run: |
           # Check only for register files.
+          echo ${GITHUB_WORKSPACE}
           echo ${CHIP_DIE_NAMES[*]}
       
       - name: Find all parts relating to updated register files
         run: |    
+          echo ${GITHUB_WORKSPACE}
           CHANGED_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master '*_regs.h')
           
       - name: Tracker
         run: |
+          echo ${GITHUB_WORKSPACE}
           # This set keeps tracks of all the parts with updated register files. (No duplicates).
           # The MSDK will be using the Chips names in the path to register files.
           EFFECTED_CHIP_SET=()
