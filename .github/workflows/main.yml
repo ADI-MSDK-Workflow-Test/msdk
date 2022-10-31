@@ -4,9 +4,9 @@ name: Check_Register_SVD
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -58,7 +58,7 @@ jobs:
         with:
           repository: ADI-MSDK-Workflow-Test/msdk-internal
           fetch-depth: 0
-          #token: ${{ secrets.PAT }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           #ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           #ssh-key: ''
           path: ${{ env.MSDK-INTERNAL_DIR }}
