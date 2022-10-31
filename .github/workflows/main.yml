@@ -139,6 +139,8 @@ jobs:
           ls
           echo "-----------------"
           if [[ -n $EFFECTED_DIE_LIST ]]; then
+            # Can't run Windows .exe on Ubuntu. Install wine to run.
+            sudo apt-get install wine
             chmod u+x ../SVDConv.exe
             
             for die_name in ${EFFECTED_DIE_LIST}
