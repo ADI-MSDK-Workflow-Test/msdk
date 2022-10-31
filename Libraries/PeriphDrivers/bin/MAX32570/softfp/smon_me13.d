@@ -1,0 +1,34 @@
+../../../Libraries//PeriphDrivers/bin/MAX32570/softfp/smon_me13.o: \
+ ../../../Libraries//PeriphDrivers/Source/SMON/smon_me13.c \
+ ../../../Libraries//PeriphDrivers/Source/SMON/smon_reva.h \
+ c:\maximsdk\tools\gnutools\10.3\lib\gcc\arm-none-eabi\10.3.1\include\stddef.h \
+ ../../../Libraries//PeriphDrivers/Include/MAX32570/mxc_assert.h \
+ ../../../Libraries//PeriphDrivers/Include/MAX32570/mxc_pins.h \
+ ../../../Libraries//PeriphDrivers/Include/MAX32570/gpio.h \
+ ../../../Libraries//CMSIS/Device/Maxim/MAX32570/Include/gpio_regs.h \
+ c:\maximsdk\tools\gnutools\10.3\lib\gcc\arm-none-eabi\10.3.1\include\stdint.h \
+ c:\maximsdk\tools\gnutools\10.3\arm-none-eabi\include\stdint.h \
+ c:\maximsdk\tools\gnutools\10.3\arm-none-eabi\include\machine\_default_types.h \
+ c:\maximsdk\tools\gnutools\10.3\arm-none-eabi\include\sys\features.h \
+ c:\maximsdk\tools\gnutools\10.3\arm-none-eabi\include\_newlib_version.h \
+ c:\maximsdk\tools\gnutools\10.3\arm-none-eabi\include\sys\_intsup.h \
+ c:\maximsdk\tools\gnutools\10.3\arm-none-eabi\include\sys\_stdint.h \
+ ../../../Libraries//PeriphDrivers/Include/MAX32570/mxc_lock.h \
+ ../../../Libraries//PeriphDrivers/Include/MAX32570/mxc_device.h \
+ ../../../Libraries//CMSIS/Device/Maxim/MAX32570/Include/max32570.h \
+ ../../../Libraries//CMSIS/Include/core_cm4.h \
+ ../../../Libraries//CMSIS/Include/core_cmInstr.h \
+ ../../../Libraries//CMSIS/Include/core_cmFunc.h \
+ ../../../Libraries//CMSIS/Include/core_cm4_simd.h \
+ ../../../Libraries//CMSIS/Device/Maxim/MAX32570/Include/system_max32570.h \
+ ../../../Libraries//CMSIS/Device/Maxim/MAX32570/Include/icc_regs.h \
+ ../../../Libraries//PeriphDrivers/Include/MAX32570/mxc_errors.h \
+ ../../../Libraries//PeriphDrivers/Include/MAX32570/mxc_pins.h \
+ ../../../Libraries//PeriphDrivers/Include/MAX32570/mxc_delay.h \
+ ../../../Libraries//PeriphDrivers/Include/MAX32570/mxc_device.h \
+ ../../../Libraries//PeriphDrivers/Include/MAX32570/smon.h \
+ ../../../Libraries//PeriphDrivers/Include/MAX32570/mxc_sys.h \
+ ../../../Libraries//CMSIS/Device/Maxim/MAX32570/Include/gcr_regs.h \
+ ../../../Libraries//CMSIS/Device/Maxim/MAX32570/Include/smon_regs.h \
+ ../../../Libraries//PeriphDrivers/Source/SMON/smon_reva_regs.h \
+ ../../../Libraries//PeriphDrivers/Include/MAX32570/gpio.h

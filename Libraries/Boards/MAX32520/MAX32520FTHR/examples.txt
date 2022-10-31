@@ -1,0 +1,16 @@
+AES
+CRC
+DMA
+ECDSA
+Flash
+Flash_CLI
+FreeRTOSDemo
+Hello_World
+I2C_SCAN
+ICC
+SCPA_OTP_Dump
+SFE_Host
+SMON
+SPI
+TMR
+TRNG
