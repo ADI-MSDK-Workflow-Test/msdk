@@ -136,7 +136,8 @@ jobs:
           #- name: Run SVD scripts to generate register files
           #run: |
           # Exit out of msdk directory.
-          cd ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
+          cd ..
+          cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
           echo $GITHUB_WORKSPACE
           echo ${{ env.EFFECTED_PARTS }}
           if [ ${{ env.EFFECTED_PARTS }} != none ]; then
@@ -149,10 +150,6 @@ jobs:
               cd ../
             done            
           fi
-          
-          #- name: Compare updated register files to SVD files
-          #run: |
-          CHANGED_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master '*_regs.h')
         
           for reg_h_file in ${CHANGED_FILES}
           do
