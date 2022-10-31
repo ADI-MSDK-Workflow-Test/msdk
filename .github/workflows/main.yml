@@ -75,7 +75,7 @@ jobs:
           fi
           
       - name: Install required packages to generate register files.
-        if: ${{DIFF_FILES_FLAG}}
+        if: ${{ env.DIFF_FILES_FLAG }}
         run: |
           # Can't run Windows .exe on Ubuntu. Install wine to run.
           sudo apt-get install -y wine
