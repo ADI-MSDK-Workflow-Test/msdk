@@ -73,6 +73,10 @@ jobs:
           CHANGED_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master '*_regs.h')
           #if [[ -n ${CHANGED_FILES} ]]; then
           #echo "DIFF_FILES_FLAGS=true" >> $GITHUB_ENV
+          
+          #else
+          echo "No register file changed."
+          exit 0
           #fi
           
       - name: Install required packages to generate register files.
