@@ -183,7 +183,7 @@ jobs:
               cd $die_name
             
               chmod u+x makeRegs.sh
-              ./makeRegs.sh
+              ./makeRegs.sh ubuntu
            
               cd ../
             done            
