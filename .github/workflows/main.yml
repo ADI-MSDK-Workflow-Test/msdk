@@ -63,8 +63,21 @@ jobs:
           #ssh-key: ''
           path: ${{ env.MSDK-INTERNAL_DIR }}
           
+      - name: Install required packages to generate register files.
+        if: ${{git diff --ignore-submodules --name-only remotes/origin/master '*_regs.h'}}
+        run: |
+            # Can't run Windows .exe on Ubuntu. Install wine to run.
+            sudo apt-get install -y wine
+            # Install XMLFormatter for scripts.
+            sudo apt-get install -y xmlformat-perl
+            
+            sudo dpkg --add-architecture i386
+            sudo apt-get update
+            sudo apt-get install wine32:i386
+            
       # We grab the chip name, but the SVD Scripts references the equivalent die name
       - name: Generate Register Files for all Affected Parts
+        if: $ {{ success() }}
         run: |
           # Create associative array for dictionary
           declare -A CHIP_DIE_NAMES
@@ -139,15 +152,6 @@ jobs:
           ls
           echo "-----------------"
           if [[ -n $AFFECTED_DIE_LIST ]]; then
-            # Can't run Windows .exe on Ubuntu. Install wine to run.
-            sudo apt-get install -y wine
-            # Install XMLFormatter for scripts.
-            sudo apt-get install -y xmlformat-perl
-            
-            sudo dpkg --add-architecture i386
-            sudo apt-get update
-            sudo apt-get install wine32
-            
             chmod u+x ../SVDConv.exe
             
             for die_name in ${AFFECTED_DIE_LIST}
