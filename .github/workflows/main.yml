@@ -69,6 +69,7 @@ jobs:
           
       - name: Checking if register files were changed.
         run: |
+          cd ${{ env.MSDK_DIR }}
           CHANGED_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master '*_regs.h')
           if [[ -n $CHANGED_FILES]]; then
             #echo "DIFF_FILES_FLAGS=true" >> $GITHUB_ENV
@@ -112,15 +113,8 @@ jobs:
           CHIP_DIE_NAMES[MAX32680]=ME20
           CHIP_DIE_NAMES[MAX32672]=ME21
           
-          echo ${CHIP_DIE_NAMES[*]}
- 
-          cd ${{ env.MSDK_DIR }}
-          echo ${GITHUB_WORKSPACE}
-          ls
-          
           CHANGED_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master '*_regs.h')
 
-          echo ${GITHUB_WORKSPACE}
           # This set keeps tracks of all the parts with updated register files. (No duplicates).
           # The MSDK will be using the Chips names in the path to register files.
           AFFECTED_CHIP_SET=()
