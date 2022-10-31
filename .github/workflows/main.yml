@@ -137,10 +137,11 @@ jobs:
           # Exit out of msdk directory.
           cd ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
           ls
-          
+          echo "-----------------"
           if [[ -n $EFFECTED_DIE_LIST ]]; then
             for die_name in ${EFFECTED_DIE_LIST}
             do
+              echo "Generating $die_name"
               cd die_name
             
               ./makeRegs.sh
