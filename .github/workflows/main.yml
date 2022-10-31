@@ -86,9 +86,7 @@ jobs:
           CHIP_DIE_NAMES[MAX32672]=ME21
           
           echo ${CHIP_DIE_NAMES[*]}
-
-      - name: Find all parts relating to updated register files
-        run: |    
+ 
           cd ${{ env.MSDK_DIR }}
           echo ${GITHUB_WORKSPACE}
           ls
@@ -140,7 +138,7 @@ jobs:
           cd  ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
           echo $GITHUB_WORKSPACE
           echo ${{ env.EFFECTED_PARTS}}
-          if [${{ env.EFFECTED_PARTS}}] then;
+          if [ ${{ env.EFFECTED_PARTS}} ]; then
             for die_name in ${{ env.EFFECTED_PARTS}}
             do
               cd die_name
