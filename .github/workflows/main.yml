@@ -108,6 +108,7 @@ jobs:
           #sudo apt-get install libgstreamer1.0-0:i386
           
           sudo apt-get install wine32:i386
+          sudo apt-get install libwine:i386
           
           # Install XMLFormatter for scripts.
           sudo apt-get install -y xmlformat-perl
