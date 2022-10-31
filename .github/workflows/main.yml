@@ -208,3 +208,4 @@ jobs:
         continue-on-error: true
         run: |
           dir
+          echo "${GITHUB_WORKSPACE}"
