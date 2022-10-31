@@ -90,7 +90,7 @@ jobs:
           # Check only for register files.
           echo ${CHIP_DIE_NAMES[*]}
           
-          CHANGED_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master '*_regs.h')
+          CHANGED_FILES=$(git diff --ignore-submodules --name-only remote/origin/master '*_regs.h')
           
           # This set keeps tracks of all the parts with updated register files. (No duplicates).
           # The MSDK will be using the Chips names in the path to register files.
@@ -143,7 +143,7 @@ jobs:
           
           #- name: Compare updated register files to SVD files
           #run: |
-          CHANGED_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master '*_regs.h')
+          CHANGED_FILES=$(git diff --ignore-submodules --name-only remote/origin/master '*_regs.h')
         
           for reg_h_file in ${CHANGED_FILES}
           do
