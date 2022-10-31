@@ -87,12 +87,6 @@ jobs:
           
           echo ${CHIP_DIE_NAMES[*]}
 
-      - name: Echo
-        run: |
-          # Check only for register files.
-          echo ${GITHUB_WORKSPACE}
-          echo ${CHIP_DIE_NAMES[*]}
-      
       - name: Find all parts relating to updated register files
         run: |    
           cd ${{ env.MSDK_DIR }}
@@ -135,12 +129,15 @@ jobs:
             fi
           done
           
+          echo ${EFFECTED_DIE_LIST[*]}
+          
           # Update environment variable for next steps.
           echo "EFECTED_PARTS=EFFECTED_DIE_LIST" >> $GITHUB_ENV
           
           #- name: Run SVD scripts to generate register files
           #run: |
-          cd  ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
+          # Exit out of msdk directory.
+          cd  ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
           echo $GITHUB_WORKSPACE
           for die_name in ${{ env.EFFECTED_PARTS}}
           do
