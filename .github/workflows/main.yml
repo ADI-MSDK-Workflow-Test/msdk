@@ -95,12 +95,10 @@ jobs:
         if: env.DIFF_FILES_FLAG == 'true'
         run: |
           # Can't run Windows .exe on Ubuntu. Install wine to run.
-          sudo apt-get install -y wine
+          #sudo apt-get install -y wine
           
           # This all needs to be on one line due to dependencies errors.
-          sudo dpkg --add-architecture i386 && sudo apt-get update && sudo apt-get install wine32:i386 && sudo apt-get install libwine:i386
-          
-          apt-get install wine32
+          #sudo dpkg --add-architecture i386 && sudo apt-get update && sudo apt-get install wine32:i386 && sudo apt-get install libwine:i386
           
           # Install XMLFormatter for scripts.
           sudo apt-get install -y xmlformat-perl
