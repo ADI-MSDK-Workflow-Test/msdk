@@ -100,7 +100,7 @@ jobs:
           # This all needs to be on one line due to dependencies errors.
           sudo dpkg --add-architecture i386 && sudo apt-get update && sudo apt-get install wine32:i386 && sudo apt-get install libwine:i386
           
-          sud apt-get install wine32
+          sudo apt-get install wine32
           
           # Install XMLFormatter for scripts.
           sudo apt-get install -y xmlformat-perl
