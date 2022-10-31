@@ -149,11 +149,13 @@ jobs:
               cd ../
             done            
           fi
+          
+          echo "Finished GeneratingRegister Files."
         
           for reg_h_file in ${CHANGED_FILES}
           do
             # Get register file name only. Remove path.
-            svd_register_file=${reg_h_file%/*}
+            diff_register_file=${reg_h_file%/*}
             
             # Removing (prefix) path to [CHIP_NAME]/Include/*_regs.h
             CHIP_NAME=${reg_h_file#*/Maxim/}
@@ -163,6 +165,7 @@ jobs:
             DIE_NAME="${CHIP_DIE_NAME[$CHIP_NAME]}
             
             svd_register_file=${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/${DIE_NAME}/${reg_h_file%/*}
+            echo "Comparing SVD: $svd_register_file with Diff: $diff_register_file"
             
             # Compare changed register file with the generated register file.
             # If different, then check fails
