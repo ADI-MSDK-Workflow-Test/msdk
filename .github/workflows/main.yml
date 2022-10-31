@@ -96,7 +96,7 @@ jobs:
             
       # We grab the chip name, but the SVD Scripts references the equivalent die name
       - name: Generate Register Files for all Affected Parts
-        if: ${{ success() && env.DIFF_FILES_FLAG }}
+        if: success() && env.DIFF_FILES_FLAG == 'true'
         run: |
           # Create associative array for dictionary
           declare -A CHIP_DIE_NAMES
