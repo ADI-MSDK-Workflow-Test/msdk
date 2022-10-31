@@ -20,7 +20,7 @@ env:
   # Chip name will mean the designation number of microcontroller like MAX32670 and MAX78000
   # Die name will refer to the die type name of micrcontroller like ME15 and AI85
   # Part will mean the microcontroller product itself, could refer to chip name or die name
-  EFFECTED_PARTS: none
+  AFFECTED_PARTS: none
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -64,7 +64,7 @@ jobs:
           path: ${{ env.MSDK-INTERNAL_DIR }}
           
       # We grab the chip name, but the SVD Scripts references the equivalent die name
-      - name: Create Part-Die Name Dictionary
+      - name: Generate Register Files for all Affected Parts
         run: |
           # Create associative array for dictionary
           declare -A CHIP_DIE_NAMES
@@ -96,11 +96,11 @@ jobs:
           echo ${GITHUB_WORKSPACE}
           # This set keeps tracks of all the parts with updated register files. (No duplicates).
           # The MSDK will be using the Chips names in the path to register files.
-          EFFECTED_CHIP_SET=()
+          AFFECTED_CHIP_SET=()
           
           # Formatted list that will be assigned to environment variable for next step:
           #   "Run SVD scripts to generate register files"
-          EFFECTED_DIE_LIST=""
+          AFFECTED_DIE_LIST=""
           
           # Grab the part relating to the changed register file and add to list for env variable assignment.
           # Note: This only works for register files in this path:
@@ -113,24 +113,24 @@ jobs:
             CHIP_NAME=${CHIP_NAME%%/*}
             
             # Keep track of effected parts, don't add duplicates.
-            if [[ ! "${EFFECTED_CHIP_SET[*]}" =~ "${CHIP_NAME}" ]]; then
-              EFFECTED_CHIP_SET+=("$CHIP_NAME")
+            if [[ ! "${AFFECTED_CHIP_SET[*]}" =~ "${CHIP_NAME}" ]]; then
+              AFFECTED_CHIP_SET+=("$CHIP_NAME")
               
               # Create list with die name of effected parts for SVD scripts as you go
               # List will have " " (space) as the delimiter
               # Only add space when you're adding more than one item into list.
-              if [[ ! -z "$EFFECTED_DIE_LIST" ]]; then
-                EFFECTED_DIE_LIST+=" "
+              if [[ ! -z "$AFFECTED_DIE_LIST" ]]; then
+                AFFECTED_DIE_LIST+=" "
               fi
-              EFFECTED_DIE_LIST+="${CHIP_DIE_NAMES[$CHIP_NAME]}"
+              AFFECTED_DIE_LIST+="${CHIP_DIE_NAMES[$CHIP_NAME]}"
               
             fi
           done
           
-          echo ${EFFECTED_DIE_LIST[*]}
+          echo ${AFFECTED_DIE_LIST[*]}
           
           # Update environment variable for next steps.
-          #echo "EFECTED_PARTS=EFFECTED_DIE_LIST" >> $GITHUB_ENV
+          #echo "EFECTED_PARTS=AFFECTED_DIE_LIST" >> $GITHUB_ENV
           
           #- name: Run SVD scripts to generate register files
           #run: |
@@ -138,7 +138,7 @@ jobs:
           cd ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
           ls
           echo "-----------------"
-          if [[ -n $EFFECTED_DIE_LIST ]]; then
+          if [[ -n $AFFECTED_DIE_LIST ]]; then
             # Can't run Windows .exe on Ubuntu. Install wine to run.
             sudo apt-get install -y wine
             # Install XMLFormatter for scripts.
@@ -146,7 +146,7 @@ jobs:
             
             chmod u+x ../SVDConv.exe
             
-            for die_name in ${EFFECTED_DIE_LIST}
+            for die_name in ${AFFECTED_DIE_LIST}
             do
               echo "Generating $die_name"
               cd $die_name
