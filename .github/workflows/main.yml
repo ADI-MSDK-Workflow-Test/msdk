@@ -142,15 +142,18 @@ jobs:
             for die_name in ${EFFECTED_DIE_LIST}
             do
               echo "Generating $die_name"
+              ls
               cd die_name
+              ls
             
               ./makeRegs.sh
            
               cd ../
+              ls
             done            
           fi
           
-          echo "Finished GeneratingRegister Files."
+          echo "Finished Generating Register Files."
         
           for reg_h_file in ${CHANGED_FILES}
           do
