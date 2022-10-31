@@ -84,10 +84,12 @@ jobs:
           CHIP_DIE_NAMES[MAX32690]=ME18
           CHIP_DIE_NAMES[MAX32680]=ME20
           CHIP_DIE_NAMES[MAX32672]=ME21
-          # Runs a set of commands using the runners shell
-          #- name: Find all parts relating to updated register files
-          #run: |
+
+      - name: Find all parts relating to updated register files
+        run: |
           # Check only for register files.
+          echo ${CHIP_DIE_NAMES[*]}
+          
           CHANGED_FILES=$(git diff --ignore-submodules --name-only remotes/origin/main '*_regs.h')
           
           # This set keeps tracks of all the parts with updated register files. (No duplicates).
