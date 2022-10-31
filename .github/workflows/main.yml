@@ -140,7 +140,7 @@ jobs:
           cd  ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
           echo $GITHUB_WORKSPACE
           echo ${{ env.EFFECTED_PARTS}}
-          if ${{ env.EFFECTED_PARTS}}
+          if [${{ env.EFFECTED_PARTS}}] then;
             for die_name in ${{ env.EFFECTED_PARTS}}
             do
               cd die_name
