@@ -138,7 +138,9 @@ jobs:
           # Exit out of msdk directory.
           cd ..
           ls
-          cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
+          cd ./${{ env.MSDK-INTERNAL_DIR }}
+          ls
+          cd ./SVD/Devices/
           echo $GITHUB_WORKSPACE
           echo ${{ env.EFFECTED_PARTS }}
           if [ ${{ env.EFFECTED_PARTS }} != none ]; then
