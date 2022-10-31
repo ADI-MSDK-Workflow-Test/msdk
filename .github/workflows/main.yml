@@ -27,7 +27,9 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job
+  # There are two jobs:
+  # The verify workflow will check the differences with any updated register file.
+  # The SVDConv workflow will check to make sure there are no errors with the SVD files.
   verify:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -188,26 +190,15 @@ jobs:
           fi
           
           echo "Finished Generating Register Files."
-        
-          # Compare differences for all updated register files.
-          for reg_h_file in ${CHANGED_FILES}
-          do
-            # Get register file name only. Remove path.
-            diff_register_file=${reg_h_file%/*}
-            
-            # Removing (prefix) path to [CHIP_NAME]/Include/*_regs.h
-            CHIP_NAME=${reg_h_file#*/Maxim/}
-            # Remove (suffix) following path /Include/*_regs.h to get the [CHIP_NAME]
-            CHIP_NAME=${CHIP_NAME%%/*}
-            
-            DIE_NAME="${CHIP_DIE_NAME[$CHIP_NAME]}
-            
-            svd_register_file=${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/${DIE_NAME}/${reg_h_file%/*}
-            echo "Comparing SVD: $svd_register_file with Diff: $diff_register_file"
-            
-            # Compare changed register file with the generated register file.
-            # If different, then check fails
-            if [[diff reg_h_file r]]; then
-              exit
-            fi
-          done
+         
+  #-------------------------------------
+  # Job 2
+  SVDConv:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+    steps:
+      - name: Clean
+        continue-on-error: true
+        run: |
+          ls
