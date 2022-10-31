@@ -140,7 +140,10 @@ jobs:
           echo "-----------------"
           if [[ -n $EFFECTED_DIE_LIST ]]; then
             # Can't run Windows .exe on Ubuntu. Install wine to run.
-            sudo apt-get install wine
+            sudo apt-get install -y wine
+            # Install XMLFormatter for scripts.
+            sudo apt-get install -y xmlformat-perl
+            
             chmod u+x ../SVDConv.exe
             
             for die_name in ${EFFECTED_DIE_LIST}
