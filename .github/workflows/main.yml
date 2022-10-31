@@ -77,7 +77,7 @@ jobs:
             echo "No register file changed."
           fi
           
-      - name: No register files changed. Finish.
+      - name: No register files updated. Completed.
         if: env.DIFF_FILES_FLAG == 'false'
         run: |
           echo "None of the committed files were updated register files. No need to check differences."
