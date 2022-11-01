@@ -170,7 +170,7 @@ jobs:
             
           done
           
-          echo "These are the diff files: $DIFF_FILES_LIST[*]}"
+          echo "These are the diff files: ${DIFF_FILES_LIST[*]}"
           
           echo "These are the affected parts: ${AFFECTED_DIE_LIST[*]}"
           
