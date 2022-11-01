@@ -226,13 +226,29 @@ jobs:
                     if [[ "$line" == *"$periph"* ]]; then
                       svd_path=${line##*./}
                       svd_path=${svd_path%%;*}
-                      echo "SVD Path: $svd_path."
-                      REGISTER_SVD_FILE_LIST[$changed_reg_file]=${line#*/Libraries/}
+
+                      REGISTER_SVD_FILE_LIST[$changed_reg_file]=$svd_path
                       
-                      echo "Match"
+                      # Remove found register file from list to minimize run time by remaking list
+                      updated_part_list=""
+                      for remaining_file in ${CHANGED_PART_FILES[$die_name]}
+                      do
+                        # Exclude found register file
+                        if [[ "$changed_reg_file" != "remaining_file" ]]; then
+                          # Add a space as a delimiter if list has more than one item
+                          if [[ -n $updated_part_list ]]; then
+                            updated_part_list+=" "
+                          fi
+                          
+                          updated_part_list+=remaining_file
+                        fi
+                      done
+                      
+                      echo "Updated part list: $updated_part_list"
+                      
                     fi
                   done
-                fi
+                fi 
               done <$CHIP_PERIPH
               
               cd ../
