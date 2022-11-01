@@ -180,7 +180,9 @@ jobs:
             DIFF_FILES_LIST[./${{ env.MSDK_DIR }}/$changed_reg_file]=./${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/${CHIP_DIE_NAMES[$CHIP_NAME]}/chip_test/${changed_reg_file##*/}
             echo -e "[\e[1;33mCHANGED\e[0m]: $changed_reg_file"
           done
-          
+        
+          echo "Changed Diff Files: ${CHANGED_PART_FILES[*]}"
+           
           # Exit out of msdk directory.
           cd ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
 
@@ -213,7 +215,7 @@ jobs:
               do
                echo "Reading file"
                 # Check whether one of the changed register files matches with SVD path
-                for changed_reg_file in ${CHANGED_PART_FILES[$die_type]}
+                for changed_reg_file in "${CHANGED_PART_FILES[$die_type]}"
                 do
                   periph=${changed_reg_file##*/}
                   periph=${changed_reg_file%_regs.h}
