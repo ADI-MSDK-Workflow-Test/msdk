@@ -27,9 +27,7 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # There are two jobs:
-  # The verify workflow will check the differences with any updated register file.
-  # The SVDConv workflow will check to make sure there are no errors with the SVD files.
+  # The verify job will check the differences with any updated register file.
   verify:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -150,10 +148,7 @@ jobs:
           # Note: This only works for register files in this path:
           #   msdk/Libraries/CMSIS/Device/Maxim/[CHIP_NAME]/Include/*_regs.h
           for changed_reg_file in ${CHANGED_FILES}
-          do
-            # Save path to changed file start at the workspace location (outside msdk and msdk-internal repo)
-            changed_reg_file_ws=${{ env.MSDK_DIR }}/$changed_reg_file          
-          
+          do        
             # Removing (prefix) path to [CHIP_NAME]/Include/*_regs.h
             CHIP_NAME=${changed_reg_file#*/Maxim/}
             # Remove (suffix) following path /Include/*_regs.h to get the [CHIP_NAME]
@@ -174,7 +169,8 @@ jobs:
             fi
             
             # Keep track of all diff files.
-            DIFF_FILES_LIST[changed_reg_file_ws]=${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/chip_test/${changed_reg_file#*_regs.h}
+            # Note current
+            DIFF_FILES_LIST[changed_reg_file_ws]=../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/${CHIP_DIE_NAMES[$CHIP_NAME]}/chip_test/${changed_reg_file#*_regs.h}
             
             
           done
@@ -204,78 +200,15 @@ jobs:
           echo "Finished Generating Register Files."
           
       - name: Comparing updated register files with generated register files.
-        run: |
-          # Create associative array for dictionary for this step
-          declare -A CHIP_DIE_NAMES
-          
-          # Add future parts to this dictionary
-          CHIP_DIE_NAMES[MAX78000]=AI85
-          CHIP_DIE_NAMES[MAX78002]=AI87
-          CHIP_DIE_NAMES[MAX32520]=ES17
-          CHIP_DIE_NAMES[MAX32650]=ME10
-          CHIP_DIE_NAMES[MAX32660]=ME11
-          CHIP_DIE_NAMES[MAX32662]=ME12
-          CHIP_DIE_NAMES[MAX32570]=ME13
-          CHIP_DIE_NAMES[MAX32665]=ME14
-          CHIP_DIE_NAMES[MAX32670]=ME15
-          CHIP_DIE_NAMES[MAX32675]=ME16
-          CHIP_DIE_NAMES[MAX32655]=ME17
-          CHIP_DIE_NAMES[MAX32690]=ME18
-          CHIP_DIE_NAMES[MAX32680]=ME20
-          CHIP_DIE_NAMES[MAX32672]=ME21
-          
-          # Find diff in MSDK repo
-          cd ${{ env.MSDK_DIR }}
-          CHANGED_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master '*_regs.h')
-          
+        run: |        
           set +e
-          for updated_reg_file in ${CHANGED_FILES}
+          for updated_reg_file in "${!DIFF_FILES_LIST[@]}"
           do
+            diff ${updated_reg_rile} ${DIFF_FILES_LIST[${updated_reg_file}]} 
+          
             if [[ $? != 0 ]]; then
               exit 1
             fi
           done
           set -e
-          
-  #-------------------------------------
-  # Job 2
-  SVDConv:
-    # The type of runner that the job will run on
-    runs-on: windows-latest
-    
-    # Finish first job before running this next one.
-    strategy:
-      max-parallel: 1
 
-    steps:
-      - name: Clean
-        continue-on-error: true
-        run: |
-          dir
-          echo "${GITHUB_WORKSPACE}"
-          
-      # Checks-out MSDK and MSDK-INTERNAL repositories under $GITHUB_WORKSPACE, so your job can access it
-      - name: Checkout msdk repository
-        uses: actions/checkout@v3
-        with:
-          # Update the submodules below, doing so here will convert ssh to https
-          submodules: false
-          fetch-depth: 0
-          path: ${{ env.MSDK_DIR }}
-      
-      - name: Checkout msdk internal repository
-        uses: actions/checkout@v3
-        with:
-          repository: ADI-MSDK-Workflow-Test/msdk-internal
-          fetch-depth: 0
-          token: ${{ secrets.PAT }}
-          #ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-          #ssh-key: ''
-          path: ${{ env.MSDK-INTERNAL_DIR }}
-          
-      - name: Generate Register Files for all Affected Parts
-        run: |
-          # Start in workspace.
-          winget list
-          cd ${{ env.MSDK-INTERNAL_DIR }}\SVD\Workflow
-          bash SVDConv.sh ${{ env.MSDK_DIR }} ${{ env.MSDK-INTERNAL_DIR }}
