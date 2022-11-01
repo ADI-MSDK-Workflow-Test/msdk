@@ -272,7 +272,7 @@ jobs:
             
             if [[ $? != 0 ]]; then
               echo -e "\n[\e[0;31mERROR\e[0m] $updated_reg_file does not match with corresponding SVD File:"
-              echo -e "REGISTER_SVD_FILE_LIST[${updated_reg_file#/*/}]"
+              echo -e "REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]"
               echo -e "Please update corresponding SVD file. If no peripheral SVD file, please ask a developer for exceptions.\n"
               CHECK_FAIL=1
             fi
