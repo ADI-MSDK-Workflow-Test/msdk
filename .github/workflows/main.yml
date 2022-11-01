@@ -209,7 +209,7 @@ jobs:
               
               updated_part_list=${CHANGED_PART_FILES[$die_name]}
               
-              # Keep track of complementary peripheral SVD file
+              # Keep track of corresponding peripheral SVD file
               # Read chip_periph.txt
               while read -r line; 
               do  
@@ -272,7 +272,14 @@ jobs:
             
             if [[ $? != 0 ]]; then
               echo -e "\n[\e[0;31mERROR\e[0m] ${updated_reg_file#./*/} does not match with corresponding SVD File."
-              echo -e "Please update corresponding SVD file: \e[1;31m${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}\n"
+              
+              # DO NOT CHANGE register file if there is no corresponding SVD file. That means the register file is deprecated, and
+              # non-deprecated version should be updated
+              if [[ -f ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} ]]; then
+                echo -e "Please update corresponding SVD file: \e[1;31m${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}\n"
+              else
+                echo -e "[\e[0;33WARNING\e[0m] Do not change register file. The corresponding peripheral SVD file does not exist. This register file is most likely deprecated. Please update correct and most up-to-date register file."
+              fi
               CHECK_FAIL=1
             else
               echo -e "[\e[0;32mVERIFIED\e[0m] Register FIle and Corresponding Peripheral SVD File Matches.\n"
