@@ -138,6 +138,7 @@ jobs:
           #   "Run SVD scripts to generate register files"
           AFFECTED_DIE_LIST=""
           
+          #---------------------------
           # Grab the part relating to the changed register file and add to list for env variable assignment.
           # Note: This only works for register files in this path:
           #   msdk/Libraries/CMSIS/Device/Maxim/[CHIP_NAME]/Include/*_regs.h
@@ -163,17 +164,16 @@ jobs:
             fi
             
             # Keep track of all diff files.
-            DIFF_FILES_LIST[$changed_reg_file]=../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/${CHIP_DIE_NAMES[$CHIP_NAME]}/chip_test/${changed_reg_file##*/}
+            DIFF_FILES_LIST[/${{ env.MSDK_DIR }}/$changed_reg_file]=/${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/${CHIP_DIE_NAMES[$CHIP_NAME]}/chip_test/${changed_reg_file##*/}
             echo -e "[\e[0;31mCHANGED\e[0m]: $changed_reg_file"
           done
-          
-          echo "These are the diff files: ${DIFF_FILES_LIST[*]}"
-          
+
           echo "These are the affected parts: ${AFFECTED_DIE_LIST[*]}"
           
           # Exit out of msdk directory.
           cd ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
 
+          #---------------------------
           # Generate register files for all affected parts.
           echo "Generating register files for all affected parts:"
           if [[ -n $AFFECTED_DIE_LIST ]]; then            
@@ -191,11 +191,15 @@ jobs:
           
           echo "Finished Generating Register Files."
           
+          # Exit current directory and return to MSDK
+          cd ../../../
+          
+          #---------------------------
           echo "Comparing Each Updated Register File to Generated Register File."
+          
           set +e
           for updated_reg_file in "${!DIFF_FILES_LIST[@]}"
           do
-            ls
             echo "Updated: $updated_reg_file  -=-  Generated: ${DIFF_FILES_LIST[$updated_reg_file]}"
             #DIFF=$(diff -u $updated_reg_file ${DIFF_FILES_LIST[$updated_reg_file]})
             diff -u $updated_reg_file ${DIFF_FILES_LIST[$updated_reg_file]}
