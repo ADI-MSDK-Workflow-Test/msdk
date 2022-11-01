@@ -96,12 +96,6 @@ jobs:
       - name: Detected Register File Change. Install required packages for scripts.
         if: env.DIFF_FILES_FLAG == 'true'
         run: |
-          # Can't run Windows .exe on Ubuntu. Install wine to run.
-          #sudo apt-get install -y wine
-          
-          # This all needs to be on one line due to dependencies errors.
-          #sudo dpkg --add-architecture i386 && sudo apt-get update && sudo apt-get install wine32:i386 && sudo apt-get install libwine:i386
-          
           # Install XMLFormatter for scripts.
           sudo apt-get install -y xmlformat-perl
             
@@ -171,7 +165,7 @@ jobs:
             # Keep track of all diff files.
             # Note current
             
-            echoo "Changed: ${changed_reg_file#*_regs.h}"
+            echo "Changed: ${changed_reg_file#*_regs.h}"
             DIFF_FILES_LIST[$changed_reg_file]=../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/${CHIP_DIE_NAMES[$CHIP_NAME]}/chip_test/${changed_reg_file#*_regs.h}  
             
           done
