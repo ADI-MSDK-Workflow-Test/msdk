@@ -170,6 +170,8 @@ jobs:
             
             # Keep track of all diff files.
             # Note current
+            
+            echoo "Changed: ${changed_reg_file#*_regs.h}
             DIFF_FILES_LIST[$changed_reg_file]=../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/${CHIP_DIE_NAMES[$CHIP_NAME]}/chip_test/${changed_reg_file#*_regs.h}  
             
           done
