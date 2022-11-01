@@ -234,13 +234,13 @@ jobs:
                       for remaining_file in ${CHANGED_PART_FILES[$die_name]}
                       do
                         # Exclude found register file
-                        if [[ "$changed_reg_file" != "remaining_file" ]]; then
+                        if [[ "$changed_reg_file" != "$remaining_file" ]]; then
                           # Add a space as a delimiter if list has more than one item
                           if [[ -n $updated_part_list ]]; then
                             updated_part_list+=" "
                           fi
                           
-                          updated_part_list+=remaining_file
+                          updated_part_list+=$remaining_file
                         fi
                       done
                       
