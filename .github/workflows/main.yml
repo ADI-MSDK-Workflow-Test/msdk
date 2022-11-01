@@ -204,8 +204,9 @@ jobs:
           set +e
           for updated_reg_file in "${!DIFF_FILES_LIST[@]}"
           do
-            diff ${updated_reg_rile} ${DIFF_FILES_LIST[${updated_reg_file}]} 
-          
+            DIFF=$(diff -u ${updated_reg_rile} ${DIFF_FILES_LIST[${updated_reg_file}]})
+            
+            echo $?
             if [[ $? != 0 ]]; then
               exit 1
             fi
