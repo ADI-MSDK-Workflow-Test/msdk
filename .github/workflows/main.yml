@@ -211,6 +211,8 @@ jobs:
               chmod u+x makeRegs.sh
               ./makeRegs.sh ubuntu
               
+              updated_part_list=${CHANGED_PART_FILES[$die_name]}
+              
               # Keep track of complementary peripheral SVD file
               # Read chip_periph.txt
               while read -r line; 
@@ -229,12 +231,10 @@ jobs:
 
                       REGISTER_SVD_FILE_LIST[$changed_reg_file]=$svd_path
                       
-                      echo "Prev Changed part list: $CHANGED_PART_LIST[$die_name]"
-                      echo "Prev Updated part list: $updated_part_list"
+                      echo "Prev Changed part list: $updated_part_list"
                       
                       # Remove found register file from list to minimize run time by remaking list
-                      updated_part_list=""
-                      for remaining_file in ${CHANGED_PART_FILES[$die_name]}
+                      for remaining_file in $updated_part_list
                       do
                         # Exclude found register file
                         if [[ "$changed_reg_file" != "$remaining_file" ]]; then
