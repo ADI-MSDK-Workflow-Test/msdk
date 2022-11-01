@@ -221,7 +221,7 @@ jobs:
                     echo ""
                   fi
                 done
-              done <$CHIP_PERIP
+              done <$CHIP_PERIPH
               
               cd ../
             done            
