@@ -140,11 +140,9 @@ jobs:
           # Grab the part relating to the changed register file and add to list for env variable assignment.
           # Note: This only works for register files in this path:
           #   msdk/Libraries/CMSIS/Device/Maxim/[CHIP_NAME]/Include/*_regs.h
-          echo -e "\e[0;33m==========================================================="
-          echo -e ""
-          echo -e "\e[0;33mScanning for any changes in register files:"
-          echo -e ""
-          echo -e "\e[0;33m==========================================================="
+          echo -e "\n\e[0;33m===========================================================\n"
+          echo -e "\e[0;33mScanning for any changes in register files"
+          echo -e "\n\e[0;33m===========================================================\n"
           
           for changed_reg_file in ${CHANGED_FILES}
           do        
@@ -179,16 +177,14 @@ jobs:
 
           #---------------------------
           # Generate register files for all affected parts.
-          echo -e "\e[0;33m==========================================================="
-          echo -e ""
-          echo -e "\e[0;33mGenerating register files for all affected parts:"
-          echo -e ""
-          echo -e "\e[0;33m==========================================================="
+          echo -e "\n\e[0;33m===========================================================\n"
+          echo -e "\e[0;33mGenerating register files for all affected parts\n"
+          echo -e "\n\e[0;33m===========================================================\n"
           
           if [[ -n $AFFECTED_DIE_LIST ]]; then            
             for die_name in ${AFFECTED_DIE_LIST}
             do
-              echo "Generating $die_name"
+              echo -e "[\e[0;31m$die_name\e[0m] Generating Register Files."
               cd $die_name
             
               chmod u+x makeRegs.sh
@@ -198,17 +194,15 @@ jobs:
             done            
           fi
           
-          echo "Finished Generating Register Files."
+          echo -e "\nFinished Generating Register Files."
           
           # Exit current directory and return to MSDK
           cd ../../../
           
           #---------------------------
-          echo -e "\e[0;33m==========================================================="
-          echo -e ""
+          echo -e "\n\e[0;33m===========================================================\n"
           echo -e "\e[0;33mComparing Each Updated Register File to Generated Register File."
-          echo -e ""
-          echo -e "\e[0;33m==========================================================="
+          echo -e "\n\e[0;33m===========================================================\n"
           
           set +e
           for updated_reg_file in "${!DIFF_FILES_LIST[@]}"
