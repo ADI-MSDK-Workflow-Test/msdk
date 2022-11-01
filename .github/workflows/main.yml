@@ -133,7 +133,7 @@ jobs:
           
           # Find diff in MSDK repo
           cd ${{ env.MSDK_DIR }}
-          CHANGED_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master '*_regs.h')
+          CHANGED_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master './Libraries/CMSIS/Device/Maxim/*/Include/*_regs.h')
 
           # This set keeps tracks of all the parts with updated register files. (No duplicates).
           # The MSDK will be using the Chips names in the path to register files.
@@ -271,24 +271,25 @@ jobs:
             if [[ -f ${DIFF_FILES_LIST[$updated_reg_file]} ]]; then
               echo -e "[\e[0;37mCOMPARING\e[0m] Changed: \e[1;33m$updated_reg_file  \e[0m==>  Generated: \e[0;32m${DIFF_FILES_LIST[$updated_reg_file]}"
               diff -u $updated_reg_file ${DIFF_FILES_LIST[$updated_reg_file]}
-            else
-              echo -e "[\e[0;31mERROR\e[0m] Correspondiong SVD File does not exist. Please add the correct SVD file or contact the developers."
-            fi
             
-            # Check return for any differences
-            if [[ $? != 0 ]]; then
-              echo -e "\n[\e[0;31mERROR\e[0m] ${updated_reg_file#./*/} does not match with corresponding SVD File."
-              
-              # DO NOT CHANGE register file if there is no corresponding SVD file. That means the register file is deprecated, and
-              # non-deprecated version should be updated
-              if [[ -f ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} ]]; then
-                echo -e "Please update corresponding SVD file: \e[1;31m${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}\n"
+              # Check return for any differences
+              if [[ $? != 0 ]]; then
+                echo -e "\n[\e[0;31mERROR\e[0m] ${updated_reg_file#./*/} does not match with corresponding SVD File."
+
+                # DO NOT CHANGE register file if there is no corresponding SVD file. That means the register file is deprecated, and
+                # non-deprecated version should be updated
+                if [[ -f ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} ]]; then
+                  echo -e "Please update corresponding SVD file: \e[1;31m${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}\n"
+                else
+                  echo -e "[\e[0;33mWARNING\e[0m] Do not change register file. The corresponding peripheral SVD file does not exist. This register file is most likely deprecated. Please update correct and most up-to-date register file.\n"
+                fi
+                CHECK_FAIL=1
               else
-                echo -e "[\e[0;33mWARNING\e[0m] Do not change register file. The corresponding peripheral SVD file does not exist. This register file is most likely deprecated. Please update correct and most up-to-date register file.\n"
+                echo -e "[\e[0;32mVERIFIED\e[0m] Register File and Corresponding Peripheral SVD File Matches.\n"
               fi
-              CHECK_FAIL=1
             else
-              echo -e "[\e[0;32mVERIFIED\e[0m] Register FIle and Corresponding Peripheral SVD File Matches.\n"
+              # Exception for entirely new register files.
+              echo -e "[\e[0;31mERROR\e[0m] ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} does not exist. Please add the correct SVD file. PLease contact the developers if you are adding a new register file."
             fi
           done
           set -e
