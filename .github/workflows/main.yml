@@ -31,8 +31,6 @@ jobs:
   verify:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 1
 
     steps:
       - name: Clean
@@ -142,6 +140,12 @@ jobs:
           # Grab the part relating to the changed register file and add to list for env variable assignment.
           # Note: This only works for register files in this path:
           #   msdk/Libraries/CMSIS/Device/Maxim/[CHIP_NAME]/Include/*_regs.h
+          echo -e "\e[0;33m==========================================================="
+          echo -e ""
+          echo -e "\e[0;33mScanning for any changes in register files:"
+          echo -e ""
+          echo -e "\e[0;33m==========================================================="
+          
           for changed_reg_file in ${CHANGED_FILES}
           do        
             # Removing (prefix) path to [CHIP_NAME]/Include/*_regs.h
@@ -175,7 +179,12 @@ jobs:
 
           #---------------------------
           # Generate register files for all affected parts.
-          echo "Generating register files for all affected parts:"
+          echo -e "\e[0;33m==========================================================="
+          echo -e ""
+          echo -e "\e[0;33mGenerating register files for all affected parts:"
+          echo -e ""
+          echo -e "\e[0;33m==========================================================="
+          
           if [[ -n $AFFECTED_DIE_LIST ]]; then            
             for die_name in ${AFFECTED_DIE_LIST}
             do
@@ -195,7 +204,11 @@ jobs:
           cd ../../../
           
           #---------------------------
-          echo "Comparing Each Updated Register File to Generated Register File."
+          echo -e "\e[0;33m==========================================================="
+          echo -e ""
+          echo -e "\e[0;33mComparing Each Updated Register File to Generated Register File."
+          echo -e ""
+          echo -e "\e[0;33m==========================================================="
           
           set +e
           for updated_reg_file in "${!DIFF_FILES_LIST[@]}"
