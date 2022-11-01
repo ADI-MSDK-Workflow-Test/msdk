@@ -162,6 +162,8 @@ jobs:
             fi
             CHANGED_PART_FILES[${CHIP_DIE_NAMES[$CHIP_NAME]}]+=changed_reg_file
             
+            echo "CHANGED_PART_FILES[${CHIP_DIE_NAMES[$CHIP_NAME]}]"
+            
             # Keep track of effected parts, don't add duplicates.
             if [[ ! "${AFFECTED_CHIP_SET[*]}" =~ "$CHIP_NAME" ]]; then
               AFFECTED_CHIP_SET+=("$CHIP_NAME")
