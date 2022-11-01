@@ -217,7 +217,7 @@ jobs:
               do
                echo "Reading file"
                 # Check whether one of the changed register files matches with SVD path
-                for changed_reg_file in "${CHANGED_PART_FILES[$die_type]}"
+                for changed_reg_file in "${CHANGED_PART_FILES[$die_name]}"
                 do
                   periph=${changed_reg_file##*/}
                   periph=${changed_reg_file%_regs.h}
