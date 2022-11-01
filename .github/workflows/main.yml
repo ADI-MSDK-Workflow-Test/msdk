@@ -164,9 +164,7 @@ jobs:
               CHANGED_PART_FILES[${CHIP_DIE_NAMES[$CHIP_NAME]}]+=" "
             fi
             CHANGED_PART_FILES[${CHIP_DIE_NAMES[$CHIP_NAME]}]+=$changed_reg_file
-            
-            echo "CHANGED_PART_FILES[${CHIP_DIE_NAMES[$CHIP_NAME]}]"
-            
+
             # Keep track of effected parts, don't add duplicates.
             if [[ ! "${AFFECTED_CHIP_SET[*]}" =~ "$CHIP_NAME" ]]; then
               AFFECTED_CHIP_SET+=("$CHIP_NAME")
@@ -185,8 +183,6 @@ jobs:
             DIFF_FILES_LIST[./${{ env.MSDK_DIR }}/$changed_reg_file]=./${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/${CHIP_DIE_NAMES[$CHIP_NAME]}/chip_test/${changed_reg_file##*/}
             echo -e "[\e[1;33mCHANGED\e[0m]: $changed_reg_file"
           done
-        
-          echo "Changed Diff Files: ${CHANGED_PART_FILES[*]}"
            
           # Exit out of msdk directory.
           cd ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
@@ -232,8 +228,6 @@ jobs:
 
                       REGISTER_SVD_FILE_LIST[$changed_reg_file]=$svd_path
                       
-                      echo "Prev Changed part list: $updated_part_list"
-                      
                       # Remove found register file from list to minimize run time by remaking list
                       new_list=""
                       for remaining_file in $updated_part_list
@@ -249,10 +243,7 @@ jobs:
                         fi
                       done
                       
-                      updated_part_list=$new_list
-                      
-                      echo "Updated part list: $updated_part_list"
-                      
+                      updated_part_list=$new_list                    
                     fi
                   done
                 fi 
@@ -261,8 +252,6 @@ jobs:
               cd ../
             done            
           fi
-          
-          echo "REGISTER_SVD_FILE_LIST: ${REGISTER_SVD_FILE_LIST[*]}"
           
           echo -e "\nFinished Generating Register Files."
           
@@ -278,13 +267,13 @@ jobs:
           set +e
           for updated_reg_file in "${!DIFF_FILES_LIST[@]}"
           do
-            echo -e "Updated: \e[1;33m$updated_reg_file  \e[0m==>  Generated: \e[0;32m${DIFF_FILES_LIST[$updated_reg_file]}"
+            echo -e "[\e[0;37mComparing\e[0m] Changed: \e[1;33m$updated_reg_file  \e[0m==>  Generated: \e[0;32m${DIFF_FILES_LIST[$updated_reg_file]}"
             diff -u $updated_reg_file ${DIFF_FILES_LIST[$updated_reg_file]}
             
             if [[ $? != 0 ]]; then
               echo -e "\n[\e[0;31mERROR\e[0m] $updated_reg_file does not match with corresponding SVD File:"
-              echo -e ""
-              echo -e "Please update corresponding SVD file.\n"
+              echo -e "REGISTER_SVD_FILE_LIST[${updated_reg_file#/*/}]"
+              echo -e "Please update corresponding SVD file. If no peripheral SVD file, please ask a developer for exceptions.\n"
               CHECK_FAIL=1
             fi
           done
