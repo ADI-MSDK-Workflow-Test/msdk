@@ -222,7 +222,7 @@ jobs:
                   periph=${changed_reg_file##*/}
                   periph=${periph%_regs.h}
                   periph=${periph^^}
-                  echol "$line"
+                  echo "$line"
                   if [[ "$line" == *"$periph"* ]]; then
                     echo "Match"
                   fi
