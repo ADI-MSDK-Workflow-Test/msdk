@@ -209,7 +209,7 @@ jobs:
               
               updated_part_list=${CHANGED_PART_FILES[$die_name]}
               
-              # Keep track of complementary peripheral SVD file
+              # Keep track of corresponding peripheral SVD file
               # Read chip_periph.txt
               while read -r line; 
               do  
@@ -267,15 +267,28 @@ jobs:
           set +e
           for updated_reg_file in "${!DIFF_FILES_LIST[@]}"
           do
-            echo -e "[\e[0;37mCOMPARING\e[0m] Changed: \e[1;33m$updated_reg_file  \e[0m==>  Generated: \e[0;32m${DIFF_FILES_LIST[$updated_reg_file]}"
-            diff -u $updated_reg_file ${DIFF_FILES_LIST[$updated_reg_file]}
+            # Make sure the generated register file exists. If it doesn't, you've added a new register file. Please contact the developers.
+            if [[ -f ${DIFF_FILES_LIST[$updated_reg_file]} ]]; then
+              echo -e "[\e[0;37mCOMPARING\e[0m] Changed: \e[1;33m$updated_reg_file  \e[0m==>  Generated: \e[0;32m${DIFF_FILES_LIST[$updated_reg_file]}"
+              diff -u $updated_reg_file ${DIFF_FILES_LIST[$updated_reg_file]}]
+            else
+              echo -e "[\e[0;31mERROR\e[0m] Correspondiong SVD File does not exist. Please add the correct SVD file or contact the developers."
+            fi
             
+            # Check return for any differences
             if [[ $? != 0 ]]; then
-              echo -e "\n[\e[0;31mERROR\e[0m] $updated_reg_file does not match with corresponding SVD File."
-              echo -e "Please update corresponding SVD file: \e[1;31m${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}\n"
+              echo -e "\n[\e[0;31mERROR\e[0m] ${updated_reg_file#./*/} does not match with corresponding SVD File."
+              
+              # DO NOT CHANGE register file if there is no corresponding SVD file. That means the register file is deprecated, and
+              # non-deprecated version should be updated
+              if [[ -f ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} ]]; then
+                echo -e "Please update corresponding SVD file: \e[1;31m${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}\n"
+              else
+                echo -e "[\e[0;33mWARNING\e[0m] Do not change register file. The corresponding peripheral SVD file does not exist. This register file is most likely deprecated. Please update correct and most up-to-date register file.\n"
+              fi
               CHECK_FAIL=1
             else
-              echo -e "[\e[0;32mVERIFIED\e[0m] Register FIle and Corresponding Peripheral SVD File Matches."
+              echo -e "[\e[0;32mVERIFIED\e[0m] Register FIle and Corresponding Peripheral SVD File Matches.\n"
             fi
           done
           set -e
