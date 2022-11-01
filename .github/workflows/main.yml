@@ -82,7 +82,7 @@ jobs:
           
       # This step is just to indicate status of job in Actions' console if there are no
       # register file changes.
-      - name: No register files updated. Completed.
+      - name: No register files changes detected. Completed.
         if: env.DIFF_FILES_FLAG == 'false'
         run: |
           echo "None of the committed files were updated register files. No need to check differences."
@@ -253,6 +253,7 @@ jobs:
             done            
           fi
           
+          echo "${REGISTER_SVD_FILE_LIST[*]}"
           echo -e "\nFinished Generating Register Files."
           
           # Exit current directory and return to MSDK repo.
@@ -267,7 +268,7 @@ jobs:
           set +e
           for updated_reg_file in "${!DIFF_FILES_LIST[@]}"
           do
-            echo -e "[\e[0;37mComparing\e[0m] Changed: \e[1;33m$updated_reg_file  \e[0m==>  Generated: \e[0;32m${DIFF_FILES_LIST[$updated_reg_file]}"
+            echo -e "[\e[0;37mCOMPARING\e[0m] Changed: \e[1;33m$updated_reg_file  \e[0m==>  Generated: \e[0;32m${DIFF_FILES_LIST[$updated_reg_file]}"
             diff -u $updated_reg_file ${DIFF_FILES_LIST[$updated_reg_file]}
             
             if [[ $? != 0 ]]; then
