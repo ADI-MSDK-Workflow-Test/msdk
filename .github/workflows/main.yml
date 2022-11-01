@@ -271,10 +271,11 @@ jobs:
             diff -u $updated_reg_file ${DIFF_FILES_LIST[$updated_reg_file]}
             
             if [[ $? != 0 ]]; then
-              echo -e "\n[\e[0;31mERROR\e[0m] $updated_reg_file does not match with corresponding SVD File:"
-              echo -e "${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}"
-              echo -e "Please update corresponding SVD file. If no peripheral SVD file, please ask a developer for exceptions.\n"
-              CHECK_FAIL+=1
+              echo -e "\n[\e[0;31mERROR\e[0m] $updated_reg_file does not match with corresponding SVD File."
+              echo -e "Please update corresponding SVD file: \e[1;31m${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}\n"
+              CHECK_FAIL=1
+            else
+              echo -e "[\e[0;32mVERIFIED\e[0m] Register FIle and Corresponding Peripheral SVD File Matches."
             fi
           done
           set -e
