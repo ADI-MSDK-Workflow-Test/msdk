@@ -214,9 +214,7 @@ jobs:
               # Keep track of complementary peripheral SVD file
               # Read chip_periph.txt
               while read -r line; 
-              do
-                echo "Reading file: ${CHANGED_PART_FILES[$die_name]}"
-               
+              do             
                 # Check whether one of the changed register files matches with SVD path
                 for changed_reg_file in "${CHANGED_PART_FILES[$die_name]}"
                 do
@@ -225,7 +223,7 @@ jobs:
                   periph=${periph%_regs.h}
                   periph=${periph^^}
                   echo "Getting peripheral: $periph"
-                  if [[ $line == *"$periph"* ]]; then
+                  if [[ "$line" == *"$periph"* ]]; then
                     echo "Match"
                   fi
                 done
