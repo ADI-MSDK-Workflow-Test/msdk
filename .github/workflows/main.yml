@@ -112,6 +112,9 @@ jobs:
           # Keep track of all the changed registers and the path to generated register files
           declare -A DIFF_FILES_LIST
           
+          # Keep track of corresponding Changed Register File to its Peripheral SVD File
+          declare -A REGISTER_SVD_FILE_LIST
+          
           # Add future parts to this dictionary
           CHIP_DIE_NAMES[MAX78000]=AI85
           CHIP_DIE_NAMES[MAX78002]=AI87
@@ -193,9 +196,6 @@ jobs:
           echo -e "\n\e[0;33m==================================================================\n"
           echo -e "\e[0;33mGenerating register files for all affected parts"
           echo -e "\n\e[0;33m==================================================================\n"
-          
-          # Used to keep track updated register file and its complementary peripheral SVD File.
-          declare -A PERIPH_SVD_FILE_LIST
 
           echo -e "Affected Parts: \e[1;33m$AFFECTED_DIE_LIST\n"
           
@@ -214,18 +214,25 @@ jobs:
               # Keep track of complementary peripheral SVD file
               # Read chip_periph.txt
               while read -r line; 
-              do             
-                # Check whether one of the changed register files matches with SVD path
-                for changed_reg_file in "${CHANGED_PART_FILES[$die_name]}"
-                do
-                  # Isolate peripheral of changed register file to find corresponding peripheral SVD file
-                  periph=${changed_reg_file##*/}
-                  periph=${periph%_regs.h}
-                  echo "$line"
-                  if [[ "$line" == *"$periph"* ]]; then
-                    echo "Match"
-                  fi
-                done
+              do  
+                if [[ -n ${CHANGED_PART_FILES[$die_name]} ]]; then
+                  # Check whether one of the changed register files matches with SVD path
+                  for changed_reg_file in ${CHANGED_PART_FILES[$die_name]}
+                  do
+                    # Isolate peripheral of changed register file to find corresponding peripheral SVD file
+                    periph=${changed_reg_file##*/}
+                    periph=${periph%_regs.h}
+                    
+                    if [[ "$line" == *"$periph"* ]]; then
+                      svd_path=${line#*/Libraries/}
+                      svd_path=${svd_path%%*.svd}
+                      echo "SVD Path: $svd_path."
+                      REGISTER_SVD_FILE_LIST[$changed_reg_file]=${line#*/Libraries/}
+                      
+                      echo "Match"
+                    fi
+                  done
+                fi
               done <$CHIP_PERIPH
               
               cd ../
