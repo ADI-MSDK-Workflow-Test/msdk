@@ -257,7 +257,6 @@ jobs:
           
           # Exit current directory and return to MSDK repo.
           cd ../../../
-          ls
           
           #---------------------------
           echo -e "\n\e[0;33m==================================================================\n"
@@ -279,8 +278,8 @@ jobs:
 
                 # DO NOT CHANGE register file if there is no corresponding SVD file. That means the register file is deprecated, and
                 # non-deprecated version should be updated
-                echo "${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}"
-                if [[ -f ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} ]]; then
+                # REGISTER_SVD_FILE_LIST paths relative when script is in the msdk repo but it's currently in workspace containing msdk and msdk-internal, meaning it's outside of msdk and msdk-internal repos.
+                if [[ -f ./${{ env.MSDK-INTERNAL_DIR }}/${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} ]]; then
                   echo -e "Please update corresponding SVD file: \e[1;31m${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}\n"
                 else
                   echo -e "[\e[0;33mWARNING\e[0m] Do not change register file. The corresponding peripheral SVD file does not exist. This register file is most likely deprecated. Please update correct and most up-to-date register file.\n"
