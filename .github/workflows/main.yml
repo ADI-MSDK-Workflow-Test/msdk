@@ -163,9 +163,8 @@ jobs:
             fi
             
             # Keep track of all diff files.
-            DIFF_FILES_LIST[$changed_reg_file]=../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/${CHIP_DIE_NAMES[$CHIP_NAME]}/chip_test/${changed_reg_file##*/}  
-            
-            echo "[\e[0;31mCHANGED\e[0m]: $changed_reg_file"
+            DIFF_FILES_LIST[$changed_reg_file]=../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/${CHIP_DIE_NAMES[$CHIP_NAME]}/chip_test/${changed_reg_file##*/}
+            echo -e "[\e[0;31mCHANGED\e[0m]: $changed_reg_file"
           done
           
           echo "These are the diff files: ${DIFF_FILES_LIST[*]}"
