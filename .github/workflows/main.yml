@@ -205,20 +205,24 @@ jobs:
               cd $die_name
             
               chmod u+x makeRegs.sh
-              ./makeRegs.sh
+              ./makeRegs.sh ubuntu
               
               # Keep track of complementary peripheral SVD file
-              for changed_reg_file in $CHANGED_FILES
+              # Read chip_periph.txt
+              while read -r line; 
               do
-                while read -r line; 
+                # Check whether one of the changed register files matches with SVD path
+                for changed_reg_file in $CHANGED_PART_FILES
                 do
-                  if [[ $fullstring == *"$substr"* ]]; then
-                    echo "Placeholder"
+                  periph=${changed_reg_file##*/}
+                  periph=${changed_reg_file%_regs.h}
+                  echo "$periph"
+                  if [[ $line == *"$substr"* ]]; then
+                    echo "
                   fi
-                done <$CHIP_PERIPH
-              done
+                done
+              done <$CHIP_PERIP
               
-           
               cd ../
             done            
           fi
