@@ -160,7 +160,7 @@ jobs:
             if [[ ${#CHANGED_PART_FILES[@]} ]]; then
               CHANGED_PART_FILES[${CHIP_DIE_NAMES[$CHIP_NAME]}]+=" "
             fi
-            CHANGED_PART_FILES[${CHIP_DIE_NAMES[$CHIP_NAME]}]+=changed_reg_file
+            CHANGED_PART_FILES[${CHIP_DIE_NAMES[$CHIP_NAME]}]+=$changed_reg_file
             
             echo "CHANGED_PART_FILES[${CHIP_DIE_NAMES[$CHIP_NAME]}]"
             
