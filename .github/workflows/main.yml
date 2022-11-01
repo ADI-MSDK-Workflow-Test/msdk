@@ -167,7 +167,7 @@ jobs:
             
             # Keep track of all diff files.
             DIFF_FILES_LIST[/${{ env.MSDK_DIR }}/$changed_reg_file]=/${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/${CHIP_DIE_NAMES[$CHIP_NAME]}/chip_test/${changed_reg_file##*/}
-            echo -e "[\e[0;31mCHANGED\e[0m]: $changed_reg_file"
+            echo -e "[\e[1;33mCHANGED\e[0m]: $changed_reg_file"
           done
           
           # Exit out of msdk directory.
@@ -180,12 +180,12 @@ jobs:
           echo -e "\n\e[0;33m===========================================================\n"
           
           # Print out affected parts.
-          echo -e "Affected Parts: \e[0;31m$AFFECTED_DIE_LIST\n"
+          echo -e "Affected Parts: \e[1;33m$AFFECTED_DIE_LIST\n"
           
           if [[ -n $AFFECTED_DIE_LIST ]]; then            
             for die_name in $AFFECTED_DIE_LIST
             do
-              echo -e "[\e[0;31m$die_name\e[0m] Generating Register Files."
+              echo -e "[\e[1;33m$die_name\e[0m] Generating Register Files."
               cd $die_name
             
               chmod u+x makeRegs.sh
