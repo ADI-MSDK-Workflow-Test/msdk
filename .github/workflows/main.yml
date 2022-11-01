@@ -215,15 +215,18 @@ jobs:
               # Read chip_periph.txt
               while read -r line; 
               do
-               echo "Reading file"
+                echo "Reading file: ${CHANGED_PART_FILES[$die_name]}"
+               
                 # Check whether one of the changed register files matches with SVD path
                 for changed_reg_file in "${CHANGED_PART_FILES[$die_name]}"
                 do
+                  # Isolate peripheral (capitalized) of changed register file to find corresponding peripheral SVD file
                   periph=${changed_reg_file##*/}
-                  periph=${changed_reg_file%_regs.h}
+                  periph=${periph%_regs.h}
+                  periph=${periph^^}
                   echo "Getting peripheral: $periph"
-                  if [[ $line == *"$substr"* ]]; then
-                    echo ""
+                  if [[ $line == *"$periph"* ]]; then
+                    echo "Match"
                   fi
                 done
               done <$CHIP_PERIPH
