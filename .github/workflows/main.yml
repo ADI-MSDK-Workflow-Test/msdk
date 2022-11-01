@@ -229,6 +229,9 @@ jobs:
 
                       REGISTER_SVD_FILE_LIST[$changed_reg_file]=$svd_path
                       
+                      echo "Prev Changed part list: $CHANGED_PART_LIST[$die_name]"
+                      echo "Prev Updated part list: $updated_part_list"
+                      
                       # Remove found register file from list to minimize run time by remaking list
                       updated_part_list=""
                       for remaining_file in ${CHANGED_PART_FILES[$die_name]}
@@ -273,9 +276,9 @@ jobs:
             diff -u $updated_reg_file ${DIFF_FILES_LIST[$updated_reg_file]}
             
             if [[ $? != 0 ]]; then
-              echo -e "[\e[0;31mERROR\e[0m] $updated_reg_file does not match with corresponding SVD File:"
+              echo -e "\n[\e[0;31mERROR\e[0m] $updated_reg_file does not match with corresponding SVD File:"
               echo -e ""
-              echo -e "Please update corresponding SVD file."
+              echo -e "Please update corresponding SVD file.\n"
               CHECK_FAIL=1
             fi
           done
