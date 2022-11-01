@@ -180,7 +180,7 @@ jobs:
           echo -e "\n\e[0;33m===========================================================\n"
           
           # Print out affected parts.
-          echo "Affected Parts: \e[0;31m$AFFECTED_DIE_LIST\n"
+          echo -e "Affected Parts: \e[0;31m$AFFECTED_DIE_LIST\n"
           
           if [[ -n $AFFECTED_DIE_LIST ]]; then            
             for die_name in $AFFECTED_DIE_LIST
