@@ -278,6 +278,7 @@ jobs:
 
                 # DO NOT CHANGE register file if there is no corresponding SVD file. That means the register file is deprecated, and
                 # non-deprecated version should be updated
+                echo "${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}"
                 if [[ -f ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} ]]; then
                   echo -e "Please update corresponding SVD file: \e[1;31m${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}\n"
                 else
@@ -289,7 +290,7 @@ jobs:
               fi
             else
               # Exception for entirely new register files.
-              echo -e "[\e[0;31mERROR\e[0m] ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} does not exist. Please add the correct SVD file. PLease contact the developers if you are adding a new register file."
+              echo -e "[\e[0;31mERROR\e[0m] Could not find ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} for ${updated_reg_file#./*/}. Please add the correct SVD file. PLease contact the developers if you are adding a new register file.\n"
             fi
           done
           set -e
