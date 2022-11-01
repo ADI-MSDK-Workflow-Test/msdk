@@ -234,18 +234,21 @@ jobs:
                       echo "Prev Changed part list: $updated_part_list"
                       
                       # Remove found register file from list to minimize run time by remaking list
+                      new_list=""
                       for remaining_file in $updated_part_list
                       do
                         # Exclude found register file
                         if [[ "$changed_reg_file" != "$remaining_file" ]]; then
                           # Add a space as a delimiter if list has more than one item
                           if [[ -n $updated_part_list ]]; then
-                            updated_part_list+=" "
+                            new_list+=" "
                           fi
                           
-                          updated_part_list+=$remaining_file
+                          new_list+=$remaining_file
                         fi
                       done
+                      
+                      updated_part_list=$new_list
                       
                       echo "Updated part list: $updated_part_list"
                       
