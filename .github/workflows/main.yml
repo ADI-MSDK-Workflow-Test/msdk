@@ -262,6 +262,8 @@ jobs:
             done            
           fi
           
+          echo "REGISTER_SVD_FILE_LIST: ${REGISTER_SVD_FILE_LIST[*]}"
+          
           echo -e "\nFinished Generating Register Files."
           
           # Exit current directory and return to MSDK repo.
