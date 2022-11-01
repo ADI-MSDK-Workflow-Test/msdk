@@ -204,17 +204,23 @@ jobs:
           echo -e "\n\e[0;33m===========================================================\n"
           echo -e "\e[0;33mComparing Each Updated Register File to Generated Register File."
           echo -e "\n\e[0;33m===========================================================\n"
-          ls
+
+          CHECK_FAIL=0
           set +e
           for updated_reg_file in "${!DIFF_FILES_LIST[@]}"
           do
             echo "Updated: $updated_reg_file  -=-  Generated: ${DIFF_FILES_LIST[$updated_reg_file]}"
             #DIFF=$(diff -u $updated_reg_file ${DIFF_FILES_LIST[$updated_reg_file]})
-            diff -u $updated_reg_file ${DIFF_FILES_LIST[$updated_reg_file]}
-            echo $?
+            diff -u -c $updated_reg_file ${DIFF_FILES_LIST[$updated_reg_file]}
+            
             if [[ $? != 0 ]]; then
-              exit 1
+              echo -e "[\e[0;31mERROR\e[0m] $updated_reg_file
+              echo -e "Please update corresponding SVD file."
+              CHECK_FAIL=1
             fi
           done
           set -e
+          
+          
+          exit $CHECK_FAIL
 
