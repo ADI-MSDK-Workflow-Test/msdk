@@ -224,7 +224,7 @@ jobs:
                     periph=${periph%_regs.h}
                     
                     if [[ "$line" == *"$periph"* ]]; then
-                      svd_path=${line#*./}
+                      svd_path=${line##*./}
                       svd_path=${svd_path%%;*}
                       echo "SVD Path: $svd_path."
                       REGISTER_SVD_FILE_LIST[$changed_reg_file]=${line#*/Libraries/}
