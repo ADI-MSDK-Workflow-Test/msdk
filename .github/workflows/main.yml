@@ -270,7 +270,7 @@ jobs:
             # Make sure the generated register file exists. If it doesn't, you've added a new register file. Please contact the developers.
             if [[ -f ${DIFF_FILES_LIST[$updated_reg_file]} ]]; then
               echo -e "[\e[0;37mCOMPARING\e[0m] Changed: \e[1;33m$updated_reg_file  \e[0m==>  Generated: \e[0;32m${DIFF_FILES_LIST[$updated_reg_file]}"
-              diff -u $updated_reg_file ${DIFF_FILES_LIST[$updated_reg_file]}]
+              diff -u $updated_reg_file ${DIFF_FILES_LIST[$updated_reg_file]}
             else
               echo -e "[\e[0;31mERROR\e[0m] Correspondiong SVD File does not exist. Please add the correct SVD file or contact the developers."
             fi
