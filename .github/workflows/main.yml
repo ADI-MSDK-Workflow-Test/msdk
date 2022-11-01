@@ -279,6 +279,7 @@ jobs:
                 # DO NOT CHANGE register file if there is no corresponding SVD file. That means the register file is deprecated, and
                 # non-deprecated version should be updated
                 # REGISTER_SVD_FILE_LIST paths relative when script is in the msdk repo but it's currently in workspace containing msdk and msdk-internal, meaning it's outside of msdk and msdk-internal repos.
+                echo ./${{ env.MSDK-INTERNAL_DIR }}/${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}
                 if [[ -f ./${{ env.MSDK-INTERNAL_DIR }}/${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} ]]; then
                   echo -e "Please update corresponding SVD file: \e[1;31m${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}\n"
                 else
