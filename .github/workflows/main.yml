@@ -195,6 +195,7 @@ jobs:
           set +e
           for updated_reg_file in "${!DIFF_FILES_LIST[@]}"
           do
+            ls
             echo "Updated: $updated_reg_file  -=-  Generated: ${DIFF_FILES_LIST[$updated_reg_file]}"
             #DIFF=$(diff -u $updated_reg_file ${DIFF_FILES_LIST[$updated_reg_file]})
             diff -u $updated_reg_file ${DIFF_FILES_LIST[$updated_reg_file]}
