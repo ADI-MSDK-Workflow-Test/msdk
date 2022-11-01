@@ -211,7 +211,7 @@ jobs:
           do
             echo "Updated: $updated_reg_file  -=-  Generated: ${DIFF_FILES_LIST[$updated_reg_file]}"
             #DIFF=$(diff -u $updated_reg_file ${DIFF_FILES_LIST[$updated_reg_file]})
-            diff -u -c $updated_reg_file ${DIFF_FILES_LIST[$updated_reg_file]}
+            diff -u $updated_reg_file ${DIFF_FILES_LIST[$updated_reg_file]}
             
             if [[ $? != 0 ]]; then
               echo -e "[\e[0;31mERROR\e[0m] $updated_reg_file"
