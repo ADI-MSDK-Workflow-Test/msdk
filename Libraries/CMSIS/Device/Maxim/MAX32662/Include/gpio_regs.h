@@ -124,8 +124,8 @@ typedef struct {
     __R  uint32_t rsv_0x8c_0xa7[7];
     __IO uint32_t hysen;                /**< <tt>\b 0xA8:</tt> GPIO HYSEN Register */
     __IO uint32_t srsel;                /**< <tt>\b 0xAC:</tt> GPIO SRSEL Register */
-    __IO uint32_t ds0;                  /**< <tt>\b 0xB0:</tt> GPIO DS0 Register */
-    __IO uint32_t ds1;                  /**< <tt>\b 0xB4:</tt> GPIO DS1 Register */
+    __IO uint32_t ds1;                  /**< <tt>\b 0xB0:</tt> GPIO DS0 Register */
+    __IO uint32_t ds2;                  /**< <tt>\b 0xB4:</tt> GPIO DS1 Register */
     __IO uint32_t ps;                   /**< <tt>\b 0xB8:</tt> GPIO PS Register */
     __R  uint32_t rsv_0xbc;
     __IO uint32_t vssel;                /**< <tt>\b 0xC0:</tt> GPIO VSSEL Register */
