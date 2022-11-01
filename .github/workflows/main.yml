@@ -282,7 +282,9 @@ jobs:
                 if [[ -f "./${{ env.MSDK_DIR }}/${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}" ]]; then
                   echo -e "Please update corresponding SVD file: \e[1;31m${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}\n"
                 else
-                  echo -e "[\e[0;33mWARNING\e[0m] Do not change register file. The corresponding peripheral SVD file does not exist. This register file is most likely deprecated. Please update correct and most up-to-date register file.\n"
+                  # Unsupported (Deprecated) register file. You can update as you like but it won't be added in the user guide if deprecated.
+                  echo -e "[\e[0;33mERROR\e[0m] The corresponding peripheral SVD file does not exist. This register file is most likely deprecated or unsupported. Please contact ADI developers if this is incorrect.\n"
+                  echo -e "[\e[0;33mWARNING\e[0m] Changes to this file should not be included into any MSDK file. If any MSDK file is dependent on this register file, then please contact ADI developers.\n"
                 fi
                 CHECK_FAIL=1
               else
