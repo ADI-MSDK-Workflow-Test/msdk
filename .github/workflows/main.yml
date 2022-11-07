@@ -189,6 +189,8 @@ jobs:
             do
               ls
               pwd
+              
+              echo "${DIE_TO_CHIP_NAME[$part]}"
               if [[ -n ${DIE_TO_CHIP_NAME[$part]} && -d $part ]]; then
                 pwd
                 ls
