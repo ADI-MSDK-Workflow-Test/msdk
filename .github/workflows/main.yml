@@ -192,7 +192,7 @@ jobs:
             echo "$periph"
             echo "$svd_file"
             
-            cd .${workspace_path}/${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
+            cd ./${workspace_path}/${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
             SVD_DEVICES=$(ls)
             
             register_files=""
@@ -376,7 +376,11 @@ jobs:
                   periph=${periph%_regs.h}
                   chip_name=${updated_reg_file#*/Maxim/}
                   chip_name=${chip_name%%/*}
+                  echo "-----"
+                  pwd
                   find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .
+                  pwd
+                  echo "===="
                 else
                   # Unsupported (Deprecated) register file. You can update as you like but it won't be added in the user guide if deprecated.
                   echo -e "[\e[0;31mERROR\e[0m] The corresponding peripheral SVD file does not exist. This register file is most likely deprecated or unsupported. Please contact ADI developers if this is incorrect.\n"
