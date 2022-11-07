@@ -103,16 +103,20 @@ jobs:
       - name: Generating Register Files from Peripheral SVD Files then Comparing to Updated Register Files.
         if: success() && env.DIFF_FILES_FLAG == 'true'
         run: |
-
-        
+          # Important terms:
+          # Changed/Updated files refers to files that were changed in the PR. The files you changed.
+          # Generated file (usually register files) are the files that were generated using scripts.
+          # Die name - e.g. ME17, AI87, ES17
+          # Chip name - e.g. MAX32655, MAX78002, MAX32520
+          
           # Create associative array for dictionary
           declare -A CHIP_TO_DIE_NAMES 
           declare -A DIE_TO_CHIP_NAMES
           
-          # Keep track of changed register files for each part
+          # Keep track of Changed register files for each part
           declare -A CHANGED_PART_FILES
           
-          # Keep track of all the changed registers and the path to generated register files
+          # Keep track of all the Changed register files to its corresponding generated register file
           declare -A DIFF_FILES_LIST
           
           # Keep track of corresponding Changed Register File to its Peripheral SVD File
@@ -153,41 +157,50 @@ jobs:
           cd ${{ env.MSDK_DIR }}
           CHANGED_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master './Libraries/CMSIS/Device/Maxim/*/Include/*_regs.h')
 
-          # This set keeps tracks of all the parts with updated register files. (No duplicates).
-          # The MSDK will be using the Chips names in the path to register files.
+          # This set keeps tracks of all the parts (chip names) with updated register files. (No duplicates).
+          # The path to the register files from top of MSDK repo requires chip name.
           AFFECTED_CHIP_SET=()
           
-          # Formatted list that will be assigned to environment variable for next step:
-          #   "Run SVD scripts to generate register files"
+          # This list keeps tracks of all the parts (die names) with updated register files.
+          # The path to the generated register files requires the die name.
           AFFECTED_DIE_LIST=""
           
           # File containing SVD paths
           CHIP_PERIPH="chip_periph.txt"
           
           #---------= START - FUNCTION find_linked_register_files =---------
-          # Function to check for all register files linked to SVD file
-          # This function should only run when you're in the workspace (outside of msdk and msdk-internal repos)
+          # Function to check for all register files linked to SVD file.
+          # Option to exclude the part that triggered the discovery of the SVD file differences.
+          #   For example: if ME12's icc_regs.h was changed but not the corresponding icc_reva.svd, then this function
+          #   will search for any register files dependent on icc_reva.svd but Not the ME12's icc_regs.h
+          #   since the ME12 is what triggered the icc_reva.svd differences. This is mainly to help format with the log output.
+          # This function depends on relative paths from workspace.
           # Inputs:
           #   $1 - SVD file (You can include path to SVD file or just the file name)
           #   $2 - periperal of SVD file
+          #   $3 - Chip name of current SVD file
+          #   $4 - Path to workspace (outside of msdk and msdk-internal repos)
           # Return:
-          #   $? - List of register files that are linked to the SVD file
+          #   $? - List of register files that are linked and aren't synced to the SVD file.
           find_linked_register_files() {
             svd_file=$1
             # Make lowercase
             periph=${2,,}
+            chip_name=$3
+            workspace_path=$4
             
             echo "$periph"
             echo "$svd_file"
             
-            cd ./${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
+            cd .${workspace_path}/${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
             SVD_DEVICES=$(ls)
             
             register_files=""
             
             for part in $SVD_DEVICES
             do
-              if [[ -n ${DIE_TO_CHIP_NAMES[$part]} && -d $part ]]; then
+              # Exclude the part that triggered discovery of SVD file (if any)           
+              if [[ -n ${DIE_TO_CHIP_NAMES[$part]} && -d $part && $part != ${CHIP_TO_DIE_NAMES[$chip_name]} ]]; then
                 echo "Exists"
                 cd $part
 
@@ -222,7 +235,7 @@ jobs:
           #---------= END - FUNCTION find_linked_register_files =---------
           
           #---------------------------
-          # Grab the part relating to the changed register file and add to list for env variable assignment.
+          # Grab the part relating to the changed register file and add them to appropriate lists.
           # Note: This only works for register files in this path:
           #   msdk/Libraries/CMSIS/Device/Maxim/[CHIP_NAME]/Include/*_regs.h
           echo -e "\n\e[0;33m==================================================================\n"
@@ -243,11 +256,11 @@ jobs:
             fi
             CHANGED_PART_FILES[${CHIP_TO_DIE_NAMES[$CHIP_NAME]}]+=$changed_reg_file
 
-            # Keep track of effected parts, don't add duplicates.
+            # Keep track of affected parts, don't add duplicates.
             if [[ ! "${AFFECTED_CHIP_SET[*]}" =~ "$CHIP_NAME" ]]; then
               AFFECTED_CHIP_SET+=("$CHIP_NAME")
               
-              # Create list with die name of effected parts for SVD scripts as you go
+              # Create list with die name of affected parts for SVD scripts as you go
               # List will have " " (space) as the delimiter
               # Only add space when you're adding more than one item into list.
               if [[ ! -z "$AFFECTED_DIE_LIST" ]]; then
@@ -329,9 +342,9 @@ jobs:
             done            
           fi
           
-          echo -e "Finished Generating Register Files."
+          echo -e "\e[0;32mFinished Generating Register Files."
           
-          # Exit current directory and return to MSDK repo.
+          # Exit current directory and return to workspace.
           cd ../../../
           
           #---------------------------
@@ -360,8 +373,9 @@ jobs:
                   
                   periph=${updated_reg_file##*/}
                   periph=${periph%_regs.h}
-                  echo $periph
-                  find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph
+                  chip_name=${changed_reg_file#*/Maxim/}
+                  chip_name=${chip_name%%/*}
+                  find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .
                 else
                   # Unsupported (Deprecated) register file. You can update as you like but it won't be added in the user guide if deprecated.
                   echo -e "[\e[0;31mERROR\e[0m] The corresponding peripheral SVD file does not exist. This register file is most likely deprecated or unsupported. Please contact ADI developers if this is incorrect.\n"
