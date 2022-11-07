@@ -177,8 +177,13 @@ jobs:
             # Make lowercase
             periph=${2,,}
             
+            echo "$periph"
+            echo "$svd_file"
+            
             cd ./${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
             SVD_DEVICES=$(ls)
+            
+            
             
             register_files=""
             
@@ -202,9 +207,11 @@ jobs:
               
               done <$CHIP_PERIPH
               
+              cd ..
+              
             done
             
-            return $register_files
+            #return $register_files
             
           }
           #---------= END - FUNCTION find_linked_register_files =---------
