@@ -187,8 +187,11 @@ jobs:
             
             for part in $SVD_DEVICES
             do
-            
+              ls
+              pwd
               if [[ -v ${DIE_TO_CHIP_NAME[$part]} && -d $part ]]; then
+                pwd
+                ls
                 echo "Exists"
                 cd $part
                 ls
