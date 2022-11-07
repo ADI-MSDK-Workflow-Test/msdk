@@ -190,7 +190,6 @@ jobs:
               if [[ -n ${DIE_TO_CHIP_NAMES[$part]} && -d $part ]]; then
                 echo "Exists"
                 cd $part
-                ls
 
                 while read -r line;
                 do
@@ -200,7 +199,7 @@ jobs:
                       register_files+=" "
                     fi
 
-                    register_files+=Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAME[$part]}/Include/${periph}_regs.h
+                    register_files+=Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h
 
                     echo $register_files
                     break 1
