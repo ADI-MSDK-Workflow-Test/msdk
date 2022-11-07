@@ -227,6 +227,7 @@ jobs:
             
             # Return to workspace
             cd ../../../
+            ls
             pwd
             
             #return $register_files
