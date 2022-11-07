@@ -182,8 +182,7 @@ jobs:
             
             cd ./${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
             SVD_DEVICES=$(ls)
-            
-            
+            ls
             
             register_files=""
             
@@ -199,7 +198,7 @@ jobs:
                     register_files+=" "
                   fi
                   
-                  register_files+=Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAME[$part]}/Include/{$periph}_regs.h
+                  register_files+=Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAME[$part]}/Include/${periph}_regs.h
                   
                   echo $register_files
                   break 1
@@ -353,11 +352,11 @@ jobs:
 
                 # DO NOT CHANGE register file if there is no corresponding SVD file. That means the register file is deprecated, and
                 # non-deprecated version should be updated
-                # REGISTER_SVD_FILE_LIST paths relative to script location being in the msdk repo but it's currently in workspace containing msdk and msdk-internal, meaning it's outside of msdk and msdk-internal repos.
+                # REGISTER_SVD_FILE_LIST paths relative to script location being in the msdk repo but running pwd shows it's outside of msdk and msdk-internal repos.
                 if [[ -f "./${{ env.MSDK_DIR }}/${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}" ]]; then
                   echo -e "Please update corresponding SVD file: \e[1;31m${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}\n"
                   
-                  periph=${changed_reg_file##*/}
+                  periph=${updated_reg_file##*/}
                   periph=${periph%_regs.h}
                   echo $periph
                   find_linked_register_files ${REGISTER_SVD_FILE_LIST[$updated_reg_file]} $periph
