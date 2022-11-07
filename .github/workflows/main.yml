@@ -355,6 +355,7 @@ jobs:
                   
                   periph=${changed_reg_file##*/}
                   periph=${periph%_regs.h}
+                  echo $periph
                   find_linked_register_files ${REGISTER_SVD_FILE_LIST[$updated_reg_file]} $periph
                 else
                   # Unsupported (Deprecated) register file. You can update as you like but it won't be added in the user guide if deprecated.
