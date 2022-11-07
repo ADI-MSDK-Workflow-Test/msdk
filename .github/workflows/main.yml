@@ -189,9 +189,6 @@ jobs:
             chip_name=$3
             workspace_path=$4
             
-            echo "$periph"
-            echo "$svd_file"
-            
             cd ./${workspace_path}/${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
             SVD_DEVICES=$(ls)
             
@@ -227,11 +224,8 @@ jobs:
             
             # Return to workspace
             cd ../../../
-            ls
-            pwd
             
-            #return $register_files
-            
+            return $register_files
           }
           #---------= END - FUNCTION find_linked_register_files =---------
           
@@ -372,15 +366,16 @@ jobs:
                 if [[ -f "./${{ env.MSDK_DIR }}/${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}" ]]; then
                   echo -e "Please update corresponding SVD file: \e[1;31m${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}\n"
                   
+                  # Find all files linked to
                   periph=${updated_reg_file##*/}
                   periph=${periph%_regs.h}
                   chip_name=${updated_reg_file#*/Maxim/}
                   chip_name=${chip_name%%/*}
-                  echo "-----"
-                  pwd
                   find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .
-                  pwd
-                  echo "===="
+                  
+                  if [[ -n $? ]]; then
+                    echo -e "Please update all linked register files as well: \e[1;31m$?\m"
+                  fi
                 else
                   # Unsupported (Deprecated) register file. You can update as you like but it won't be added in the user guide if deprecated.
                   echo -e "[\e[0;31mERROR\e[0m] The corresponding peripheral SVD file does not exist. This register file is most likely deprecated or unsupported. Please contact ADI developers if this is incorrect.\n"
