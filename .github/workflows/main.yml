@@ -190,8 +190,8 @@ jobs:
               ls
               pwd
               echo "Part: $part"
-              echo "${DIE_TO_CHIP_NAME[$part]}"
-              if [[ -n ${DIE_TO_CHIP_NAME[$part]} && -d $part ]]; then
+              echo "${DIE_TO_CHIP_NAMES[$part]}"
+              if [[ -v ${DIE_TO_CHIP_NAMES[$part]} && -d $part ]]; then
                 pwd
                 ls
                 echo "Exists"
