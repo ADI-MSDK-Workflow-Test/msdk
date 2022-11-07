@@ -202,7 +202,7 @@ jobs:
                   register_files+=Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAME[$part]}/Include/{$periph}_regs.h
                   
                   echo $register_files
-                  break
+                  break 1
                 fi
               
               done <$CHIP_PERIPH
@@ -210,6 +210,10 @@ jobs:
               cd ..
               
             done
+            
+            # Return to workspace
+            cd ../../../
+            pwd
             
             #return $register_files
             
