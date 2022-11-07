@@ -373,7 +373,7 @@ jobs:
                   
                   periph=${updated_reg_file##*/}
                   periph=${periph%_regs.h}
-                  chip_name=${changed_reg_file#*/Maxim/}
+                  chip_name=${updated_reg_file#*/Maxim/}
                   chip_name=${chip_name%%/*}
                   find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .
                 else
