@@ -189,7 +189,7 @@ jobs:
             do
               ls
               pwd
-              if [[ -v ${DIE_TO_CHIP_NAME[$part]} && -d $part ]]; then
+              if [[ -n ${DIE_TO_CHIP_NAME[$part]} && -d $part ]]; then
                 pwd
                 ls
                 echo "Exists"
