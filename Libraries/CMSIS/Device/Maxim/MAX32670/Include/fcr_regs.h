@@ -111,7 +111,7 @@ typedef struct {
  * @brief    Register 0.
  * @{
  */
-#define MXC_F_FCR_FCTRL0_ERFO_RANGE_SEL_POS            1 /**< FCTRL0_ERFO_RANGE_SEL Position */
+#define MXC_F_FCR_FCTRL0_ERFO_RANGE_SEL_POS            0 /**< FCTRL0_ERFO_RANGE_SEL Position */
 #define MXC_F_FCR_FCTRL0_ERFO_RANGE_SEL                ((uint32_t)(0x7UL << MXC_F_FCR_FCTRL0_ERFO_RANGE_SEL_POS)) /**< FCTRL0_ERFO_RANGE_SEL Mask */
 
 #define MXC_F_FCR_FCTRL0_I2C0_SDA_FILTER_EN_POS        20 /**< FCTRL0_I2C0_SDA_FILTER_EN Position */
