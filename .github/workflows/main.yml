@@ -210,7 +210,10 @@ jobs:
                       # Doing new line instead of space and color to format output to console.
                       register_files+="\n"
                     fi
-                    
+                    ls
+                    cd chip_test
+                    ls
+                    cd ..
                     // Currently in msdk-internal/SVD/Device/{PART}/
                     check_diffs=$(diff -u ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h chip_test/${periph}_regs.h) 
                     echo "-----===============-----"
