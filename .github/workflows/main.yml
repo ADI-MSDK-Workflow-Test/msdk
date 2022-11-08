@@ -194,7 +194,7 @@ jobs:
             cd ./${workspace_path}/${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
             SVD_DEVICES=$(ls)
             
-            register_files=""
+            local register_files=""
             
             for part in $SVD_DEVICES
             do
@@ -224,7 +224,7 @@ jobs:
             # Return to workspace
             cd ../../../
             
-            return $register_files
+            echo $register_files
           }
           #---------= END - FUNCTION find_linked_register_files =---------
           
@@ -372,10 +372,10 @@ jobs:
                   chip_name=${chip_name%%/*}
                   find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .
                   
-                  if [[ -n $? ]]; then
-                    echo -e "Contents: $?"
-                    echo -e "Please update all linked register files as well: \e[1;31m$?\m"
-                  fi
+                  #if [[ -n $? ]]; then
+                  #  echo -e "Contents: $?"
+                  #  echo -e "Please update all linked register files as well: \e[1;31m$?\m"
+                  #fi
                 else
                   # Unsupported (Deprecated) register file. You can update as you like but it won't be added in the user guide if deprecated.
                   echo -e "[\e[0;31mERROR\e[0m] The corresponding peripheral SVD file does not exist. This register file is most likely deprecated or unsupported. Please contact ADI developers if this is incorrect.\n"
