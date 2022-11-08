@@ -212,7 +212,7 @@ jobs:
                     fi
                     
                     # Need to generate register files for part if it wasn't already generated.
-                    if [[ -d ./chip_test ]]; then
+                    if [[ ! (-d ./chip_test) ]]; then
                       echo "Creating $part"
                       chmod u+x makeRegs.sh
                       make=$(./makeRegs.sh ubuntu)                     
