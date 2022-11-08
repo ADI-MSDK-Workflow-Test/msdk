@@ -208,19 +208,20 @@ jobs:
                     # Add delimiter for list of lined register files
                     if [[ -n $register_files ]]; then
                       # Doing new line instead of space and color to format output to console.
-                      register_files+="\n"
+                      register_files+=" "
                     fi
                     
-                    # Need to generate for part.
+                    # Need to generate register files for part if it wasn't already generated.
                     if [[ -d ./chip_test ]]; then
                       make=$(./makeRegs.sh)
                     fi
                     
                     // Currently in msdk-internal/SVD/Device/{PART}/
                     check_diffs=$(diff -u ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h ./chip_test/${periph}_regs.h) 
-                    echo "-----===============-----"
-                    echo "$check_diffs"
-                    register_files+="Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h"
+                    
+                    if [[ -n $check_diffs ]]; then
+                      register_files+="Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h"
+                    fi
                     
                     break 1
                   fi
@@ -384,7 +385,15 @@ jobs:
                   linked_reg_files=$(find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .)
                   
                   if [[ -n $linked_reg_files ]]; then
-                    echo -e "Please update all linked register files as well: \e[1;31m$linked_reg_files\n"
+                    echo -e "Please update all linked register files related to the SVD file:"
+                    
+                    for change_linked_reg_files in $linked_reg_files
+                    do
+                      echo -e "\e[1;31m$change_linked_reg_files"
+                    done
+                    
+                    # New line for log output readability.
+                    echo -e "\n"
                   fi
                 else
                   # Unsupported (Deprecated) register file. You can update as you like but it won't be added in the user guide if deprecated.
