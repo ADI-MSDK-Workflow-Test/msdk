@@ -213,18 +213,9 @@ jobs:
                     fi
                     
                     # Need to generate register files for part if it wasn't already generated.
-                    if [[ -d ./chip_test ]]; then
+                    if [[ ! -d ./chip_test ]]; then
                       chmod u+x makeRegs.sh
-                      make=$(./makeRegs.sh ubuntu)
-                      pwd
-                      ls
-                      cd chip_test
-                      pwd
-                      ls
-                      cd ..
-                      pwd
-                      ls
-                      
+                      make=$(./makeRegs.sh ubuntu)                     
                     fi
                     
                     // Currently in msdk-internal/SVD/Device/{PART}/
