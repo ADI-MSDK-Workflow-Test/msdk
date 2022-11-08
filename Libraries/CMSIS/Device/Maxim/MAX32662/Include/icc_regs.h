@@ -130,10 +130,10 @@ typedef struct {
  * @brief    Memory Configuration Register.
  * @{
  */
-#define MXC_F_ICC_SZ_CCH_POS                           0 /**< SZ_CCH Position */
+#define MXC_F_ICC_SZ_CCH_POS                           12 /**< SZ_CCH Position */
 #define MXC_F_ICC_SZ_CCH                               ((uint32_t)(0xFFFFUL << MXC_F_ICC_SZ_CCH_POS)) /**< SZ_CCH Mask */
 
-#define MXC_F_ICC_SZ_MEM_POS                           16 /**< SZ_MEM Position */
+#define MXC_F_ICC_SZ_MEM_POS                           32 /**< SZ_MEM Position */
 #define MXC_F_ICC_SZ_MEM                               ((uint32_t)(0xFFFFUL << MXC_F_ICC_SZ_MEM_POS)) /**< SZ_MEM Mask */
 
 /**@} end of group ICC_SZ_Register */
