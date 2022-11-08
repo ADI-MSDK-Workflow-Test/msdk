@@ -193,6 +193,7 @@ jobs:
             
             cd ./${workspace_path}/${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
             SVD_DEVICES=$(ls)
+            ls
             
             local register_files=""
             
@@ -201,6 +202,8 @@ jobs:
               # Exclude the part that triggered discovery of SVD file (if any)           
               if [[ -n ${DIE_TO_CHIP_NAMES[$part]} && -d $part && $part != ${CHIP_TO_DIE_NAMES[$chip_name]} ]]; then
                 cd $part
+                pwd
+                ls
 
                 while read -r line;
                 do
@@ -210,10 +213,16 @@ jobs:
                       # Doing new line instead of space and color to format output to console.
                       register_files+="\n"
                     fi
+                    
+                    pwd
                     ls
                     cd chip_test
+                    pwd
                     ls
                     cd ..
+                    pwd
+                    ls
+                    
                     // Currently in msdk-internal/SVD/Device/{PART}/
                     check_diffs=$(diff -u ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h chip_test/${periph}_regs.h) 
                     echo "-----===============-----"
