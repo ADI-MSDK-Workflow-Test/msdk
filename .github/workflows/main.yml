@@ -217,7 +217,9 @@ jobs:
                     if [[ ! (-d ./chip_test) ]]; then
                       echo "Creating $part"
                       chmod u+x makeRegs.sh
-                      make=$(./makeRegs.sh ubuntu)                     
+                      make=$(./makeRegs.sh ubuntu)
+                      pwd
+                      ls
                     fi
                     
                     echo "Peripheral: $periph"
