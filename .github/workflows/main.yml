@@ -207,11 +207,16 @@ jobs:
                   if [[ $line == *"$svd_file"* ]]; then
                     # Add delimiter for list of lined register files
                     if [[ -n $register_files ]]; then
-                      # Doing new line instead of space to format output to console.
+                      # Doing new line instead of space and color to format output to console.
                       register_files+="\n"
                     fi
-
+                    
+                    // Currently in msdk-internal/SVD/Device/{PART}/
+                    check_diffs=$(diff -u ../../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h ./chip_test/${periph}_regs.h) 
+                    echo "-----===============-----"
+                    echo "$check_diffs"
                     register_files+="Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h"
+                    
                     break 1
                   fi
 
@@ -228,7 +233,7 @@ jobs:
             echo $register_files
           }
           #---------= END - FUNCTION find_linked_register_files =---------
-          
+        
           #---------------------------
           # Grab the part relating to the changed register file and add them to appropriate lists.
           # Note: This only works for register files in this path:
