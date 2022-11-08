@@ -103,6 +103,8 @@ jobs:
       - name: Generating Register Files from Peripheral SVD Files then Comparing to Updated Register Files.
         if: success() && env.DIFF_FILES_FLAG == 'true'
         run: |
+          # Verifying register files.
+          
           # Important terms:
           # Changed/Updated files refers to files that were changed in the PR. The files you changed.
           # Generated file (usually register files) are the files that were generated using scripts.
@@ -182,7 +184,7 @@ jobs:
           #   $4 - Path to workspace (outside of msdk and msdk-internal repos)
           # Return:
           #   $? - List of register files that are linked and aren't synced to the SVD file.
-          find_linked_register_files() {
+          function find_linked_register_files() {
             svd_file=$1
             # Make lowercase
             periph=${2,,}
