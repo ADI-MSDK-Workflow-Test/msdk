@@ -201,6 +201,7 @@ jobs:
               # Exclude the part that triggered discovery of SVD file (if any)           
               if [[ -n ${DIE_TO_CHIP_NAMES[$part]} && -d $part && $part != ${CHIP_TO_DIE_NAMES[$chip_name]} ]]; then
                 cd $part
+                ls pwd
 
                 while read -r line;
                 do
@@ -392,8 +393,8 @@ jobs:
                   periph=${periph%_regs.h}
                   chip_name=${updated_reg_file#*/Maxim/}
                   chip_name=${chip_name%%/*}
-                  linked_reg_files=$(find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .)
-                  
+                  #linked_reg_files=$(find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .)
+                  find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .
                   if [[ -n $linked_reg_files ]]; then
                     echo -e "Please update all linked register files related to the SVD file:"
                     
