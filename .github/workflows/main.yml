@@ -201,7 +201,6 @@ jobs:
               # Exclude the part that triggered discovery of SVD file (if any)           
               if [[ -n ${DIE_TO_CHIP_NAMES[$part]} && -d $part && $part != ${CHIP_TO_DIE_NAMES[$chip_name]} ]]; then
                 cd $part
-                ls pwd
 
                 while read -r line;
                 do
