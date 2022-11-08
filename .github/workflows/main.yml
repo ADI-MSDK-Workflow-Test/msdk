@@ -205,6 +205,8 @@ jobs:
                 while read -r line;
                 do
                   if [[ $line == *"$svd_file"* ]]; then
+                    echo "Line: $line"
+                    echo "SVD: $svd_file"
                     # Add delimiter for list of lined register files
                     if [[ -n $register_files ]]; then
                       # Doing new line instead of space and color to format output to console.
