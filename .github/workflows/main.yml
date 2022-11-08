@@ -198,7 +198,6 @@ jobs:
             do
               # Exclude the part that triggered discovery of SVD file (if any)           
               if [[ -n ${DIE_TO_CHIP_NAMES[$part]} && -d $part && $part != ${CHIP_TO_DIE_NAMES[$chip_name]} ]]; then
-                echo "Exists"
                 cd $part
 
                 while read -r line;
@@ -210,8 +209,6 @@ jobs:
                     fi
 
                     register_files+=Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h
-
-                    echo $register_files
                     break 1
                   fi
 
@@ -374,6 +371,7 @@ jobs:
                   find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .
                   
                   if [[ -n $? ]]; then
+                    echo -e "Contents: $?"
                     echo -e "Please update all linked register files as well: \e[1;31m$?\m"
                   fi
                 else
