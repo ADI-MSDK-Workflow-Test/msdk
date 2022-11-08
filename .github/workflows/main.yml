@@ -215,6 +215,15 @@ jobs:
                     if [[ -d ./chip_test ]]; then
                       chmod u+x makeRegs.sh
                       make=$(./makeRegs.sh ubuntu)
+                      pwd
+                      ls
+                      cd chip_test
+                      pwd
+                      ls
+                      cd ..
+                      pwd
+                      ls
+                      
                     fi
                     
                     // Currently in msdk-internal/SVD/Device/{PART}/
