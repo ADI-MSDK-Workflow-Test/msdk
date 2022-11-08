@@ -207,7 +207,8 @@ jobs:
                   if [[ $line == *"$svd_file"* ]]; then
                     # Add delimiter for list of lined register files
                     if [[ -n $register_files ]]; then
-                      register_files+=" "
+                      # Doing new line instead of space to format output to console.
+                      register_files+="\n"
                     fi
 
                     register_files+="Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h"
@@ -370,12 +371,11 @@ jobs:
                   periph=${periph%_regs.h}
                   chip_name=${updated_reg_file#*/Maxim/}
                   chip_name=${chip_name%%/*}
-                  find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .
+                  linked_reg_files=$(find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .)
                   
-                  #if [[ -n $? ]]; then
-                  #  echo -e "Contents: $?"
-                  #  echo -e "Please update all linked register files as well: \e[1;31m$?\m"
-                  #fi
+                  if [[ -n $linked_reg_files ]]; then
+                    echo -e "Please update all linked register files as well: \e[1;31m$linked_reg_files\n"
+                  fi
                 else
                   # Unsupported (Deprecated) register file. You can update as you like but it won't be added in the user guide if deprecated.
                   echo -e "[\e[0;31mERROR\e[0m] The corresponding peripheral SVD file does not exist. This register file is most likely deprecated or unsupported. Please contact ADI developers if this is incorrect.\n"
