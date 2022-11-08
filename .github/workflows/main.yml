@@ -212,8 +212,7 @@ jobs:
                     fi
                     
                     // Currently in msdk-internal/SVD/Device/{PART}/
-                    ls
-                    check_diffs=$(diff -u ../../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h ./chip_test/${periph}_regs.h) 
+                    check_diffs=$(diff -u ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h ./chip_test/${periph}_regs.h) 
                     echo "-----===============-----"
                     echo "$check_diffs"
                     register_files+="Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h"
