@@ -208,7 +208,7 @@ jobs:
                       register_files+=" "
                     fi
 
-                    register_files+=Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h
+                    register_files+="Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h"
                     break 1
                   fi
 
