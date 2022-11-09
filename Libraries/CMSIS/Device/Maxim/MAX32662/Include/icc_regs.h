@@ -113,13 +113,13 @@ typedef struct {
  * @brief    Cache ID Register.
  * @{
  */
-#define MXC_F_ICC_INFO_RELNUM_POS                      6 /**< INFO_RELNUM Position */
+#define MXC_F_ICC_INFO_RELNUM_POS                      0 /**< INFO_RELNUM Position */
 #define MXC_F_ICC_INFO_RELNUM                          ((uint32_t)(0x3FUL << MXC_F_ICC_INFO_RELNUM_POS)) /**< INFO_RELNUM Mask */
 
-#define MXC_F_ICC_INFO_PARTNUM_POS                     12 /**< INFO_PARTNUM Position */
+#define MXC_F_ICC_INFO_PARTNUM_POS                     6 /**< INFO_PARTNUM Position */
 #define MXC_F_ICC_INFO_PARTNUM                         ((uint32_t)(0xFUL << MXC_F_ICC_INFO_PARTNUM_POS)) /**< INFO_PARTNUM Mask */
 
-#define MXC_F_ICC_INFO_ID_POS                          20 /**< INFO_ID Position */
+#define MXC_F_ICC_INFO_ID_POS                          10 /**< INFO_ID Position */
 #define MXC_F_ICC_INFO_ID                              ((uint32_t)(0x3FUL << MXC_F_ICC_INFO_ID_POS)) /**< INFO_ID Mask */
 
 /**@} end of group ICC_INFO_Register */
@@ -130,10 +130,10 @@ typedef struct {
  * @brief    Memory Configuration Register.
  * @{
  */
-#define MXC_F_ICC_SZ_CCH_POS                           12 /**< SZ_CCH Position */
+#define MXC_F_ICC_SZ_CCH_POS                           0 /**< SZ_CCH Position */
 #define MXC_F_ICC_SZ_CCH                               ((uint32_t)(0xFFFFUL << MXC_F_ICC_SZ_CCH_POS)) /**< SZ_CCH Mask */
 
-#define MXC_F_ICC_SZ_MEM_POS                           32 /**< SZ_MEM Position */
+#define MXC_F_ICC_SZ_MEM_POS                           16 /**< SZ_MEM Position */
 #define MXC_F_ICC_SZ_MEM                               ((uint32_t)(0xFFFFUL << MXC_F_ICC_SZ_MEM_POS)) /**< SZ_MEM Mask */
 
 /**@} end of group ICC_SZ_Register */
