@@ -106,7 +106,7 @@ typedef struct {
  * @brief    ECC Enable Register.
  * @{
  */
-#define MXC_F_ECC_EN_SRAM_POS                          8 /**< EN_SRAM Position */
+#define MXC_F_ECC_EN_SRAM_POS                          7 /**< EN_SRAM Position */
 #define MXC_F_ECC_EN_SRAM                              ((uint32_t)(0x1UL << MXC_F_ECC_EN_SRAM_POS)) /**< EN_SRAM Mask */
 
 #define MXC_F_ECC_EN_ICC_POS                           9 /**< EN_ICC Position */
