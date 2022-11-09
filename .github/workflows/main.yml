@@ -385,17 +385,17 @@ jobs:
                 # REGISTER_SVD_FILE_LIST paths relative to script location being in the msdk repo but running pwd shows it's outside of msdk and msdk-internal repos.
                 if [[ -f "./${{ env.MSDK_DIR }}/${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}" ]]; then
                   if [[ -n $check_reg_diff ]]; then 
-                    echo -e "Please make sure both register file and SVD file are synced:"  
-                    echo -e "    \e[1;31m${updated_reg_file#./*/}"
-                    echo -e "    \e[1;31m${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}\n"
+                    echo -e "    Please make sure both register file and SVD file are synced:"  
+                    echo -e "        \e[1;31m${updated_reg_file#./*/}"
+                    echo -e "        \e[1;31m${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}"
                   fi
 
                   if [[ -n $linked_reg_files ]]; then
-                    echo -e "Please sync up all the register files linked to the peripheral SVD file - (${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}):"
+                    echo -e "    Please sync up all the register files linked to the peripheral SVD file - (${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}):"
                     
                     for change_linked_reg_files in $linked_reg_files
                     do
-                      echo -e "    \e[1;31m$change_linked_reg_files"
+                      echo -e "        \e[1;31m$change_linked_reg_files"
                     done
                   fi
                   
