@@ -400,14 +400,16 @@ jobs:
                   echo -e "\n"
                 else
                   # Unsupported (Deprecated) register file. You can update as you like but it won't be added in the user guide if deprecated.
-                  echo -e "[\e[0;31mERROR\e[0m] The corresponding peripheral SVD file does not exist or was renamed. This register file is most likely deprecated or unsupported. Please contact ADI developers if this is incorrect.\n"
-                  echo -e "[\e[1;33mWARNING\e[0m] Changes to this file should not be included into any MSDK file. If any MSDK file is dependent on this register file, then please contact ADI developers.\n"
+                  echo -e "[\e[0;31mERROR\e[0m] The corresponding peripheral SVD file does not exist or was renamed. This register file is most likely deprecated or unsupported. Please contact ADI developers if this is incorrect."
+                  echo -e "[\e[1;33mWARNING\e[0m] Changes to this file should not be included into any MSDK file. If any MSDK file is dependent on this register file, then please contact ADI developers.\n\n"
                 fi
                 CHECK_FAIL=1
               else
                 echo -e "[\e[0;32mVERIFIED\e[0m] Register File and Corresponding Peripheral SVD File are synced.\n"
               fi
             else
+              echo -e "[\e[0;37mVERIFYING\e[0m] Changed: \e[1;33m$updated_reg_file."
+              
               CHECK_FAIL=1
               check_for_at_deprecated=$(grep -rl "@deprecated" $updated_reg_file)
               if [[ -n $check_for_at_deprecated ]]; then
