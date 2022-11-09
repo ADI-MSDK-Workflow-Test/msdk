@@ -113,13 +113,13 @@ typedef struct {
  * @brief    Cache ID Register.
  * @{
  */
-#define MXC_F_ICC_INFO_RELNUM_POS                      0 /**< INFO_RELNUM Position */
+#define MXC_F_ICC_INFO_RELNUM_POS                      6 /**< INFO_RELNUM Position */
 #define MXC_F_ICC_INFO_RELNUM                          ((uint32_t)(0x3FUL << MXC_F_ICC_INFO_RELNUM_POS)) /**< INFO_RELNUM Mask */
 
-#define MXC_F_ICC_INFO_PARTNUM_POS                     6 /**< INFO_PARTNUM Position */
+#define MXC_F_ICC_INFO_PARTNUM_POS                     12 /**< INFO_PARTNUM Position */
 #define MXC_F_ICC_INFO_PARTNUM                         ((uint32_t)(0xFUL << MXC_F_ICC_INFO_PARTNUM_POS)) /**< INFO_PARTNUM Mask */
 
-#define MXC_F_ICC_INFO_ID_POS                          10 /**< INFO_ID Position */
+#define MXC_F_ICC_INFO_ID_POS                          20 /**< INFO_ID Position */
 #define MXC_F_ICC_INFO_ID                              ((uint32_t)(0x3FUL << MXC_F_ICC_INFO_ID_POS)) /**< INFO_ID Mask */
 
 /**@} end of group ICC_INFO_Register */
