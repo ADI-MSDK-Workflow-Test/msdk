@@ -397,10 +397,10 @@ jobs:
                     do
                       echo -e "    \e[1;31m$change_linked_reg_files"
                     done
-                    
-                    # New line for log output readability.
-                    echo -e "\n"
                   fi
+                  
+                  # New line for log output readability.
+                  echo -e "\n"
                 else
                   # Unsupported (Deprecated) register file. You can update as you like but it won't be added in the user guide if deprecated.
                   echo -e "[\e[0;31mERROR\e[0m] The corresponding peripheral SVD file does not exist. This register file is most likely deprecated or unsupported. Please contact ADI developers if this is incorrect.\n"
