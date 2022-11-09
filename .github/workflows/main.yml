@@ -296,7 +296,7 @@ jobs:
             
               chmod u+x makeRegs.sh
               ./makeRegs.sh ubuntu
-              grep -rl "$icc_reva.svd" chip_periph.txt
+              
               updated_part_list=${CHANGED_REG_FILES_PER_PART[$die_name]}
               
               # Keep track of corresponding peripheral SVD file
@@ -316,6 +316,7 @@ jobs:
                       svd_path=${line##*./}
                       svd_path=${svd_path%%;*}
 
+                      grep -rl "$periph" $CHIP_PERIPH
                       REGISTER_SVD_FILE_LIST[$changed_reg_file]=$svd_path
                       
                       # Remove found register file from list to minimize run time by remaking list
