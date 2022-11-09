@@ -402,7 +402,7 @@ jobs:
                 # non-deprecated version should be updated
                 # REGISTER_SVD_FILE_LIST paths relative to script location being in the msdk repo but running pwd shows it's outside of msdk and msdk-internal repos.
                 if [[ -f "./${{ env.MSDK_DIR }}/${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}" ]]; then
-                  echo -e "Please update both register file and SVD file so they match:"  
+                  echo -e "Please make sure both register file and SVD file are synced:"  
                   echo -e "\e[1;31m${updated_reg_file#./*/}"
                   echo -e "\e[1;31m${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}\n"
                   
@@ -414,7 +414,7 @@ jobs:
                   linked_reg_files=$(find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .)
                   #find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .
                   if [[ -n $linked_reg_files ]]; then
-                    echo -e "Please update all linked register files related to the peripheral SVD file: ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}"
+                    echo -e "Please sync up all the register files linked to the peripheral SVD file: ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}"
                     
                     for change_linked_reg_files in $linked_reg_files
                     do
