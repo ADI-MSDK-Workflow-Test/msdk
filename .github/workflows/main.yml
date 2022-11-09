@@ -365,7 +365,7 @@ jobs:
             
               # Check return for any differences
               if [[ $? != 0 ]]; then
-                echo -e "\n[\e[0;31mERROR\e[0m] ${updated_reg_file#./*/} does not match with corresponding SVD File."
+                echo -e "\n[\e[0;31mERROR\e[0m] \e[1;33m${updated_reg_file#./*/} \e[0mdoes not match with corresponding SVD File."
 
                 # DO NOT CHANGE register file if there is no corresponding SVD file. That means the register file is deprecated, and
                 # non-deprecated version should be updated
