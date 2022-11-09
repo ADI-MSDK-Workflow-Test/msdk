@@ -353,6 +353,8 @@ jobs:
           echo -e "\e[0;33mComparing Each Updated Register File to Generated Register File."
           echo -e "\n\e[0;33m==================================================================\n"
 
+          # NOTE: This section is heavy on conditional statements to handle all possible log outputs.
+
           CHECK_FAIL=0
           set +e
           for updated_reg_file in "${!DIFF_PR_REG_TO_SVD_REG_LIST[@]}"
@@ -381,10 +383,12 @@ jobs:
                 # non-deprecated version should be updated
                 # REGISTER_SVD_FILE_LIST paths relative to script location being in the msdk repo but running pwd shows it's outside of msdk and msdk-internal repos.
                 if [[ -f "./${{ env.MSDK_DIR }}/${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}" ]]; then
-                  echo -e "Please make sure both register file and SVD file are synced:"  
-                  echo -e "    \e[1;31m${updated_reg_file#./*/}"
-                  echo -e "    \e[1;31m${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}\n"
-                  
+                  if [[ -z $check_reg_diff ]]; then 
+                    echo -e "Please make sure both register file and SVD file are synced:"  
+                    echo -e "    \e[1;31m${updated_reg_file#./*/}"
+                    echo -e "    \e[1;31m${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}\n"
+                  fi
+
                   if [[ -n $linked_reg_files ]]; then
                     echo -e "Please sync up all the register files linked to the peripheral SVD file - (${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}):"
                     
