@@ -403,8 +403,8 @@ jobs:
                 # REGISTER_SVD_FILE_LIST paths relative to script location being in the msdk repo but running pwd shows it's outside of msdk and msdk-internal repos.
                 if [[ -f "./${{ env.MSDK_DIR }}/${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}" ]]; then
                   echo -e "Please update both register file and SVD file so they match:"  
-                  echo -e \e[1;31m${updated_reg_file#./*/}\n"
-                  echo -e \e[1;31m${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}\n"
+                  echo -e "\e[1;31m${updated_reg_file#./*/}"
+                  echo -e "\e[1;31m${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}\n"
                   
                   # Find all files linked to
                   periph=${updated_reg_file##*/}
