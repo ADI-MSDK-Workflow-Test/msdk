@@ -360,11 +360,22 @@ jobs:
             # Make sure the generated register file exists. If it doesn't, you've added a new register file. Please contact the developers.
             if [[ -f ${DIFF_PR_REG_TO_SVD_REG_LIST[$updated_reg_file]} ]]; then
               echo -e "[\e[0;37mCOMPARING\e[0m] Changed: \e[1;33m$updated_reg_file  \e[0m==>  Generated: \e[0;32m${DIFF_PR_REG_TO_SVD_REG_LIST[$updated_reg_file]}"
-              diff -u $updated_reg_file ${DIFF_PR_REG_TO_SVD_REG_LIST[$updated_reg_file]}
+              check_reg_diff=$(diff -u $updated_reg_file ${DIFF_PR_REG_TO_SVD_REG_LIST[$updated_reg_file]})
             
-              # Check return for any differences
-              if [[ $? != 0 ]]; then
-                echo -e "\n[\e[0;31mERROR\e[0m] \e[1;33m${updated_reg_file#./*/} \e[0mdoes not match with corresponding SVD File."
+              # Find all files linked to
+              periph=${updated_reg_file##*/}
+              periph=${periph%_regs.h}
+              chip_name=${updated_reg_file#*/Maxim/}
+              chip_name=${chip_name%%/*}
+              linked_reg_files=$(find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .)
+
+              # Check return for any differences and if there are any linked register files to update
+              if [[ -n $check_reg_diff || -n $linked_reg_files ]]; then
+                if [[ -z $check_reg_diff ]]; then
+                  echo -e "\n[\e[0;31mERROR\e[0m] Register File and corresponding Peripheral SVD File are synced, but there are other parts' register files dependent on this Peripheral SVD File."
+                else
+                  echo -e "\n[\e[0;31mERROR\e[0m] \e[1;33m${updated_reg_file#./*/} \e[0mdoes not match with corresponding SVD File."
+                fi
 
                 # DO NOT CHANGE register file if there is no corresponding SVD file. That means the register file is deprecated, and
                 # non-deprecated version should be updated
@@ -374,13 +385,6 @@ jobs:
                   echo -e "    \e[1;31m${updated_reg_file#./*/}"
                   echo -e "    \e[1;31m${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}\n"
                   
-                  # Find all files linked to
-                  periph=${updated_reg_file##*/}
-                  periph=${periph%_regs.h}
-                  chip_name=${updated_reg_file#*/Maxim/}
-                  chip_name=${chip_name%%/*}
-                  linked_reg_files=$(find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .)
-
                   if [[ -n $linked_reg_files ]]; then
                     echo -e "Please sync up all the register files linked to the peripheral SVD file - (${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}):"
                     
@@ -399,7 +403,7 @@ jobs:
                 fi
                 CHECK_FAIL=1
               else
-                echo -e "[\e[0;32mVERIFIED\e[0m] Register File and Corresponding Peripheral SVD File Matches.\n"
+                echo -e "[\e[0;32mVERIFIED\e[0m] Register File and Corresponding Peripheral SVD File are synced.\n"
               fi
             else
               # Exception for entirely new register files.
