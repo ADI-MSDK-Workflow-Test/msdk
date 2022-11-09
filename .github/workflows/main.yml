@@ -362,7 +362,8 @@ jobs:
             # Make sure the generated register file exists. If it doesn't, you've added a new register file. Please contact the developers.
             if [[ -f ${DIFF_PR_REG_TO_SVD_REG_LIST[$updated_reg_file]} ]]; then
               echo -e "[\e[0;37mCOMPARING\e[0m] Changed: \e[1;33m$updated_reg_file  \e[0m==>  Generated: \e[0;32m${DIFF_PR_REG_TO_SVD_REG_LIST[$updated_reg_file]}"
-              check_reg_diff=$(diff -u $updated_reg_file ${DIFF_PR_REG_TO_SVD_REG_LIST[$updated_reg_file]})
+              diff -u $updated_reg_file ${DIFF_PR_REG_TO_SVD_REG_LIST[$updated_reg_file]}
+              check_reg_diff=$?
             
               # Find all files linked to
               periph=${updated_reg_file##*/}
