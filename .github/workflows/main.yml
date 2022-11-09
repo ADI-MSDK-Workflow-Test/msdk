@@ -296,7 +296,7 @@ jobs:
             
               chmod u+x makeRegs.sh
               ./makeRegs.sh ubuntu
-              
+              grep -rl "$icc_reva.svd" chip_periph.txt
               updated_part_list=${CHANGED_REG_FILES_PER_PART[$die_name]}
               
               # Keep track of corresponding peripheral SVD file
