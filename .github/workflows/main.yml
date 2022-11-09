@@ -291,8 +291,7 @@ jobs:
               cd $die_name
             
               chmod u+x makeRegs.sh
-              hide_output=$(./makeRegs.sh ubuntu)
-              echo "Output: $?"
+              makeregs_log=$(./makeRegs.sh ubuntu)
               
               updated_part_list=${CHANGED_REG_FILES_PER_PART[$die_name]}
               
