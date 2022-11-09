@@ -408,7 +408,7 @@ jobs:
                 echo -e "[\e[0;32mVERIFIED\e[0m] Register File and Corresponding Peripheral SVD File are synced.\n"
               fi
             else
-              echo -e "[\e[0;37mVERIFYING\e[0m] Changed: \e[1;33m$updated_reg_file."
+              echo -e "[\e[0;37mVERIFYING\e[0m] Changed: \e[1;33m${updated_reg_file#./*/}."
               
               CHECK_FAIL=1
               check_for_at_deprecated=$(grep -rl "@deprecated" $updated_reg_file)
