@@ -299,45 +299,44 @@ jobs:
               
               updated_part_list=${CHANGED_REG_FILES_PER_PART[$die_name]}
               
-              # Keep track of corresponding peripheral SVD file
-              # Read chip_periph.txt
-              while read -r line; 
-              do  
-                if [[ -n $updated_part_list ]]; then
-                  # Check whether one of the changed register files matches with SVD path
-                  for changed_reg_file in ${CHANGED_REG_FILES_PER_PART[$die_name]}
-                  do
-                    # Isolate peripheral of changed register file to find corresponding peripheral SVD file
-                    periph=${changed_reg_file##*/}
-                    periph=${periph%_regs.h}
-                    
-                    # Check if peripheral SVD file matches with changed register file using the peripheral name
-                    if [[ "$line" == *"$periph"* ]]; then
-                      svd_path=${line##*./}
-                      svd_path=${svd_path%%;*}
+              # Keep track of corresponding peripheral SVD file to their changed register file
+              if [[ -n $updated_part_list ]]; then
+                # Check whether one of the changed register files matches with SVD path
+                for changed_reg_file in ${CHANGED_REG_FILES_PER_PART[$die_name]}
+                do
+                  # Isolate peripheral of changed register file to find corresponding peripheral SVD file
+                  periph=${changed_reg_file##*/}
+                  periph=${periph%_regs.h}
 
-                      REGISTER_SVD_FILE_LIST[$changed_reg_file]=$svd_path
-                      
-                      # Remove found register file from list to minimize run time by remaking list
-                      new_list=""
-                      for remaining_file in $updated_part_list
-                      do
-                        # Exclude found register file
-                        if [[ "$changed_reg_file" != "$remaining_file" ]]; then
-                          # Add a space as a delimiter if list has more than one item
-                          if [[ -n $updated_part_list ]]; then
-                            new_list+=" "
-                          fi
-                          
-                          new_list+=$remaining_file
+                  # This variable will be empty if no match
+                  CHECK_REG_DEPENDENCY=$(grep -rl "$periph" $CHIP_PERIPH)
+                  
+                  # Check if peripheral SVD file matches with changed register file using the peripheral name
+                  if [[ -n $CHECK_REG_DEPENDENCY ]]; then
+                    svd_path=${line##*./}
+                    svd_path=${svd_path%%;*}
+
+                    REGISTER_SVD_FILE_LIST[$changed_reg_file]=$svd_path
+                    
+                    # Remove found register file from list to minimize run time by remaking list
+                    new_list=""
+                    for remaining_file in $updated_part_list
+                    do
+                      # Exclude found register file
+                      if [[ "$changed_reg_file" != "$remaining_file" ]]; then
+                        # Add a space as a delimiter if list has more than one item
+                        if [[ -n $updated_part_list ]]; then
+                          new_list+=" "
                         fi
-                      done
-                      
-                      updated_part_list=$new_list                    
-                    fi
-                  done
-                fi 
-              done <$CHIP_PERIPH
+                        
+                        new_list+=$remaining_file
+                      fi
+                    done
+                    
+                    updated_part_list=$new_list                    
+                  fi
+                done
+              fi 
               
               cd ../
             done            
