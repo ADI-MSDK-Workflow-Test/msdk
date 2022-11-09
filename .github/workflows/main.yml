@@ -375,9 +375,9 @@ jobs:
               # Check return for any differences and if there are any linked register files to update
               if [[ -n $check_reg_diff || -n $linked_reg_files ]]; then
                 if [[ -z $check_reg_diff ]]; then
-                  echo -e "\n[\e[0;31mERROR\e[0m] Register File and corresponding Peripheral SVD File are synced, but there are other parts' register files dependent on this Peripheral SVD File."
+                  echo -e "[\e[0;31mERROR\e[0m] Register File and corresponding Peripheral SVD File are synced, but there are other parts' register files dependent on this Peripheral SVD File."
                 else
-                  echo -e "\n[\e[0;31mERROR\e[0m] \e[1;33m${updated_reg_file#./*/} \e[0mdoes not match with corresponding SVD File."
+                  echo -e "[\e[0;31mERROR\e[0m] \e[1;33m${updated_reg_file#./*/} \e[0mdoes not match with corresponding SVD File."
                 fi
 
                 # DO NOT CHANGE register file if there is no corresponding SVD file. That means the register file is deprecated, and
