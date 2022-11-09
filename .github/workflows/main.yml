@@ -223,6 +223,15 @@ jobs:
                     fi
                     
                     echo "Peripheral: $periph"
+                    
+                    if [[ -f ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h ]]; then
+                    
+                    fi
+                    
+                    if [[ -f ./chip_test/${periph}_regs.h ]]; then
+                    
+                    fi
+                    
                     echo "Reg: ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h"
                     echo "SVD: ./chip_test/${periph}_regs.h"
                     // Currently in msdk-internal/SVD/Device/{PART}/
