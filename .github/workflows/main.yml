@@ -223,8 +223,6 @@ jobs:
                     fi
                     
                     echo "Peripheral: $periph"
-                    file ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h
-                    file ./chip_test/${periph}_regs.h
                     if [[ -f ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h ]]; then
                       echo "Reg file yes."
                     fi
