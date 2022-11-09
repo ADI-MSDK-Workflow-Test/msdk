@@ -402,7 +402,7 @@ jobs:
                   chip_name=${chip_name%%/*}
                   #linked_reg_files=$(find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .)
                   find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .
-                  if [[ -n $linked_reg_files ]]; then
+                  if [[ 0 ]]; then
                     echo -e "Please update all linked register files related to the SVD file:"
                     
                     for change_linked_reg_files in $linked_reg_files
