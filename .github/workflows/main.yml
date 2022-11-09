@@ -235,7 +235,7 @@ jobs:
                     cd ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/
                     pwd
                     ls
-                    cd ../../../../../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/${part}/chip_test
+                    cd ../../../../../../../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/${part}/chip_test
                     pwd
                     ls
                     echo "SVD: ./chip_test/${periph}_regs.h"
