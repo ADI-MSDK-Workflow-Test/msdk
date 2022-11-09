@@ -2,7 +2,7 @@
 <device schemaVersion="1.1" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="svd_schema.xsd">
   <peripheral>
     <name>ECC</name>
-    <description>Trim System Initilazation Registers. ECC Registers for MAX32670.</description>
+    <description>Trim System Initilazation Registers. Renamed to ECC Registers for MAX32670.</description>
     <baseAddress>0x40105400</baseAddress>
     <addressBlock>
       <offset>0x00</offset>
