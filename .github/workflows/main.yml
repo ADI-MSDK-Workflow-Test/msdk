@@ -205,6 +205,8 @@ jobs:
                 while read -r line;
                 do
                   if [[ $line == *"$svd_file"* ]]; then
+                    echo "Line: $line"
+                    echo "SVD: $svd_file"
                     # Add delimiter for list of lined register files
                     if [[ -n $register_files ]]; then
                       # Doing new line instead of space and color to format output to console.
@@ -212,10 +214,15 @@ jobs:
                     fi
                     
                     # Need to generate register files for part if it wasn't already generated.
-                    if [[ ! -d ./chip_test ]]; then
+                    if [[ ! (-d ./chip_test) ]]; then
+                      echo "Creating $part"
                       chmod u+x makeRegs.sh
-                      make=$(./makeRegs.sh ubuntu)                     
+                      make=$(./makeRegs.sh ubuntu)
+                      pwd
+                      ls
                     fi
+                    
+                    echo "Peripheral: $periph"
                     
                     // Currently in msdk-internal/SVD/Device/{PART}/
                     check_diffs=$(diff -u ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h ./chip_test/${periph}_regs.h) 
