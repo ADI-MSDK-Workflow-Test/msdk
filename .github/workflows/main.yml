@@ -215,7 +215,7 @@ jobs:
                     
                     # Need to generate register files for part if it wasn't already generated.
                     if [[ ! (-d ./chip_test) ]]; then
-                      echo "Creating $part"
+                      #echo "Creating $part"
                       chmod u+x makeRegs.sh
                       make=$(./makeRegs.sh ubuntu)
                       #pwd
@@ -408,8 +408,8 @@ jobs:
                   periph=${periph%_regs.h}
                   chip_name=${updated_reg_file#*/Maxim/}
                   chip_name=${chip_name%%/*}
-                  #linked_reg_files=$(find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .)
-                  find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .
+                  linked_reg_files=$(find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .)
+                  #find_linked_register_files ${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]} $periph $chip_name .
                   if [[ -n $linked_reg_files ]]; then
                     echo -e "Please update all linked register files related to the SVD file:"
                     
