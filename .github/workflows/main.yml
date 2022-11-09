@@ -387,7 +387,7 @@ jobs:
                     
                     for change_linked_reg_files in $linked_reg_files
                     do
-                      echo -e "\e[1;31m$change_linked_reg_files"
+                      echo -e "    \e[1;31m$change_linked_reg_files"
                     done
                     
                     # New line for log output readability.
