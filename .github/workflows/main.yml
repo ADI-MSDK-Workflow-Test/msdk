@@ -158,6 +158,9 @@ jobs:
           # Find diff in MSDK repo
           cd ${{ env.MSDK_DIR }}
           CHANGED_REGISTER_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master './Libraries/CMSIS/Device/Maxim/*/Include/*_regs.h')
+          if [[ -z $CHANGED_REGISTER_FILES ]]; then
+            # Find SVD files and their corresponding register files.
+          fi
           
           # This set keeps tracks of all the parts (chip names) with updated register files. (No duplicates).
           # The path to the register files from top of MSDK repo requires chip name.
