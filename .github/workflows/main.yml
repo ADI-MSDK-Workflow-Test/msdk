@@ -205,13 +205,11 @@ jobs:
               fi
             done
             
-            echo "SVD Devices: ${SVD_DEVICES[@]}"
-            
             for part in ${SVD_DEVICES[@]}
             do
               # Exclude the part that triggered discovery of SVD file (if any)
               # Exclude any folders not relating to any of the parts
-              if [[ ${DIE_TO_CHIP_NAMES[$part]+_} && -d $part && $part != ${CHIP_TO_DIE_NAMES[$chip_name]} ]]; then
+              if [[ -n ${DIE_TO_CHIP_NAMES[$part]} && -d $part && $part != ${CHIP_TO_DIE_NAMES[$chip_name]} ]]; then
                 cd $part
 
                 check_if_svd_file_exists=$(grep -rl "$svd_file" $CHIP_PERIPH)
