@@ -238,7 +238,7 @@ jobs:
             # Return to workspace
             cd ../../../
           }
-          #---------= END - FUNCTION find_linked_register_files =---------
+          #---------= END - FUNCTION find_linked_register_files =---------      
         
           #---------------------------
           # Grab the part relating to the changed register file and add them to appropriate lists.
@@ -295,7 +295,8 @@ jobs:
             
               for linked_reg_file in $reg_files_linked_to_changed_svd_files
               do
-                if [[ ! "$CHANGED_OR_AFFECTED_REGISTER_FILES" =~ "$linked_reg_file" ]]; then                  
+                if [[ ! "$CHANGED_OR_AFFECTED_REGISTER_FILES" =~ "$linked_reg_file" ]]; then
+                  # Add space delimiter for string variable list
                   if [[ -n $CHANGED_OR_AFFECTED_REGISTER_FILES ]]; then
                     CHANGED_OR_AFFECTED_REGISTER_FILES+=" "
                   fi
@@ -305,8 +306,8 @@ jobs:
             fi
           fi
           
-          # Sort list alphabetically
-          CHANGED_OR_AFFECTED_REGISTER_FILES=`for i in $CHANGED_OR_AFFECTED_REGISTER_FILES; do echo $i; done | sort -nu`
+          # Sort register files in order.
+          echo $CHANGED_OR_AFFECTED_REGISTER_FILES | tr " " "\n" | sort | tr "\n" " "
           
           for changed_reg_file in $CHANGED_OR_AFFECTED_REGISTER_FILES
           do        
