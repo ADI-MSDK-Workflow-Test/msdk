@@ -253,6 +253,9 @@ jobs:
           CHANGED_REGISTER_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master './Libraries/CMSIS/Device/Maxim/*/Include/*_regs.h')
           CHANGED_PERIPH_SVD_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master './Libraries/PeriphDrivers/Source/*/*.svd')
           
+          # All register files that were changed or linked to a changed peripheral SVD file
+          CHANGED_OR_AFFECTED_REGISTER_FILES=""
+          
           if [[ -n $CHANGED_PERIPH_SVD_FILES ]]; then
             reg_files_linked_to_changed_svd_files=""
             
@@ -284,23 +287,27 @@ jobs:
               reg_files_linked_to_changed_svd_files+=$(find_linked_register_files $changed_svd_file $periph "" ../)
             done
             
-            # Add linked register files to changed peripheral files to CHANGED_REGISTER_FILES list.
+            # Add linked register files to CHANGED_OR_AFFECTED_REGISTER_FILES list.
             if [[ -z $CHANGED_REGISTER_FILES ]]; then
-              CHANGED_REGISTER_FILES=$reg_files_linked_to_changed_svd_files
+              CHANGED_OR_AFFECTED_REGISTER_FILES=$reg_files_linked_to_changed_svd_files
             else
+              CHANGED_OR_AFFECTED_REGISTER_FILES=$CHANGED_REGISTER_FILES
+            
               for linked_reg_file in $reg_files_linked_to_changed_svd_files
               do
-                if [[ ! "$CHANGED_REGISTER_FILES" =~ "$linked_reg_file" ]]; then                  
-                  if [[ -n $CHANGED_REGISTER_FILES ]]; then
-                    CHANGED_REGISTER_FILES+=" "
+                if [[ ! "$CHANGED_OR_AFFECTED_REGISTER_FILES" =~ "$linked_reg_file" ]]; then                  
+                  if [[ -n $CHANGED_OR_AFFECTED_REGISTER_FILES ]]; then
+                    CHANGED_OR_AFFECTED_REGISTER_FILES+=" "
                   fi
-                  CHANGED_REGISTER_FILES+=$linked_reg_file
+                  CHANGED_OR_AFFECTED_REGISTER_FILES+=$linked_reg_file
                 fi
               done
             fi
           fi
           
-          for changed_reg_file in $CHANGED_REGISTER_FILES
+          sort $CHANGED_OR_AFFECTED_REGISTER_FILES
+          
+          for changed_reg_file in $CHANGED_OR_AFFECTED_REGISTER_FILES
           do        
             # Removing (prefix) path to [CHIP_NAME]/Include/*_regs.h
             CHIP_NAME=${changed_reg_file#*/Maxim/}
