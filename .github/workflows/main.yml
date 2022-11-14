@@ -287,9 +287,6 @@ jobs:
               reg_files_linked_to_changed_svd_files+=$(find_linked_register_files $changed_svd_file $periph "" ../)
             done
             
-            # Sort list alphabetically
-            CHANGED_OR_AFFECTED_REGISTER_FILES=`for i in $CHANGED_OR_AFFECTED_REGISTER_FILES; do echo $i; done | sort -nu`
-            
             # Add linked register files to CHANGED_OR_AFFECTED_REGISTER_FILES list.
             if [[ -z $CHANGED_REGISTER_FILES ]]; then
               CHANGED_OR_AFFECTED_REGISTER_FILES=$reg_files_linked_to_changed_svd_files
@@ -307,7 +304,10 @@ jobs:
               done
             fi
           fi
-                    
+          
+          # Sort list alphabetically
+          CHANGED_OR_AFFECTED_REGISTER_FILES=`for i in $CHANGED_OR_AFFECTED_REGISTER_FILES; do echo $i; done | sort -nu`
+          
           for changed_reg_file in $CHANGED_OR_AFFECTED_REGISTER_FILES
           do        
             # Removing (prefix) path to [CHIP_NAME]/Include/*_regs.h
