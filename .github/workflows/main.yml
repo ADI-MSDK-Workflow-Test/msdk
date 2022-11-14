@@ -226,7 +226,7 @@ jobs:
                   check_linked_reg_diffs=$(diff -u ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h ./chip_test/${periph}_regs.h)
                   
                   # For conditions when you want to find all linked register files to current peripheral SVD file
-                  if [[  ${CHIP_TO_DIE_NAMES[$chip_name]+_} ]]; then
+                  if [[ ${CHIP_TO_DIE_NAMES[$chip_name]+_} ]]; then
                     check_orig_reg_diffs=$(diff -u ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${chip_name}/Include/${periph}_regs.h ../${CHIP_TO_DIE_NAMES[$chip_name]}/chip_test/${periph}_regs.h)
                   fi
                   
@@ -257,7 +257,6 @@ jobs:
           cd ${{ env.MSDK_DIR }}
           CHANGED_REGISTER_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master './Libraries/CMSIS/Device/Maxim/*/Include/*_regs.h')
           CHANGED_PERIPH_SVD_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master './Libraries/PeriphDrivers/Source/*/*.svd')
-          echo "$CHANGED_PERIPH_SVD_FILES"
           
           if [[ -n $CHANGED_PERIPH_SVD_FILES ]]; then
             reg_files_linked_to_changed_svd_files=""
@@ -284,26 +283,18 @@ jobs:
                 done
               fi
               
-              echo "Periph: $periph"
-              
-              #find_linked_register_files $changed_svd_file $periph "" ../
-              
               if [[ -n $reg_files_linked_to_changed_svd_files ]]; then
                 reg_files_linked_to_changed_svd_files+=" "
               fi
               reg_files_linked_to_changed_svd_files+=$(find_linked_register_files $changed_svd_file $periph "" ../)
             done
             
-            #echo "Linked: $reg_files_linked_to_changed_svd_files"
-            
             if [[ -z $CHANGED_REGISTER_FILES ]]; then
               CHANGED_REGISTER_FILES=$reg_files_linked_to_changed_svd_files
             else
               for linked_reg_file in $reg_files_linked_to_changed_svd_files
               do
-                if [[ ! "$CHANGED_REGISTER_FILES" =~ "$linked_reg_file" ]]; then
-                  #echo "$linked_reg_file"
-                  
+                if [[ ! "$CHANGED_REGISTER_FILES" =~ "$linked_reg_file" ]]; then                  
                   if [[ -n $CHANGED_REGISTER_FILES ]]; then
                     CHANGED_REGISTER_FILES+=" "
                   fi
@@ -464,7 +455,7 @@ jobs:
                   fi
 
                   if [[ -n $linked_reg_files ]]; then
-                    echo -e "        Please sync up all the register files linked to the peripheral SVD file - (${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}):"
+                    echo -e "        Please sync up all other register files linked to the peripheral SVD file - (${REGISTER_SVD_FILE_LIST[${updated_reg_file#./*/}]}):"
                     
                     for change_linked_reg_files in $linked_reg_files
                     do
