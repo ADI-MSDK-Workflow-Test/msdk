@@ -195,12 +195,10 @@ jobs:
             do
               [[ -d $file ]] || continue
 
-              if [[ -n ${DIE_TO_CHIP_NAMES[$file]} ]]; then
+              if [[ ${DIE_TO_CHIP_NAMES[$file]+_} ]]; then
                 SVD_DEVICES+=($file)
               fi
-              echo "Adding SVD Devices File: $file"
             done
-            echo "Adding SVD Devices File: ${SVD_DEVICES[@]}"
             
             for part in $SVD_DEVICES
             do
