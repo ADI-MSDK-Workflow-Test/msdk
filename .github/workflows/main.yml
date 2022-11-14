@@ -265,8 +265,8 @@ jobs:
               periph=${changed_svd_file##*/}
               
               # Check if "Peripheral Rev#" SVD File or "SYS/SVD" (e.g. gcr_me14.svd) SVD File.
-              if [[ "_rev" =~ "$periph" ]]; then
-                periph=${periph%_rev*.svd}
+              if [[ "$periph" =~ "_rev" ]]; then
+                periph=${periph%_rev*}
               else
                 # Remove attached die type name (Usually SYS register SVD files like gcr_me14.svd and fcr_me18.svd)
                 for die_name in ${!DIE_TO_CHIP_NAMES[@]}
