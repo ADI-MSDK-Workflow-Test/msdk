@@ -260,7 +260,7 @@ jobs:
           echo "$CHANGED_PERIPH_SVD_FILES"
           
           if [[ -n $CHANGED_PERIPH_SVD_FILES ]]; then
-            declare reg_files_linked_to_changed_svd_files
+            declare -a reg_files_linked_to_changed_svd_files
             
             # Find SVD files and their corresponding register files.
             for changed_svd_file in $CHANGED_PERIPH_SVD_FILES
@@ -286,6 +286,8 @@ jobs:
               
               echo "Periph: $periph"
               
+              find_linked_register_files $changed_svd_file $periph "" ../
+              
               reg_files_linked_to_changed_svd_files+=($(find_linked_register_files $changed_svd_file $periph "" ../))
             done
             
@@ -297,7 +299,7 @@ jobs:
             else
               for linked_reg_file in $reg_files_linked_to_changed_svd_files
               do
-                if [[ ! "${CHANGED_REGISTER_FILES[*]}" =~ "$linked_reg_file" ]]; then
+                if [[ ! "$CHANGED_REGISTER_FILES" =~ "$linked_reg_file" ]]; then
                   echo "$linked_reg_file"
                   
                   if [[ -n $CHANGED_REGISTER_FILES ]]; then
