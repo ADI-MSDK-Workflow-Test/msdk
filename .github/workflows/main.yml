@@ -247,6 +247,8 @@ jobs:
           cd ${{ env.MSDK_DIR }}
           CHANGED_REGISTER_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master './Libraries/CMSIS/Device/Maxim/*/Include/*_regs.h')
           CHANGED_PERIPH_SVD_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master './Libraries/PeriphDrivers/Source/*/*.svd')
+          echo "$CHANGED_PERIPH_SVD_FILES"
+          
           if [[ -n $CHANGED_PERIPH_SVD_FILES ]]; then
             declare reg_files_linked_to_changed_svd_files
             
@@ -373,11 +375,11 @@ jobs:
                         # Exclude found register file
                         if [[ "$changed_reg_file" != "$remaining_file" ]]; then
                           # Add a space as a delimiter if list has more than one item
-                          #if [[ -n $updated_part_list ]]; then
-                          #  new_list+=" "
-                          #fi
+                          if [[ -n $updated_part_list ]]; then
+                            new_list+=" "
+                          fi
                           
-                          new_list+=($remaining_file)
+                          new_list+=$remaining_file
                         fi
                       done
                       
