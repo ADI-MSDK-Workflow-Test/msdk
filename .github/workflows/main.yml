@@ -300,10 +300,10 @@ jobs:
             
             # Each element (part) of associative array is a list of changed files
             # Add space delimiter if not empty
-            if [[ ${#CHANGED_REG_FILES_PER_PART[@]} ]]; then
-              CHANGED_REG_FILES_PER_PART[${CHIP_TO_DIE_NAMES[$CHIP_NAME]}]+=" "
-            fi
-            CHANGED_REG_FILES_PER_PART[${CHIP_TO_DIE_NAMES[$CHIP_NAME]}]+=$changed_reg_file
+            #if [[ ${#CHANGED_REG_FILES_PER_PART[@]} ]]; then
+            #  CHANGED_REG_FILES_PER_PART[${CHIP_TO_DIE_NAMES[$CHIP_NAME]}]+=" "
+            #fi
+            CHANGED_REG_FILES_PER_PART[${CHIP_TO_DIE_NAMES[$CHIP_NAME]}]+=($changed_reg_file)
 
             # Keep track of affected parts, don't add duplicates.
             if [[ ! "${AFFECTED_CHIP_SET[*]}" =~ "$CHIP_NAME" ]]; then
