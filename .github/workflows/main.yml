@@ -304,9 +304,7 @@ jobs:
               done
             fi
           fi
-          
-          sort $CHANGED_OR_AFFECTED_REGISTER_FILES
-          
+                    
           for changed_reg_file in $CHANGED_OR_AFFECTED_REGISTER_FILES
           do        
             # Removing (prefix) path to [CHIP_NAME]/Include/*_regs.h
