@@ -205,6 +205,8 @@ jobs:
               fi
             done
             
+            echo "SVD Devices: ${SVD_DEVICES[@]}"
+            
             for part in $SVD_DEVICES
             do
               # Exclude the part that triggered discovery of SVD file (if any)
