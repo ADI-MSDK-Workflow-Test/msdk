@@ -286,6 +286,7 @@ jobs:
               for linked_reg_file in $reg_files_linked_to_changed_svd_files
               do
                 if [[ ! "${CHANGED_REGISTER_FILES[*]}" =~ "$linked_reg_file" ]]; then
+                  echo "$linked_reg_file"
                   CHANGED_REGISTER_FILES+=($linked_reg_file)
                 fi
               done
