@@ -313,7 +313,7 @@ jobs:
               # Create list with die name of affected parts for SVD scripts as you go
               # List will have " " (space) as the delimiter
               # Only add space when you're adding more than one item into list.
-              if [[ ! -z "$AFFECTED_DIE_LIST" ]]; then
+              if [[ -n "$AFFECTED_DIE_LIST" ]]; then
                 AFFECTED_DIE_LIST+=" "
               fi
               AFFECTED_DIE_LIST+="${CHIP_TO_DIE_NAMES[$CHIP_NAME]}"
