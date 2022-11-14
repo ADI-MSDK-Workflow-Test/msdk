@@ -200,10 +200,6 @@ jobs:
               fi
             done
             
-            if [[ ${CHIP_TO_DIE_NAMES[$chip_name]+_} ]]; then
-            
-            fi
-            
             for part in $SVD_DEVICES
             do
               # Exclude the part that triggered discovery of SVD file (if any)
