@@ -355,9 +355,11 @@ jobs:
             do
               echo -e "[\e[1;33m$die_name\e[0m] Generating Register Files."
               cd $die_name
-            
-              chmod u+x makeRegs.sh
-              makeregs_log=$(./makeRegs.sh ubuntu)
+          
+              if [[ ! (-d ./chip_test) ]]; then
+                chmod u+x makeRegs.sh
+                makeregs_log=$(./makeRegs.sh ubuntu)
+              fi
               
               updated_part_list=${CHANGED_REG_FILES_PER_PART[$die_name]}
               
