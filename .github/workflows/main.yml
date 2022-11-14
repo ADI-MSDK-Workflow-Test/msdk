@@ -200,10 +200,22 @@ jobs:
               fi
             done
             
+            if [[ ${CHIP_TO_DIE_NAMES[$chip_name]+_} ]]; then
+            
+            fi
+            
             for part in $SVD_DEVICES
             do
-              # Exclude the part that triggered discovery of SVD file (if any)           
-              if [[ ${DIE_TO_CHIP_NAMES[$part]+_} && -d $part && $part != ${CHIP_TO_DIE_NAMES[$chip_name]} ]]; then
+              # Exclude the part that triggered discovery of SVD file (if any)
+              # Make sure input chip_name exists
+              if [[ ${CHIP_TO_DIE_NAMES[$chip_name]+_} ]]; then
+                if [[ $part != ${CHIP_TO_DIE_NAMES[$chip_name]} ]]; then
+                  continue
+                fi
+              fi
+              
+              # Exclude any folders not relating to any of the parts
+              if [[ ${DIE_TO_CHIP_NAMES[$part]+_} && -d $part ]]; then
                 cd $part
 
                 check_if_svd_file_exists=$(grep -rl "$svd_file" $CHIP_PERIPH)
