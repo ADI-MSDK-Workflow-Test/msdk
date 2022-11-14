@@ -263,15 +263,14 @@ jobs:
                 periph=${periph%_rev*.svd}
               else
                 # Remove attached die type name (Usually SYS register SVD files like gcr_me14.svd and fcr_me18.svd)
-                for die_name in "${!DIE_TO_CHIP_NAMES[@]}"
-                do
+                if [[ ${DIE_TO_CHIP_NAMES[$die_name]+_} ]]; then
                   lowercase_die_name=${die_name,,}
                   
                   if [[ "_${lowercase_die_name}" =~ "$periph" ]]; then
                     periph=${periph%_${lowercase_die_name}.svd}
                     break
                   fi
-                done
+                fi
               fi
               
               reg_files_linked_to_changed_svd_files+=($(find_linked_register_files $changed_svd_file $periph "" ../))
@@ -287,7 +286,11 @@ jobs:
               do
                 if [[ ! "${CHANGED_REGISTER_FILES[*]}" =~ "$linked_reg_file" ]]; then
                   echo "$linked_reg_file"
-                  CHANGED_REGISTER_FILES+=($linked_reg_file)
+                  
+                  if [[ -n $CHANGED_REGISTER_FILES ]]; then
+                    CHANGED_REGISTER_FILES+=" "
+                  fi
+                  CHANGED_REGISTER_FILES+=$linked_reg_file
                 fi
               done
             fi
