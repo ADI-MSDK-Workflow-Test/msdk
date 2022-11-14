@@ -207,7 +207,7 @@ jobs:
             
             echo "SVD Devices: ${SVD_DEVICES[@]}"
             
-            for part in $SVD_DEVICES
+            for part in ${SVD_DEVICES[@]}
             do
               # Exclude the part that triggered discovery of SVD file (if any)
               # Exclude any folders not relating to any of the parts
