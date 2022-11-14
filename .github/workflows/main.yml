@@ -193,9 +193,9 @@ jobs:
             declare -a SVD_DEVICES
             for file in *
             do
-              [[ -d $file && test ${DIE_TO_CHIP_NAMES[${file}]} ]] || continue
-              
-              SVD_DEVICES+=$file
+              [[ test ${DIE_TO_CHIP_NAMES[${file}]} && -d $file]] || continue
+
+              SVD_DEVICES+=($file)
               echo "Adding SVD Devices File: $file
             done
             echo "Adding SVD Devices File: ${SVD_DEVICES[@]}"
