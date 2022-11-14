@@ -176,7 +176,7 @@ jobs:
           # Inputs:
           #   $1 - Current peripheral SVD file that you're comparing all the other register/peripheral SVD files to (You can include path to SVD file or just the file name)
           #   $2 - Periperal of current peripheral SVD file
-          #   $3 - Chip name of current peripheral SVD file
+          #   $3 - Chip name of current peripheral SVD file.
           #   $4 - Path to workspace (outside of msdk and msdk-internal repos)
           # Return:
           #   $? - List of register files that are linked and aren't synced to the SVD file.
@@ -186,6 +186,11 @@ jobs:
             periph=${2,,}
             chip_name=$3
             workspace_path=$4
+            
+            # Adding this associative arrays throws an error for empty keys
+            if [[ -z $chip_name ]]; then
+              chip_name=no_chip_name
+            fi
             
             cd ./${workspace_path}/${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
             
@@ -202,16 +207,9 @@ jobs:
             
             for part in $SVD_DEVICES
             do
-              # Exclude the part that triggered discovery of SVD file (if any)
-              # Make sure input chip_name exists
-              if [[ ${CHIP_TO_DIE_NAMES[$chip_name]+_} ]]; then
-                if [[ $part != ${CHIP_TO_DIE_NAMES[$chip_name]} ]]; then
-                  continue
-                fi
-              fi
-              
+              # Exclude the part that triggered discovery of SVD file (if any)              
               # Exclude any folders not relating to any of the parts
-              if [[ ${DIE_TO_CHIP_NAMES[$part]+_} && -d $part ]]; then
+              if [[ ${DIE_TO_CHIP_NAMES[$part]+_} && -d $part && $part != ${CHIP_TO_DIE_NAMES[$chip_name]}]]; then
                 cd $part
 
                 check_if_svd_file_exists=$(grep -rl "$svd_file" $CHIP_PERIPH)
