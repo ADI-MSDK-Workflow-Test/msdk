@@ -288,7 +288,7 @@ jobs:
             done
             
             # Sort list alphabetically
-            CHANGED_OR_AFFECTED_REGISTER_FILES=`for i in $list; do echo $i; done | sort -nu`
+            CHANGED_OR_AFFECTED_REGISTER_FILES=`for i in $CHANGED_OR_AFFECTED_REGISTER_FILES; do echo $i; done | sort -nu`
             
             # Add linked register files to CHANGED_OR_AFFECTED_REGISTER_FILES list.
             if [[ -z $CHANGED_REGISTER_FILES ]]; then
