@@ -259,7 +259,7 @@ jobs:
           CHANGED_PERIPH_SVD_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master './Libraries/PeriphDrivers/Source/*/*.svd')
           
           # This includes all register files linked to any changed peripheral SVD files even if said register files were not changed in the PR.
-          CHANGED_OR_AFFECTED_REGISTER_FILES=""
+          CHANGED_OR_AFFECTED_REGISTER_FILES=$CHANGED_REGISTER_FILES
           if [[ -n $CHANGED_PERIPH_SVD_FILES ]]; then
             reg_files_linked_to_changed_svd_files=""
             
@@ -295,7 +295,7 @@ jobs:
             if [[ -z $CHANGED_REGISTER_FILES ]]; then
               CHANGED_OR_AFFECTED_REGISTER_FILES=$reg_files_linked_to_changed_svd_files
             else
-              CHANGED_OR_AFFECTED_REGISTER_FILES=$CHANGED_REGISTER_FILES
+              #CHANGED_OR_AFFECTED_REGISTER_FILES=$CHANGED_REGISTER_FILES
             
               for linked_reg_file in $reg_files_linked_to_changed_svd_files
               do
