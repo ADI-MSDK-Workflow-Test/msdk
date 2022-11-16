@@ -110,9 +110,7 @@ jobs:
               echo "Is: $is_necessary_svd_files   --   $svd_file"
               ls
               pwd
-              ls Libraries/PeriphDrivers/Source/GPIO
-              find $svd_file
-              
+              ls Libraries/PeriphDrivers/Source/GPIO              
               
               if [[ -n $is_necessary_svd_file ]]; then
                 # Check for deletion
