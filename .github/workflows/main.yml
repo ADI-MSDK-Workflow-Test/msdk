@@ -108,7 +108,8 @@ jobs:
               find ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/*/$CHIP_PERIPH -exec grep -s "$svd_file" {} \;
               is_necessary_svd_files=$(find ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/*/$CHIP_PERIPH -exec grep -s "$svd_file" {} \;)
               echo "Is: $is_necessary_svd_files   --   $svd_file"
-              
+              ls
+              pwd
               find $svd_file
               if [[ -n $is_necessary_svd_file ]]; then
                 # Check for deletion
