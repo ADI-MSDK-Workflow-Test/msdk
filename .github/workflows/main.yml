@@ -93,6 +93,8 @@ jobs:
       - name: Important Peripheral SVD Files were deleted. Failed.
         if: env.DIFF_FILES_FLAG == 'true'
         run: |
+          # Enter msdk repo.
+          cd ${{ env.MSDK_DIR }}
           PERIPH_SVD_FILE_LIST=$(git diff --ignore-submodules --name-only remotes/origin/master './Libraries/PeriphDrivers/Source/*/*.svd')
 
           # Keep track of all deleted SVD files.
@@ -127,6 +129,9 @@ jobs:
             
             exit 1
           fi
+          
+          # Exit msdk repo for next step.
+          cd ..
           
       # SVD Scripts require software that's not preinstalled with GitHub workflow servers.
       # Only install packages if there are register files to verify. Saves time if there are no
