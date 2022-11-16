@@ -15,6 +15,9 @@ env:
   MSDK_DIR: msdk
   MSDK-INTERNAL_DIR: msdk-internal
   
+  # Generic name of file with all peripheral SVD file paths.
+  CHIP_PERIPH: chip_periph.txt
+  
   # Check effected parts.
   # GLOSSARY:
   # Chip name will mean the designation number of microcontroller like MAX32670 and MAX78000
@@ -85,6 +88,13 @@ jobs:
         run: |
           echo "None of the committed files were updated register files. No need to check differences."
           exit 0
+      
+      # Check for any deleted peripheral SVD file
+      - name: Important Peripheral SVD File was deleted. .
+        if: env.DIFF_FILES_FLAG == 'true'
+        run: |
+          echo "None of the committed files were updated register files. No need to check differences."
+          exit 0
           
       # SVD Scripts require software that's not preinstalled with GitHub workflow servers.
       # Only install packages if there are register files to verify. Saves time if there are no
@@ -92,8 +102,31 @@ jobs:
       - name: Detected Register File Change. Install required packages for scripts.
         if: env.DIFF_FILES_FLAG == 'true'
         run: |
-          # Install XMLFormatter for scripts.
-          sudo apt-get install -y xmlformat-perl
+            PERIPH_SVD_FILE_LIST=$(git diff --ignore-submodules --name-only remotes/origin/master './Libraries/PeriphDrivers/Source/*/*.svd')
+            
+            # Keep track of all deleted SVD files.
+            DELETED_PERIPH_SVD_FILE_LIST=""
+            
+            for svd_file in $PERIPH_SVD_FILE_LIST
+            do
+              # Make sure deleted peripheral SVD file is a necessary for the register generation.
+              is_necessary_svd_files=$(find ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/*/$CHIP_PERIPH -exec grep -s "$svd_file" {} \;)
+              if [[ -n $is_necessary_svd_file ]]; then
+                # Check for deletion
+                if [[ ! -f $svd_file ]]; then
+                  # Add space delimiter for variable string list
+                  if [[ -n $DELETED_SVD_FILE_LIST ]]; then
+                    DELETED_PERIPH_SVD_FILE_LIST+=" "
+                  fi
+
+                  DELETED_PERIPH_SVD_FILE_LIST+=$svd_file
+                fi
+              fi
+            done       
+            
+            if [[ -n $DELETED_PERIPH_SVD_FILE_LIST ]]; then
+              
+            fi
             
       # Generate the register file for all affected parts.
       # Only generate register files if there are committed register files to verify And if the software packages properly installed. \
