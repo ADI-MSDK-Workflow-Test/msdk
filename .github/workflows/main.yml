@@ -226,11 +226,17 @@ jobs:
                   check_linked_reg_diffs=$(diff -u ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h ./chip_test/${periph}_regs.h)
                   
                   # For conditions when you want to find all linked register files to current peripheral SVD file
-                  if [[ ${CHIP_TO_DIE_NAMES[$chip_name]+_} ]]; then
+                  #if [[ ${CHIP_TO_DIE_NAMES[$chip_name]+_} ]]; then
+                  #  check_orig_reg_diffs=$(diff -u ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${chip_name}/Include/${periph}_regs.h ../${CHIP_TO_DIE_NAMES[$chip_name]}/chip_test/${periph}_regs.h)
+                  #fi
+                  
+                  check_orig_reg_diffs=""
+                  # If a register file was changed but not the generic peripheral SVD file.
+                  if [[ "$chip_name" != "no_chip_name" ]]; then
                     check_orig_reg_diffs=$(diff -u ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${chip_name}/Include/${periph}_regs.h ../${CHIP_TO_DIE_NAMES[$chip_name]}/chip_test/${periph}_regs.h)
                   fi
                   
-                  if [[ -n $check_linked_reg_diffs ]]; then
+                  if [[ -n $check_linked_reg_diffs || -n $check_orig_reg_diffs ]]; then
                     echo "Libraries/CMSIS/Device/Maxim/${DIE_TO_CHIP_NAMES[$part]}/Include/${periph}_regs.h"
                   fi
                 fi
