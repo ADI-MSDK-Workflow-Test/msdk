@@ -50,4 +50,6 @@
 #include "gcfr_regs.h"
 #define MXC_BBFC MXC_GCFR
 
+#define TEST
+
 #endif // LIBRARIES_CMSIS_DEVICE_MAXIM_MAX78000_INCLUDE_BBFC_REGS_H_

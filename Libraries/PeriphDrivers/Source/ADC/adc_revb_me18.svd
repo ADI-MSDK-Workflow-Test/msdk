@@ -103,7 +103,7 @@
           <field>
             <name>RESETB</name>
             <description>Reset ADC.</description>
-            <bitRange>[4:4]</bitRange>
+            <bitRange>[5:5]</bitRange>
             <access>read-write</access>
             <enumeratedValues>
               <enumeratedValue>

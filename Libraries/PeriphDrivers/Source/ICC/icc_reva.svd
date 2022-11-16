@@ -19,19 +19,19 @@
           <field>
             <name>RELNUM</name>
             <description>Release Number. Identifies the RTL release version.</description>
-            <bitOffset>0</bitOffset>
+            <bitOffset>6</bitOffset>
             <bitWidth>6</bitWidth>
           </field>
           <field>
             <name>PARTNUM</name>
             <description>Part Number. This field reflects the value of C_ID_PART_NUMBER configuration parameter.</description>
-            <bitOffset>6</bitOffset>
+            <bitOffset>12</bitOffset>
             <bitWidth>4</bitWidth>
           </field>
           <field>
             <name>ID</name>
             <description>Cache ID. This field reflects the value of the C_ID_CACHEID configuration parameter.</description>
-            <bitOffset>10</bitOffset>
+            <bitOffset>20</bitOffset>
             <bitWidth>6</bitWidth>
           </field>
         </fields>
@@ -116,6 +116,6 @@
         </fields>
       </register>
     </registers>
+    <!-- ICC: Instruction Cache Controller Registers-->
   </peripheral>
-  <!-- ICC: Instruction Cache Controller Registers-->
 </device>
