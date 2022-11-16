@@ -63,8 +63,6 @@ jobs:
           repository: ADI-MSDK-Workflow-Test/msdk-internal
           fetch-depth: 0
           token: ${{ secrets.PAT }}
-          #ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-          #ssh-key: ''
           path: ${{ env.MSDK-INTERNAL_DIR }}
           
       # Use these next steps to verify if register files were updated.
@@ -296,7 +294,7 @@ jobs:
             if [[ -z $CHANGED_REGISTER_FILES ]]; then
               CHANGED_OR_AFFECTED_REGISTER_FILES=$reg_files_linked_to_changed_svd_files
             else
-              #CHANGED_OR_AFFECTED_REGISTER_FILES=$CHANGED_REGISTER_FILES
+              # CHANGED_OR_AFFECTED_REGISTER_FILES should already have a list of changed register files, so just add on linked register files.
             
               for linked_reg_file in $reg_files_linked_to_changed_svd_files
               do
@@ -321,7 +319,7 @@ jobs:
             
             # Each element (part) of associative array is a list of changed files
             # Add space delimiter if not empty
-            if [[ ${#CHANGED_REG_FILES_PER_PART[@]} ]]; then
+            if [[ -n ${CHANGED_REG_FILES_PER_PART[${CHIP_TO_DIE_NAMES[$CHIP_NAME]}]} ]]; then
               CHANGED_REG_FILES_PER_PART[${CHIP_TO_DIE_NAMES[$CHIP_NAME]}]+=" "
             fi
             CHANGED_REG_FILES_PER_PART[${CHIP_TO_DIE_NAMES[$CHIP_NAME]}]+=$changed_reg_file
