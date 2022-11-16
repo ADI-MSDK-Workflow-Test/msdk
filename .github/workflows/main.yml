@@ -106,12 +106,9 @@ jobs:
             do
               # Make sure deleted peripheral SVD file is a necessary for the register generation.
               is_necessary_svd_files=$(find ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/*/$CHIP_PERIPH -exec grep -s "$svd_file" {} \;)
-              
               if [[ -n $is_necessary_svd_files ]]; then
-                echo "Step"
                 # Check for deletion
                 if [[ ! -f "$svd_file" ]]; then
-                  echo "Deletion step"
                   # Add space delimiter for variable string list
                   if [[ -n $DELETED_SVD_FILE_LIST ]]; then
                     DELETED_PERIPH_SVD_FILE_LIST+=" "
@@ -119,23 +116,23 @@ jobs:
 
                   DELETED_PERIPH_SVD_FILE_LIST+=$svd_file
                 fi
-                
-                echo "End step"
               fi
             done       
-            
-            echo "Deleted: $DELETED_PERIPH_SVD_FILE_LIST"
 
+            # Check fails if any important peripheral SVD file was deleted
             if [[ -n $DELETED_PERIPH_SVD_FILE_LIST ]]; then
               echo -e "\n\e[0;33m==================================================================\n"
-              echo -e "\e[0;33mWARNING: Important Peripheral SVD Files were deleted."
+              echo -e "\e[0;31m*WARNING* \e[0;33mImportant Peripheral SVD Files were deleted."
               echo -e "\n\e[0;33m==================================================================\n"
 
               for deleted_svd_file in $DELETED_PERIPH_SVD_FILE_LIST
               do
-                echo -e "[\e[1;33mERROR\e[0m]: $deleted_svd_file was deleted"
+                echo -e "[\e[1;31mERROR\e[0m]: $deleted_svd_file was deleted"
               done
-
+              
+              # Just for log output formatting
+              echo -e "\n"
+              
               exit 1
             fi
           fi
