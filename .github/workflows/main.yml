@@ -372,6 +372,8 @@ jobs:
               
               # Find parts depend on current peripheral SVD file. 
               # Read chip_periph.txt
+              
+              echo "Test 1"
               if [[ -n $updated_part_list ]]; then
                 # Check whether one of the changed register files matches with SVD path
                 for changed_reg_file in ${CHANGED_REG_FILES_PER_PART[$die_name]}
@@ -379,6 +381,8 @@ jobs:
                   # Isolate peripheral of changed register file to find corresponding peripheral SVD file
                   periph=${changed_reg_file##*/}
                   periph=${periph%_regs.h}
+                  echo "Testing"
+                  grep -s "$periph" $CHIP_PERIPH
 
                   # Check if peripheral SVD file matches with changed register file using the peripheral name
                   match_line=$(grep -s "$periph" $CHIP_PERIPH)
