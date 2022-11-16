@@ -109,6 +109,7 @@ jobs:
               is_necessary_svd_files=$(find ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/*/$CHIP_PERIPH -exec grep -s "$svd_file" {} \;)
               if [[ -n $is_necessary_svd_file ]]; then
                 # Check for deletion
+                echo "Deleted: $svd_file"
                 if [[ ! -f $svd_file ]]; then
                   echo "Deleting"
                   # Add space delimiter for variable string list
