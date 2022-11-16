@@ -384,6 +384,8 @@ jobs:
                   
                   echo "Periph: $periph   ---   chip_periph: $CHIP_PERIPH"
                   echo "Testing"
+                  ls
+                  pwd
                   grep -s "$periph" $CHIP_PERIPH
 
                   # Check if peripheral SVD file matches with changed register file using the peripheral name
