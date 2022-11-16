@@ -111,7 +111,7 @@ jobs:
               ls
               pwd
               ls Libraries/PeriphDrivers/Source/GPIO
-              if [[ ! -f $svd_file ]]; then
+              if [[ ! -f "$svd_file" ]]; then
                 echo "Found"
               else
                 echo "Not found"
