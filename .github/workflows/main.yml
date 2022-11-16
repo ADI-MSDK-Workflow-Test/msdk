@@ -381,6 +381,8 @@ jobs:
                   # Isolate peripheral of changed register file to find corresponding peripheral SVD file
                   periph=${changed_reg_file##*/}
                   periph=${periph%_regs.h}
+                  
+                  echo "Periph: $periph   ---   chip_periph: $CHIP_PERIPH"
                   echo "Testing"
                   grep -s "$periph" $CHIP_PERIPH
 
