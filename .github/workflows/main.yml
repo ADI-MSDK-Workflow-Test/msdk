@@ -386,7 +386,7 @@ jobs:
                   echo "Testing"
                   ls
                   pwd
-                  grep "bbfc" chip_periph.txt
+                  echo "" | grep "bbfc" chip_periph.txt
                   echo "End"
                   # Check if peripheral SVD file matches with changed register file using the peripheral name
                   match_line=""
