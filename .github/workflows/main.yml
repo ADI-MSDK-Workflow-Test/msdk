@@ -125,7 +125,7 @@ jobs:
                   DELETED_PERIPH_SVD_FILE_LIST+=$svd_file
                 fi
                 
-                echo "End step
+                echo "End step"
               fi
             done       
             
