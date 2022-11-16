@@ -110,7 +110,7 @@ jobs:
               echo "Is: $is_necessary_svd_files   --   $svd_file"
               ls
               pwd
-              ls Librares/PeriphDrivers/Source/GPIO
+              ls Libraries/PeriphDrivers/Source/GPIO
               if [[ ! -f $svd_file ]]; then
                 echo "Found"
               else
