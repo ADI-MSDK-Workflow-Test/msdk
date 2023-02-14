@@ -75,8 +75,6 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.PAT }}
           path: ${{ env.MSDK-INTERNAL_DIR }}
-      
-      - name: 
 
       - name: Generating register files.
         run: |
