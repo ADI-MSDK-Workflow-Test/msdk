@@ -150,7 +150,7 @@ jobs:
               fi
             fi
           else
-            echo -e "[\e[0;31mERROR\e[0m] Incorrect command. Please start comment with: \/generate-register-files."
+            # echo -e "[\e[0;31mERROR\e[0m] Incorrect command. Please start comment with: \/generate-register-files."
             exit 1
           fi
 
