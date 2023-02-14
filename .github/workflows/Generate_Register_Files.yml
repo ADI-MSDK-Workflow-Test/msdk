@@ -134,6 +134,7 @@ jobs:
             else
               # Capitalize part designation argument
               part="${cmdarr[1]^^}"
+              echo $part
 
               # Confirm second argument is the part designation
               if [[ ${DIE_TO_CHIP_NAMES[$part]+_} ]]; then
