@@ -154,24 +154,24 @@ jobs:
           #   exit 1
           # fi
 
-          # # Generate all register files if part not specified.
-          # # if [[ "$part" =~ "" || "$part" =~ "all" ]]; then
-          # #   cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
+          # Generate all register files if part not specified.
+          # if [[ "$part" =~ "" || "$part" =~ "all" ]]; then
+          #   cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
 
-          # # else
-          # cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/$die_name/
+          # else
+          cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/$die_name/
 
-          # if [[ ! (-d ./chip_test) ]]; then
-          #   chmod u+x makeRegs.sh
-          #   makeregs_log=$(./makeRegs.sh ubuntu)
+          if [[ ! (-d ./chip_test) ]]; then
+            chmod u+x makeRegs.sh
+            makeregs_log=$(./makeRegs.sh ubuntu)
+          fi
+
+          #cp -r ./chip_test/* ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/$chip_name/Include/
+          ls ./chip_test/
+          pwd
+          ls ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/$chip_name/Include/
+          pwd
           # fi
-
-          # #cp -r ./chip_test/* ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/$chip_name/Include/
-          # ls ./chip_test/
-          # pwd
-          # ls ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/$chip_name/Include/
-          # pwd
-          # # fi
 
           exit 0
 
