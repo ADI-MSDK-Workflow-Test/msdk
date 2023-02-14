@@ -62,4 +62,4 @@ jobs:
         run: |
           pwd
           ls
-          cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
+          cd ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
