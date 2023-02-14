@@ -55,7 +55,7 @@ jobs:
             core.info(`Getting comment ID: ${acknowledge.comment_id}`)
           
             github.rest.reactions.createForIssueComment(acknowledge)
-            
+
       - name: Checkout source repository
         uses: actions/checkout@v3
         with:
@@ -75,3 +75,18 @@ jobs:
       - name: Generating register files.
         run: |
           cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
+
+      - name: Complete
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const complete = {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: 'hooray'
+            }
+
+            core.info(`Getting comment ID: ${acknowledge.comment_id}`)
+          
+            github.rest.reactions.createForIssueComment(complete)
