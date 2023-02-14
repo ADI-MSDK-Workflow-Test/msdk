@@ -126,52 +126,52 @@ jobs:
 
           readarray -d " " -t cmdarr <<< "$command"
 
-          # Only run if the first argument is the command
-          if [[ "${cmdarr[0]" =~ "\/generate\-register\-files" ]]; then
-            # Generate all register files if you only run the command with no part specified
-            if [[ ${#cmdarr[@]} == 1 ]]; then
-              part="all"
-            else
-              # Capitalize part designation argument
-              part="${cmdarr[1]^^}"
+          # # Only run if the first argument is the command
+          # if [[ "${cmdarr[0]" =~ "\/generate\-register\-files" ]]; then
+          #   # Generate all register files if you only run the command with no part specified
+          #   if [[ ${#cmdarr[@]} == 1 ]]; then
+          #     part="all"
+          #   else
+          #     # Capitalize part designation argument
+          #     part="${cmdarr[1]^^}"
 
-              # Confirm second argument is the part designation
-              if [[ ${DIE_TO_CHIP_NAMES[$part]+_} ]]; then
-                chip_name=${DIE_TO_CHIP_NAMES[$part]}
-                die_name=$part
+          #     # Confirm second argument is the part designation
+          #     if [[ ${DIE_TO_CHIP_NAMES[$part]+_} ]]; then
+          #       chip_name=${DIE_TO_CHIP_NAMES[$part]}
+          #       die_name=$part
 
-              elif [[ ${CHIP_TO_DIE_NAMES[$part]+_} ]]; then
-                chip_name=$part
-                die_name=${CHIP_TO_DIE_NAMES[$part]}
+          #     elif [[ ${CHIP_TO_DIE_NAMES[$part]+_} ]]; then
+          #       chip_name=$part
+          #       die_name=${CHIP_TO_DIE_NAMES[$part]}
 
-              else
-                echo -e "[\e[0;31mERROR\e[0m] Unknown part number."
-                exit 1
-              fi
-            fi
-          else
-            # echo -e "[\e[0;31mERROR\e[0m] Incorrect command. Please start comment with: \/generate\-register\-files."
-            exit 1
-          fi
-
-          # Generate all register files if part not specified.
-          # if [[ "$part" =~ "" || "$part" =~ "all" ]]; then
-          #   cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
-
+          #     else
+          #       echo -e "[\e[0;31mERROR\e[0m] Unknown part number."
+          #       exit 1
+          #     fi
+          #   fi
           # else
-          cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/$die_name/
-
-          if [[ ! (-d ./chip_test) ]]; then
-            chmod u+x makeRegs.sh
-            makeregs_log=$(./makeRegs.sh ubuntu)
-          fi
-
-          #cp -r ./chip_test/* ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/$chip_name/Include/
-          ls ./chip_test/
-          pwd
-          ls ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/$chip_name/Include/
-          pwd
+          #   # echo -e "[\e[0;31mERROR\e[0m] Incorrect command. Please start comment with: \/generate\-register\-files."
+          #   exit 1
           # fi
+
+          # # Generate all register files if part not specified.
+          # # if [[ "$part" =~ "" || "$part" =~ "all" ]]; then
+          # #   cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
+
+          # # else
+          # cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/$die_name/
+
+          # if [[ ! (-d ./chip_test) ]]; then
+          #   chmod u+x makeRegs.sh
+          #   makeregs_log=$(./makeRegs.sh ubuntu)
+          # fi
+
+          # #cp -r ./chip_test/* ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/$chip_name/Include/
+          # ls ./chip_test/
+          # pwd
+          # ls ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/$chip_name/Include/
+          # pwd
+          # # fi
 
           exit 0
 
