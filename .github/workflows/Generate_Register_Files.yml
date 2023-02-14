@@ -60,6 +60,7 @@ jobs:
       - name: Generating register files.
         run: |
           pwd
+          ls
           cd ..
           pwd
           ls
