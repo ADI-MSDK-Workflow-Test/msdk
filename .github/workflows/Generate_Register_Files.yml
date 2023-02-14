@@ -142,7 +142,7 @@ jobs:
 
               elif [[ ${CHIP_TO_DIE_NAMES[$part]+_} ]]; then
                 chip_name=$part
-                die_name=${CHIP_TO_DIE_NAMES[$part]
+                die_name=${CHIP_TO_DIE_NAMES[$part]}
 
               else
                 echo -e "[\e[0;31mERROR\e[0m] Unknown part number."
