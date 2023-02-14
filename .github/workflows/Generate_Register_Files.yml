@@ -41,14 +41,6 @@ jobs:
               core.setFailed(`Request failed with error ${err}`)
             }
       
-      - name: Checkout msdk internal repository
-        uses: actions/checkout@v3
-        with:
-          repository: ADI-MSDK-Workflow-Test/msdk-internal
-          fetch-depth: 0
-          token: ${{ secrets.PAT }}
-          path: ${{ env.MSDK-INTERNAL_DIR }}
-      
       - name: Checkout source repository
         uses: actions/checkout@v3
         with:
@@ -57,6 +49,15 @@ jobs:
           fetch-depth: 0
           script: |
             core.info(`Comment: ${github.event.comment.body}`)
+
+      - name: Checkout msdk internal repository
+        uses: actions/checkout@v3
+        with:
+          repository: ADI-MSDK-Workflow-Test/msdk-internal
+          fetch-depth: 0
+          token: ${{ secrets.PAT }}
+          path: ${{ env.MSDK-INTERNAL_DIR }}
+      
 
       - name: Generating register files.
         run: |
