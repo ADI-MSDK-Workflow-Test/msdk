@@ -87,6 +87,6 @@ jobs:
               content: 'hooray'
             }
 
-            core.info(`Getting comment ID: ${acknowledge.comment_id}`)
+            core.info(`Getting comment ID: ${complete.comment_id}`)
           
             github.rest.reactions.createForIssueComment(complete)
