@@ -47,6 +47,7 @@ jobs:
           repository: ${{ fromJSON(steps.get-pr.outputs.result).head.repo.full_name }}
           ref: ${{ fromJSON(steps.get-pr.outputs.result).head.ref }}
           fetch-depth: 0
+          path: ${{ env.MSDK_DIR }}
 
       - name: Checkout msdk internal repository
         uses: actions/checkout@v3
@@ -54,7 +55,7 @@ jobs:
           repository: ADI-MSDK-Workflow-Test/msdk-internal
           fetch-depth: 0
           token: ${{ secrets.PAT }}
-          path: ../${{ env.MSDK-INTERNAL_DIR }}
+          path: ${{ env.MSDK-INTERNAL_DIR }}
       
 
       - name: Generating register files.
