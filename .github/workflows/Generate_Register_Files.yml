@@ -136,11 +136,11 @@ jobs:
               part="${cmdarr[1]^^}"
 
               # Confirm second argument is the part designation
-              if [[ -v ${DIE_TO_CHIP_NAMES[$part]} ]]; then
+              if [[ -n ${DIE_TO_CHIP_NAMES[$part]} ]]; then
                 chip_name=${DIE_TO_CHIP_NAMES[$part]}
                 die_name=$part
 
-              elif [[ -v ${CHIP_TO_DIE_NAMES[$part]} ]]; then
+              elif [[ -n ${CHIP_TO_DIE_NAMES[$part]} ]]; then
                 chip_name=$part
                 die_name=${CHIP_TO_DIE_NAMES[$part]}
 
