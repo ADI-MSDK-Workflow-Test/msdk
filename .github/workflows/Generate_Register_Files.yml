@@ -160,7 +160,8 @@ jobs:
 
           # else
           cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/$die_name/
-
+          pwd
+          ls
           if [[ ! (-d ./chip_test) ]]; then
             chmod u+x makeRegs.sh
             makeregs_log=$(./makeRegs.sh ubuntu)
