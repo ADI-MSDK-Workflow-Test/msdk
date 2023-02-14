@@ -51,7 +51,7 @@ jobs:
             #   comment_id: context
             # }
 
-            core.info(`Getting comment ID: ${github.event.comment.id}`)
+            core.info(`Getting comment ID: ${ context.payload.comment.id }`)
 
             # github.rest.issues.createComment({
             #   issue_number: context.issue.number,
