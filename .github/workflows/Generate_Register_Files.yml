@@ -150,7 +150,7 @@ jobs:
               fi
             fi
           else
-            echo -e "[\e[0;31mERROR\e[0m] Incorrect command. Please start comment with \"/generate-register-files\"."
+            echo -e "[\e[0;31mERROR\e[0m] Incorrect command. Please start comment with \"\/generate-register-files\"."
             exit 1
           fi
 
@@ -199,6 +199,8 @@ jobs:
               repo: context.repo.repo,
               body: 'Error with command. Make sure you input a valid part number and your comment only contains:\n\n/generate-register-files [PART_NUMBER]'
             }
+
+            github.issues.createComment(failmsg)
 
       - name: Successfully Completed.
         if: success()
