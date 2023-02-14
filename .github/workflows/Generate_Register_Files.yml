@@ -40,6 +40,25 @@ jobs:
             } catch (err) {
               core.setFailed(`Request failed with error ${err}`)
             }
+
+      - name: Acknowledged
+        uses: actions/github-script@v6
+        with:
+          script: |
+            # const acknowledge = {
+            #   owner: context.repo.owner,
+            #   repo: context.repo.repo,
+            #   comment_id: context
+            # }
+
+            core.info(`Getting comment ID: ${github.event.comment.id}`)
+
+            # github.rest.issues.createComment({
+            #   issue_number: context.issue.number,
+            #   owner: context.repo.owner,
+            #   repo: context.repo.repo,
+            #   body: '👋 Thanks for reporting!'
+            # })            
       
       - name: Checkout source repository
         uses: actions/checkout@v3
@@ -57,15 +76,8 @@ jobs:
           token: ${{ secrets.PAT }}
           path: ${{ env.MSDK-INTERNAL_DIR }}
       
+      - name: 
 
       - name: Generating register files.
         run: |
-          pwd
-          ls
-          cd ..
-          pwd
-          ls
-          cd ..
-          pwd
-          ls
-          # cd ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
+          cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
