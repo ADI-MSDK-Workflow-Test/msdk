@@ -52,15 +52,10 @@ jobs:
               content: 'rocket'
             }
 
-            core.info(`Getting comment ID: ${ context.payload.comment.id }`)
-
-            # github.rest.issues.createComment({
-            #   issue_number: context.issue.number,
-            #   owner: context.repo.owner,
-            #   repo: context.repo.repo,
-            #   body: '👋 Thanks for reporting!'
-            # })            
-      
+            core.info(`Getting comment ID: ${acknowledge.comment_id}`)
+          
+            github.rest.reactions.createForIssueComment(acknowledge)
+            
       - name: Checkout source repository
         uses: actions/checkout@v3
         with:
