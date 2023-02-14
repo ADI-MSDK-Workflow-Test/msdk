@@ -150,15 +150,13 @@ jobs:
               fi
             fi
           else
-            echo -e "[\e[0;31mERROR\e[0m] Incorrect command. Please start comment with: /generate-register-files."
+            echo -e "[\e[0;31mERROR\e[0m] Incorrect command. Please start comment with: \/generate-register-files."
             exit 1
           fi
 
           # Generate all register files if part not specified.
           if [[ "$part" == "" || "$part" == "all" ]]; then
             cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
-
-
 
           else
             cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/$die_name
