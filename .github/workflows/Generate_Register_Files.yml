@@ -127,7 +127,7 @@ jobs:
           readarray -d " " -t cmdarr <<< "$command"
 
           # Only run if the first argument is the command
-          if [[ "${cmdarr[0]" =~ "\/generate\-register-\files" ]]; then
+          if [[ "${cmdarr[0]" =~ "\/generate\-register\-files" ]]; then
             # Generate all register files if you only run the command with no part specified
             if [[ ${#cmdarr[@]} == 1 ]]; then
               part="all"
