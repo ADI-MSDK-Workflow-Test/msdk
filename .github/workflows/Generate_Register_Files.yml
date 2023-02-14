@@ -56,7 +56,7 @@ jobs:
           
             github.rest.reactions.createForIssueComment(acknowledge)
 
-            core.info(`Comment: ${github.event.comment.body}`)
+            core.info(`Comment: ${{ github.event.comment.body }}`)
 
       - name: Checkout source repository
         uses: actions/checkout@v3
