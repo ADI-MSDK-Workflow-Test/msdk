@@ -54,7 +54,7 @@ jobs:
           repository: ADI-MSDK-Workflow-Test/msdk-internal
           fetch-depth: 0
           token: ${{ secrets.PAT }}
-          path: ${{ env.MSDK-INTERNAL_DIR }}
+          path: ../${{ env.MSDK-INTERNAL_DIR }}
       
 
       - name: Generating register files.
