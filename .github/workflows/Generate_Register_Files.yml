@@ -200,7 +200,7 @@ jobs:
               body: 'Error with command. Make sure you input a valid part number and your comment only contains:\n\n/generate-register-files [PART_NUMBER]'
             }
 
-            github.issues.createComment(failmsg)
+            github.rest.issues.createComment(failmsg)
 
       - name: Successfully Completed.
         if: success()
