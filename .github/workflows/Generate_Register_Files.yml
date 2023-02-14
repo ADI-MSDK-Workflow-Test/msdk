@@ -9,6 +9,9 @@ env:
   MSDK_DIR: msdk
   MSDK-INTERNAL_DIR: msdk-internal
 
+  # Environment variable that tracks whether command was successful or not.
+  COMMAND_STATUS: false
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # Generate register files job.
@@ -21,7 +24,7 @@ jobs:
     runs-on: [ ubuntu-latest ]
 
     steps:
-      - name: Command Dispatch
+      - name: Dispatch.
         uses: actions/github-script@v6
         id: get-pr
         with:
@@ -41,7 +44,7 @@ jobs:
               core.setFailed(`Request failed with error ${err}`)
             }
 
-      - name: Acknowledged
+      - name: Acknowledged.
         uses: actions/github-script@v6
         with:
           script: |
@@ -58,7 +61,7 @@ jobs:
 
             core.info(`Comment: ${{ github.event.comment.body }}`)
 
-      - name: Checkout source repository
+      - name: Checkout source repository.
         uses: actions/checkout@v3
         with:
           repository: ${{ fromJSON(steps.get-pr.outputs.result).head.repo.full_name }}
@@ -66,7 +69,7 @@ jobs:
           fetch-depth: 0
           path: ${{ env.MSDK_DIR }}
 
-      - name: Checkout msdk internal repository
+      - name: Checkout msdk-internal repository.
         uses: actions/checkout@v3
         with:
           repository: ADI-MSDK-Workflow-Test/msdk-internal
@@ -76,19 +79,139 @@ jobs:
 
       - name: Generating register files.
         run: |
-          cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
+          # Create associative array for dictionary
+          declare -A CHIP_TO_DIE_NAMES 
+          declare -A DIE_TO_CHIP_NAMES
 
-      - name: Complete
+          # Add future parts to this dictionary
+          CHIP_TO_DIE_NAMES[MAX78000]=AI85
+          CHIP_TO_DIE_NAMES[MAX78002]=AI87
+          CHIP_TO_DIE_NAMES[MAX32520]=ES17
+          CHIP_TO_DIE_NAMES[MAX32650]=ME10
+          CHIP_TO_DIE_NAMES[MAX32660]=ME11
+          CHIP_TO_DIE_NAMES[MAX32662]=ME12
+          CHIP_TO_DIE_NAMES[MAX32570]=ME13
+          CHIP_TO_DIE_NAMES[MAX32665]=ME14
+          CHIP_TO_DIE_NAMES[MAX32670]=ME15
+          CHIP_TO_DIE_NAMES[MAX32675]=ME16
+          CHIP_TO_DIE_NAMES[MAX32655]=ME17
+          CHIP_TO_DIE_NAMES[MAX32690]=ME18
+          CHIP_TO_DIE_NAMES[MAX32680]=ME20
+          CHIP_TO_DIE_NAMES[MAX32672]=ME21
+          CHIP_TO_DIE_NAMES[MAX32572]=ME55
+          
+          DIE_TO_CHIP_NAMES[AI85]=MAX78000
+          DIE_TO_CHIP_NAMES[AI87]=MAX78000
+          DIE_TO_CHIP_NAMES[ES17]=MAX32520
+          DIE_TO_CHIP_NAMES[ME10]=MAX32650
+          DIE_TO_CHIP_NAMES[ME11]=MAX32660
+          DIE_TO_CHIP_NAMES[ME12]=MAX32662
+          DIE_TO_CHIP_NAMES[ME13]=MAX32570
+          DIE_TO_CHIP_NAMES[ME14]=MAX32665
+          DIE_TO_CHIP_NAMES[ME15]=MAX32670
+          DIE_TO_CHIP_NAMES[ME16]=MAX32675
+          DIE_TO_CHIP_NAMES[ME17]=MAX32655
+          DIE_TO_CHIP_NAMES[ME18]=MAX32690
+          DIE_TO_CHIP_NAMES[ME20]=MAX32680
+          DIE_TO_CHIP_NAMES[ME21]=MAX32672
+          DIE_TO_CHIP_NAMES[ME55]=MAX32572
+
+          # Generate files for specific part if argument is valid.
+          part=""
+          chip_name=""
+          die_name=""
+
+          # Parse command to generate part specific file
+          command="${{ github.event.comment.body }}"
+
+          readarray -d " " -t cmdarr <<< "$command"
+
+          # Only run if the first argument is the command
+          if [[ "${cmdarr[0]" =~ "/generate-register-files" ]]; then
+            # Generate all register files if you only run the command with no part specified
+            if [[ ${#cmdarr[@]} == 1 ]]; then
+              part="all"
+            else
+              # Capitalize part designation argument
+              part="${cmdarr[1]^^}"
+
+              # Confirm second argument is the part designation
+              if [[ ${DIE_TO_CHIP_NAMES[$part]+_} ]]; then
+                chip_name=${DIE_TO_CHIP_NAMES[$part]}
+                die_name=$part
+
+              elif [[ ${CHIP_TO_DIE_NAMES[$part]+_} ]]; then
+                chip_name=$part
+                die_name=${CHIP_TO_DIE_NAMES[$part]
+
+              else
+                echo -e "[\e[0;31mERROR\e[0m] Unknown part number."
+                exit 1
+              fi
+            fi
+          else
+            echo -e "[\e[0;31mERROR\e[0m] Incorrect command. Please start comment with \"/generate-register-files\"."
+            exit 1
+          fi
+
+          # Generate all register files if part not specified.
+          if [[ "$part" == "" || "$part" == "all" ]]; then
+            cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
+
+
+
+          else
+            cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/$die_name
+
+            if [[ ! (-d ./chip_test) ]]; then
+              chmod u+x makeRegs.sh
+              makeregs_log=$(./makeRegs.sh ubuntu)
+            fi
+
+            #cp -r ./chip_test/* ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/$chip_name/Include/
+            ls ./chip_test/
+            pwd
+            ls ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/$chip_name/Include/
+            pwd
+          fi
+
+          exit 0
+
+      - name: Failed.
+        if: failure()
         uses: actions/github-script@v6
         with:
           script: |
-            const complete = {
+            const failreact = {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: 'confused'
+            }
+
+            core.info(`Getting comment ID: ${failreact.comment_id}`)
+          
+            github.rest.reactions.createForIssueComment(failreact)
+
+            const failmsg = {
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Error with command. Make sure you input a valid part number and your comment only contains:\n\n/generate-register-files [PART_NUMBER]'
+            }
+
+      - name: Successfully Completed.
+        if: success()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const success = {
               owner: context.repo.owner,
               repo: context.repo.repo,
               comment_id: context.payload.comment.id,
               content: 'hooray'
             }
 
-            core.info(`Getting comment ID: ${complete.comment_id}`)
+            core.info(`Getting comment ID: ${success.comment_id}`)
           
-            github.rest.reactions.createForIssueComment(complete)
+            github.rest.reactions.createForIssueComment(success)
