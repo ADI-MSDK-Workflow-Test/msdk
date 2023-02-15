@@ -163,10 +163,24 @@ jobs:
           if [[ "$part" =~ "all" ]]; then
             cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
 
+            for part_chip_name in "${!CHIP_TO_DIE_NAMES[@]}"
+            do
+              cd ${CHIP_TO_DIE_NAMES[part_chip_name]}
+
+              if [[ ! (-d ./chip_test) ]]; then
+                chmod u+x makeRegs.sh
+                makeregs_log=$(./makeRegs.sh ubuntu)
+              fi
+
+              echo "Copying generated files to msdk/Libraries/CMSIS/Device/Maxim/${part_chip_name}/Include/"
+              cp -r ./chip_test/* ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${part_chip_name}/Include/
+
+              cd ..
+            done
+
           else
             cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/$die_name/
-            pwd
-            ls
+
             if [[ ! (-d ./chip_test) ]]; then
               chmod u+x makeRegs.sh
               makeregs_log=$(./makeRegs.sh ubuntu)
