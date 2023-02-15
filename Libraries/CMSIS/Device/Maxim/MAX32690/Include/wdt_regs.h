@@ -102,7 +102,7 @@ typedef struct {
 #define MXC_R_WDT_CTRL                     ((uint32_t)0x00000000UL) /**< Offset from WDT Base Address: <tt> 0x0000</tt> */
 #define MXC_R_WDT_RST                      ((uint32_t)0x00000004UL) /**< Offset from WDT Base Address: <tt> 0x0004</tt> */
 #define MXC_R_WDT_CLKSEL                   ((uint32_t)0x00000008UL) /**< Offset from WDT Base Address: <tt> 0x0008</tt> */
-#define MXC_R_WDT_COUNT                    ((uint32_t)0x0000000CUL) /**< Offset from WDT Base Address: <tt> 0x000C</tt> */
+#define MXC_R_WDT_CNT                      ((uint32_t)0x0000000CUL) /**< Offset from WDT Base Address: <tt> 0x000C</tt> */
 /**@} end of group wdt_registers */
 
 /**
