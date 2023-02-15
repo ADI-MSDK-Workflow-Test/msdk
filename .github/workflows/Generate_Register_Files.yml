@@ -176,7 +176,9 @@ jobs:
             cp -r ./chip_test/* ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${chip_name}/Include/
 
             # Push files
-            git add ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/*
+            cd ../../../../${{ env.MSDK_DIR }}
+
+            git add Libraries/CMSIS/Device/Maxim/${chip_name}/Include/*
             git commit -m "${part}: Updated register files."
             git push
           fi
