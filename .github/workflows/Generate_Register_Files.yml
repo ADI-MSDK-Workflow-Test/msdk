@@ -162,8 +162,6 @@ jobs:
           # Generate all register files if part not specified.
           if [[ "$part" =~ "all" ]]; then
             cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
-            pwd
-            ls
 
             for part_chip_name in "${!CHIP_TO_DIE_NAMES[@]}"
             do
