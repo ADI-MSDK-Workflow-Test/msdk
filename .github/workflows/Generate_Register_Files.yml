@@ -148,7 +148,7 @@ jobs:
               # Turn back of extglob shell option to default value.
               shopt -u extglob
 
-              echo "__$part__"
+              echo "__{$part}__"
               echo ${DIE_TO_CHIP_NAMES[ME18]}
               echo ${CHIP_TO_DIE_NAMES[ME18]}
 
