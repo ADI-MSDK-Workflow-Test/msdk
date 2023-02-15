@@ -137,29 +137,12 @@ jobs:
 
               echo "__${part}__"
 
-              # Turn on extglob shell option needed for trimming whitespaces
-              #   Mainly for the *( ) string manipulation formatting
-              shopt -s extglob
-
-              # Remove any newline characters
-              part="${part%'\n'}"
-
-              # Trim any leading whitespaces
-              part="${part##*( )}"
+              # Remove any non-alphanumeric characters (like newline and whitespaces)
+              part="${part//[^[:alnum:]]/}"
 
               echo "__${part}__"
-
-              # Trim any trailing whitespaces
-              part="${part%%*( )}"
-
-              echo "__${part}__"
-
-              # Turn back of extglob shell option to default value.
-              shopt -u extglob
-
-              echo "__${part}__"
-              echo ${DIE_TO_CHIP_NAMES[ME18]}
-              echo ${CHIP_TO_DIE_NAMES[ME18]}
+              echo ${DIE_TO_CHIP_NAMES[$part]}
+              echo ${CHIP_TO_DIE_NAMES[$part]}
 
               # Confirm second argument is the part designation
               if [[ ${DIE_TO_CHIP_NAMES[$part]+_} ]]; then
