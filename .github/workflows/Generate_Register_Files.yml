@@ -133,7 +133,13 @@ jobs:
               part="all"
             else
               # Capitalize part designation argument
-              part="__${cmdarr[1]^^}__"
+              part="${cmdarr[1]^^}"
+
+              # Trim any leading whitespaces
+              part="${part##*( )}"
+
+              # Trim any trailing whitespaces
+              part="${part%%*( )}"
 
               echo $part
               echo ${DIE_TO_CHIP_NAMES[ME18]}
