@@ -157,7 +157,7 @@ jobs:
             exit 1
           fi
 
-          echo "Valid"
+          echo "Valid Command Found."
 
           # Generate all register files if part not specified.
           if [[ "$part" == "" || "$part" =~ "all" ]]; then
@@ -172,14 +172,20 @@ jobs:
               makeregs_log=$(./makeRegs.sh ubuntu)
             fi
 
-            #cp -r ./chip_test/* ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/$chip_name/Include/
-            ls ./chip_test/
-            pwd
-            ls ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/$chip_name/Include/
-            pwd
+            echo "Copying generated files to msdk/Libraries/CMSIS/Device/Maxim/${chip_name}/Include/"
+            cp -r ./chip_test/* ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${chip_name}/Include/
+
           fi
 
           exit 0
+
+      - name: Push generated files.
+        if: success()
+        uses: EndBug/add-and-commit@v9.0.1
+        with:
+          add: '*'
+          message: 'Pushed generated register files.'
+          push: true
 
       - name: Failed.
         if: failure()
