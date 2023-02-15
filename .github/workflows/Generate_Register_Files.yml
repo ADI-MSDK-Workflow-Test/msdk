@@ -175,17 +175,13 @@ jobs:
             echo "Copying generated files to msdk/Libraries/CMSIS/Device/Maxim/${chip_name}/Include/"
             cp -r ./chip_test/* ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${chip_name}/Include/
 
+            # Push files
+            git add ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/*
+            git commit -m "${part}: Updated register files."
+            git push
           fi
 
           exit 0
-
-      - name: Push generated files.
-        if: success()
-        uses: EndBug/add-and-commit@v9.0.1
-        with:
-          add: '*'
-          message: 'Pushed generated register files.'
-          push: true
 
       - name: Failed.
         if: failure()
