@@ -135,6 +135,7 @@ jobs:
               # Capitalize part designation argument
               part="${cmdarr[1]^^}"
 
+              echo $part
               echo ${DIE_TO_CHIP_NAMES[$part]}
               echo ${CHIP_TO_DIE_NAMES[$part]}
 
