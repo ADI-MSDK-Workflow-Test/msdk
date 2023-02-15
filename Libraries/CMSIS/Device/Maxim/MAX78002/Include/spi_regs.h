@@ -134,8 +134,8 @@ typedef struct {
  * @brief    Register for reading and writing the FIFO.
  * @{
  */
-#define MXC_F_SPI_DATA32_DATA_POS                      0 /**< FIFO32_DATA Position */
-#define MXC_F_SPI_DATA32_DATA                          ((uint32_t)(0xFFFFFFFFUL << MXC_F_SPI_DATA32_DATA_POS)) /**< FIFO32_DATA Mask */
+#define MXC_F_SPI_FIFO32_DATA_POS                      0 /**< FIFO32_DATA Position */
+#define MXC_F_SPI_FIFO32_DATA                          ((uint32_t)(0xFFFFFFFFUL << MXC_F_SPI_FIFO32_DATA_POS)) /**< FIFO32_DATA Mask */
 
 /**@} end of group SPI_FIFO32_Register */
 
