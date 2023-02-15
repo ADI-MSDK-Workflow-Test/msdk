@@ -140,10 +140,10 @@ jobs:
               part="${cmdarr[1]^^}"
 
               # Trim any leading whitespaces
-              part="${part##' '}"
+              part="${part##*( )}"
 
               # Trim any trailing whitespaces
-              part="${part%%' '}"
+              part="${part%%*( )}"
 
               # # Turn back of extglob shell option to default value.
               # shopt -u extglob
