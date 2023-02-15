@@ -158,9 +158,9 @@ jobs:
           fi
 
           echo "Valid"
-          
+
           # Generate all register files if part not specified.
-          if [[ "$part" =~ "" || "$part" =~ "all" ]]; then
+          if [[ "$part" == "" || "$part" =~ "all" ]]; then
             cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
 
           else
