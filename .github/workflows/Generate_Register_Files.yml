@@ -140,8 +140,12 @@ jobs:
               # Turn on extglob shell option needed for trimming whitespaces
               #   Mainly for the *( ) string manipulation formatting
               shopt -s extglob
+
+              # Remove any newline characters
+              part="${part%'\n'}"
+
               # Trim any leading whitespaces
-              part=${part##*( )}
+              part="${part##*( )}"
 
               echo "__${part}__"
 
