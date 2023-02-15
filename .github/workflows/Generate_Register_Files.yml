@@ -136,8 +136,8 @@ jobs:
               part="${cmdarr[1]^^}"
 
               echo $part
-              echo ${DIE_TO_CHIP_NAMES[$part]}
-              echo ${CHIP_TO_DIE_NAMES[$part]}
+              echo ${DIE_TO_CHIP_NAMES[ME18]}
+              echo ${CHIP_TO_DIE_NAMES[ME18]}
 
               # Confirm second argument is the part designation
               if [[ -n ${DIE_TO_CHIP_NAMES[$part]} ]]; then
