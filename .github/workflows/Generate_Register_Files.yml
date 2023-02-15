@@ -133,22 +133,22 @@ jobs:
               part="all"
             else
 
-              # Turn on extglob shell option needed for trimming whitespaces
-              shopt -s extglob
+              # # Turn on extglob shell option needed for trimming whitespaces
+              # shopt -s extglob
 
               # Capitalize part designation argument
               part="${cmdarr[1]^^}"
 
               # Trim any leading whitespaces
-              part="${part## }"
+              part="${part##' '}"
 
               # Trim any trailing whitespaces
-              part="${part%% }"
+              part="${part%%' '}"
 
-              # Turn back of extglob shell option to default value.
-              shopt -u extglob
+              # # Turn back of extglob shell option to default value.
+              # shopt -u extglob
 
-              echo "__{$part}__"
+              echo "__${part}__"
               echo ${DIE_TO_CHIP_NAMES[ME18]}
               echo ${CHIP_TO_DIE_NAMES[ME18]}
 
