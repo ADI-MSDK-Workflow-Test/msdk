@@ -141,16 +141,16 @@ jobs:
               # Trim any trailing whitespaces
               part="${part%%*( )}"
 
-              echo $part
+              echo "__$part__"
               echo ${DIE_TO_CHIP_NAMES[ME18]}
               echo ${CHIP_TO_DIE_NAMES[ME18]}
 
               # Confirm second argument is the part designation
-              if [[ -n ${DIE_TO_CHIP_NAMES[$part]} ]]; then
+              if [[ ${DIE_TO_CHIP_NAMES[$part]+_} ]]; then
                 chip_name=${DIE_TO_CHIP_NAMES[$part]}
                 die_name=$part
 
-              elif [[ -n ${CHIP_TO_DIE_NAMES[$part]} ]]; then
+              elif [[ ${CHIP_TO_DIE_NAMES[$part]+_} ]]; then
                 chip_name=$part
                 die_name=${CHIP_TO_DIE_NAMES[$part]}
 
