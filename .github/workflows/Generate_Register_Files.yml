@@ -132,18 +132,23 @@ jobs:
             if [[ ${#cmdarr[@]} == 1 ]]; then
               part="all"
             else
-
-              # Turn on extglob shell option needed for trimming whitespaces
-              shopt -s extglob
-
               # Capitalize part designation argument
               part="${cmdarr[1]^^}"
 
+              echo "__${part}__"
+
+              # Turn on extglob shell option needed for trimming whitespaces
+              #   Mainly for the *( ) string manipulation formatting
+              shopt -s extglob
               # Trim any leading whitespaces
-              part="${part##*( )}"
+              part=${part##*( )}
+
+              echo "__${part}__"
 
               # Trim any trailing whitespaces
               part="${part%%*( )}"
+
+              echo "__${part}__"
 
               # Turn back of extglob shell option to default value.
               shopt -u extglob
