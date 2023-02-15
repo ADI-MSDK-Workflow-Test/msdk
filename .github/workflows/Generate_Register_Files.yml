@@ -184,9 +184,10 @@ jobs:
 
       - name: Push generated register files.
         if: success()
-        uses: EndBug/add-and-commit@v9.0.1
+        uses: EndBug/add-and-commit@v9
         with:
           add: '*'
+          cwd: '${{ env.MSDK_DIR }}'
           message: '"Generate_Register_Files" bot updating requested register files.'
           push: true
 
