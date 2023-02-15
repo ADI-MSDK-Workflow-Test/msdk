@@ -129,7 +129,7 @@ jobs:
           # Only run if the first argument is the command
           if [[ "${cmdarr[0]}" =~ "/generate-register-files" ]]; then
             # Generate all register files if you only run the command with no part specified
-            if [[ ${#cmdarr[@]} == 1 ]]; then
+            if [[ "${cmdarr[1],,}"" =~ "all" ]]; then
               part="all"
             else
               # Capitalize part designation argument
@@ -160,7 +160,7 @@ jobs:
           echo "Valid Command Found."
 
           # Generate all register files if part not specified.
-          if [[ "$part" == "" || "$part" =~ "all" ]]; then
+          if [[ "$part" =~ "all" ]]; then
             cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
 
           else
@@ -175,15 +175,20 @@ jobs:
             echo "Copying generated files to msdk/Libraries/CMSIS/Device/Maxim/${chip_name}/Include/"
             cp -r ./chip_test/* ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${chip_name}/Include/
 
-            # Push files
-            cd ../../../../${{ env.MSDK_DIR }}
-
-            git add Libraries/CMSIS/Device/Maxim/${chip_name}/Include/*
-            git commit -m "${part}: Updated register files."
-            git push
           fi
 
+          # Push files
+          cd ../../../../${{ env.MSDK_DIR }}
+          
           exit 0
+
+      - name: Push generated register files.
+        if: success()
+        uses: EndBug/add-and-commit@v9.0.1
+        with:
+          add: '*'
+          message: '"Generate_Register_Files" bot updating requested register files.'
+          push: true
 
       - name: Failed.
         if: failure()
@@ -205,7 +210,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'Error with command. Make sure you input a valid part number and your comment only contains:\n\n/generate-register-files [PART_NUMBER]'
+              body: 'Error with command. Make sure you input a valid part number and your comment only contains:\n\n/generate-register-files [VALID_PART_NUMBER]'
             }
 
             github.rest.issues.createComment(failmsg)
