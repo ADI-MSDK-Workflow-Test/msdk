@@ -135,14 +135,8 @@ jobs:
               # Capitalize part designation argument
               part="${cmdarr[1]^^}"
 
-              echo "__${part}__"
-
               # Remove any non-alphanumeric characters (like newline and whitespaces)
               part="${part//[^[:alnum:]]/}"
-
-              echo "__${part}__"
-              echo ${DIE_TO_CHIP_NAMES[$part]}
-              echo ${CHIP_TO_DIE_NAMES[$part]}
 
               # Confirm second argument is the part designation
               if [[ ${DIE_TO_CHIP_NAMES[$part]+_} ]]; then
@@ -163,6 +157,8 @@ jobs:
             exit 1
           fi
 
+          echo "Valid"
+          
           # Generate all register files if part not specified.
           if [[ "$part" =~ "" || "$part" =~ "all" ]]; then
             cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
