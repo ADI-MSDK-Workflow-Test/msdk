@@ -167,7 +167,10 @@ jobs:
 
             for part_chip_name in "${!CHIP_TO_DIE_NAMES[@]}"
             do
-              if [[ ! (-d ./${CHIP_TO_DIE_NAMES[part_chip_name]}) ]]; then
+              # Enter part's SVD directory only if it exists. Sometimes a new part could be added to dictionary with
+              #   no supported SVD scripts.
+              if [[ -d ./${CHIP_TO_DIE_NAMES[part_chip_name]} ]]; then
+                echo "Enter ${CHIP_TO_DIE_NAMES[part_chip_name]}"
                 cd ${CHIP_TO_DIE_NAMES[part_chip_name]}
 
                 if [[ ! (-d ./chip_test) ]]; then
@@ -198,7 +201,7 @@ jobs:
 
             # Return to msdk repo
             cd ../../../../${{ env.MSDK_DIR }}
-            
+
           fi
           
           exit 0
