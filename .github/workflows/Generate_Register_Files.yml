@@ -162,21 +162,28 @@ jobs:
           # Generate all register files if part not specified.
           if [[ "$part" =~ "all" ]]; then
             cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/
+            pwd
+            ls
 
             for part_chip_name in "${!CHIP_TO_DIE_NAMES[@]}"
             do
-              cd ${CHIP_TO_DIE_NAMES[part_chip_name]}
+              if [[ ! (-d ./${CHIP_TO_DIE_NAMES[part_chip_name]}) ]]; then
+                cd ${CHIP_TO_DIE_NAMES[part_chip_name]}
 
-              if [[ ! (-d ./chip_test) ]]; then
-                chmod u+x makeRegs.sh
-                makeregs_log=$(./makeRegs.sh ubuntu)
+                if [[ ! (-d ./chip_test) ]]; then
+                  chmod u+x makeRegs.sh
+                  makeregs_log=$(./makeRegs.sh ubuntu)
+                fi
+
+                echo "Copying generated files to msdk/Libraries/CMSIS/Device/Maxim/${part_chip_name}/Include/"
+                cp -r ./chip_test/* ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${part_chip_name}/Include/
+
+                cd ..
               fi
-
-              echo "Copying generated files to msdk/Libraries/CMSIS/Device/Maxim/${part_chip_name}/Include/"
-              cp -r ./chip_test/* ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${part_chip_name}/Include/
-
-              cd ..
             done
+
+            # Return to msdk repo
+            cd ../../../${{ env.MSDK_DIR }}
 
           else
             cd ${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/$die_name/
@@ -189,10 +196,10 @@ jobs:
             echo "Copying generated files to msdk/Libraries/CMSIS/Device/Maxim/${chip_name}/Include/"
             cp -r ./chip_test/* ../../../../${{ env.MSDK_DIR }}/Libraries/CMSIS/Device/Maxim/${chip_name}/Include/
 
+            # Return to msdk repo
+            cd ../../../../${{ env.MSDK_DIR }}
+            
           fi
-
-          # Push files
-          cd ../../../../${{ env.MSDK_DIR }}
           
           exit 0
 
