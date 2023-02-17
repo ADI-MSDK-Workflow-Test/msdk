@@ -128,8 +128,6 @@ jobs:
           #   $1 - Specified part's chip name to generate register files
           #   $2 - Specified part's die name to generate register files
           #   $3 - Path to workspace (outside of msdk and msdk-internal repos)
-          # Return:
-          #   $? - Error code (0 - no error; 1 - error).
           function generate_register_file_for_part() {
             part_chip_name="${1^^}"
             part_die_name="${2^^}"
@@ -149,6 +147,53 @@ jobs:
             cd ../../../../
           }
           #---------= END - generate_register_file_for_part =---------
+
+          #---------= START - FUNCTION find_affected_parts =---------
+          # Function to find all parts affected by any peripheral SVD file changes.
+          # This function depends on relative paths from workspace.
+          # Inputs:
+          #   $1 - Path to workspace (outside of msdk and msdk-internal repos)
+          # Return:
+          #   $? - List of affected parts.
+          function find_affected_parts() {
+            workspace_path=$1
+
+            cd ./${workspace_path}/${{ env.MSDK_DIR }}/
+
+            AFFECTED_CHIP_SET=""
+
+            CHANGED_PERIPH_SVD_FILES=$(git diff --ignore-submodules --name-only remotes/origin/master './Libraries/PeriphDrivers/Source/*/*.svd')
+            
+            for periph_svd_file in $CHANGED_PERIPH_SVD_FILES
+            do
+              # Each part has its own directory (using die names) in the SVD scripts
+              list_affected_parts_paths=$(grep -rl $periph_svd_file ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/)
+
+              # Isolate part from SVD paths
+              for affected_parts in $list_affected_parts_paths
+              do
+                part=${affected_parts#*/Devices/}
+                part=${part%%/*}
+
+                # There are some directories in SVD/Devices not named after a part.
+                #   Only generate files for parts.
+                if [[ ${DIE_TO_CHIP_NAMES[${part^^}]+_} ]]; then
+                  # Don't add duplicate parts to list
+                  if [[ ! "${AFFECTED_CHIP_SET[*]}" =~ "$CHIP_NAME" ]]; then
+                    # Add space delimiter if list is not empty
+                    if [[ ${#CHANGED_REG_FILES_PER_PART[@]} ]]; then
+                      AFFECTED_CHIP_SET+=" "
+                    fi
+                    AFFECTED_CHIP_SET+=$part
+                  fi
+                fi
+
+              done
+            done
+
+            echo AFFECTED_CHIP_SET
+          }
+          #---------= END - find_affected_parts =---------
 
           # Parse command to generate part specific file
           command="${{ github.event.comment.body }}"
@@ -197,6 +242,12 @@ jobs:
           #   respective part's CMSIS location: "msdk/Libraries/CMSIS/Device/Maxim/{part}/Include/"
           # 1 - Generate register files for all parts affected by PR changes.
           if [[ "$part" =~ "" ]]; then
+            list_affected_parts_die_name=$(find_affected_parts .)
+
+            for part_die_name in $list_affected_parts
+            do
+              generate_register_file_for_part ${DIE_TO_CHIP_NAMES[$part_die_name]} $part_die_name .
+            done
 
           # 2 - Generate all register files.
           elif [[ "$part" =~ "all" ]]; then
