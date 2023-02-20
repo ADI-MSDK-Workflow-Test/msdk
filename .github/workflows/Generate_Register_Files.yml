@@ -205,7 +205,7 @@ jobs:
             # Generate all register files if you only run the command with no part specified
             if [[ "${cmdarr[1],,}" =~ "all" ]]; then
               part="all"
-            else
+            elif [[ ${#cmdarr[@]} != 1 ]]; then
               # Capitalize part designation argument
               part="${cmdarr[1]^^}"
 
