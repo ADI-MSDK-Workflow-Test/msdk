@@ -89,7 +89,7 @@ typedef struct {
     __I  uint32_t info;                 /**< <tt>\b 0x0000:</tt> ICC INFO Register */
     __I  uint32_t sz;                   /**< <tt>\b 0x0004:</tt> ICC SZ Register */
     __R  uint32_t rsv_0x8_0xff[62];
-    __IO uint32_t ctrl;                 /**< <tt>\b 0x0100:</tt> ICC CTRL Register */
+    __IO uint32_t cfg;                  /**< <tt>\b 0x0100:</tt> ICC CFG Register */
     __R  uint32_t rsv_0x104_0x6ff[383];
     __IO uint32_t invalidate;           /**< <tt>\b 0x0700:</tt> ICC INVALIDATE Register */
 } mxc_icc_regs_t;
@@ -103,7 +103,7 @@ typedef struct {
  */
 #define MXC_R_ICC_INFO                     ((uint32_t)0x00000000UL) /**< Offset from ICC Base Address: <tt> 0x0000</tt> */
 #define MXC_R_ICC_SZ                       ((uint32_t)0x00000004UL) /**< Offset from ICC Base Address: <tt> 0x0004</tt> */
-#define MXC_R_ICC_CTRL                     ((uint32_t)0x00000100UL) /**< Offset from ICC Base Address: <tt> 0x0100</tt> */
+#define MXC_R_ICC_CFG                      ((uint32_t)0x00000100UL) /**< Offset from ICC Base Address: <tt> 0x0100</tt> */
 #define MXC_R_ICC_INVALIDATE               ((uint32_t)0x00000700UL) /**< Offset from ICC Base Address: <tt> 0x0700</tt> */
 /**@} end of group icc_registers */
 
@@ -140,17 +140,17 @@ typedef struct {
 
 /**
  * @ingroup  icc_registers
- * @defgroup ICC_CTRL ICC_CTRL
+ * @defgroup ICC_CFG ICC_CFG
  * @brief    Cache Control and Status Register.
  * @{
  */
-#define MXC_F_ICC_CTRL_EN_POS                          0 /**< CTRL_EN Position */
-#define MXC_F_ICC_CTRL_EN                              ((uint32_t)(0x1UL << MXC_F_ICC_CTRL_EN_POS)) /**< CTRL_EN Mask */
+#define MXC_F_ICC_CFG_EN_POS                           0 /**< CFG_EN Position */
+#define MXC_F_ICC_CFG_EN                               ((uint32_t)(0x1UL << MXC_F_ICC_CFG_EN_POS)) /**< CFG_EN Mask */
 
-#define MXC_F_ICC_CTRL_RDY_POS                         16 /**< CTRL_RDY Position */
-#define MXC_F_ICC_CTRL_RDY                             ((uint32_t)(0x1UL << MXC_F_ICC_CTRL_RDY_POS)) /**< CTRL_RDY Mask */
+#define MXC_F_ICC_CFG_RDY_POS                          16 /**< CFG_RDY Position */
+#define MXC_F_ICC_CFG_RDY                              ((uint32_t)(0x1UL << MXC_F_ICC_CFG_RDY_POS)) /**< CFG_RDY Mask */
 
-/**@} end of group ICC_CTRL_Register */
+/**@} end of group ICC_CFG_Register */
 
 /**
  * @ingroup  icc_registers

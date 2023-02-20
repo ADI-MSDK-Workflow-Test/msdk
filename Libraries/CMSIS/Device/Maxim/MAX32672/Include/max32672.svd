@@ -7943,7 +7943,7 @@
         </fields>
       </register>
       <register>
-        <name>CTRL</name>
+        <name>CFG</name>
         <description>Cache Control and Status Register.</description>
         <addressOffset>0x0100</addressOffset>
         <fields>
