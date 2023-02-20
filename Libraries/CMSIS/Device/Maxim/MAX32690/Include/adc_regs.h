@@ -160,7 +160,7 @@ typedef struct {
 #define MXC_F_ADC_CTRL0_CHOP_FORCE_POS                 3 /**< CTRL0_CHOP_FORCE Position */
 #define MXC_F_ADC_CTRL0_CHOP_FORCE                     ((uint32_t)(0x1UL << MXC_F_ADC_CTRL0_CHOP_FORCE_POS)) /**< CTRL0_CHOP_FORCE Mask */
 
-#define MXC_F_ADC_CTRL0_RESETB_POS                     4 /**< CTRL0_RESETB Position */
+#define MXC_F_ADC_CTRL0_RESETB_POS                     5 /**< CTRL0_RESETB Position */
 #define MXC_F_ADC_CTRL0_RESETB                         ((uint32_t)(0x1UL << MXC_F_ADC_CTRL0_RESETB_POS)) /**< CTRL0_RESETB Mask */
 
 /**@} end of group ADC_CTRL0_Register */

@@ -78,7 +78,7 @@ extern "C" {
  * @ingroup     ecc
  * @defgroup    ecc_registers ECC_Registers
  * @brief       Registers, Bit Masks and Bit Positions for the ECC Peripheral Module.
- * @details     Trim System Initilazation Registers. ECC Registers for MAX32670.
+ * @details     Trim System Initilazation Registers. Renamed to ECC Registers for MAX32670.
  */
 
 /**
@@ -106,7 +106,7 @@ typedef struct {
  * @brief    ECC Enable Register.
  * @{
  */
-#define MXC_F_ECC_EN_SRAM_POS                          7 /**< EN_SRAM Position */
+#define MXC_F_ECC_EN_SRAM_POS                          8 /**< EN_SRAM Position */
 #define MXC_F_ECC_EN_SRAM                              ((uint32_t)(0x1UL << MXC_F_ECC_EN_SRAM_POS)) /**< EN_SRAM Mask */
 
 #define MXC_F_ECC_EN_ICC_POS                           9 /**< EN_ICC Position */
