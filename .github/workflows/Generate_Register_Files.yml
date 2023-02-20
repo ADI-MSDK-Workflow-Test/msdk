@@ -211,7 +211,9 @@ jobs:
 
               # Remove any non-alphanumeric characters (like newline and whitespaces)
               part="${part//[^[:alnum:]]/}"
-
+              echo "___$part___"
+              echo "___${DIE_TO_CHIP_NAMES[${part}]}___"
+              echo "___${CHIP_TO_DIE_NAMES[${part}]}___"
               # Confirm second argument is the part designation
               if [[ ${DIE_TO_CHIP_NAMES[${part}]+_} ]]; then
                 chip_name=${DIE_TO_CHIP_NAMES[$part]}
