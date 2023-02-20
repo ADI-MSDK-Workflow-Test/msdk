@@ -168,7 +168,7 @@ jobs:
             do
               # Each part has its own directory (using die names) in the SVD scripts
               list_affected_parts_paths=$(grep -rl $periph_svd_file ../${{ env.MSDK-INTERNAL_DIR }}/SVD/Devices/)
-              echo "Grep: $list_affected_parts_paths"
+
               # Isolate part from SVD paths
               for affected_parts in $list_affected_parts_paths
               do
