@@ -248,6 +248,7 @@ jobs:
 
             for part_die_name in $list_affected_parts
             do
+              echo "Part:  ${DIE_TO_CHIP_NAMES[$part_die_name]} ; $part_die_name"
               generate_register_file_for_part ${DIE_TO_CHIP_NAMES[$part_die_name]} $part_die_name .
             done
 
@@ -257,9 +258,6 @@ jobs:
             do
               generate_register_file_for_part $part_chip_name ${CHIP_TO_DIE_NAMES[$part_chip_name]} .
             done
-
-            # Return to msdk repo
-            cd ${{ env.MSDK_DIR }}
 
           # 3 - Only generate register file for specified part
           else
