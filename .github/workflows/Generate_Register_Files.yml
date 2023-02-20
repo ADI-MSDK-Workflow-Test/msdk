@@ -181,9 +181,9 @@ jobs:
                 #   Only generate files for parts.
                 if [[ ${DIE_TO_CHIP_NAMES[${part^^}]+_} ]]; then
                   # Don't add duplicate parts to list
-                  if [[ ! "${AFFECTED_CHIP_SET[*]}" =~ "$CHIP_NAME" ]]; then
+                  if [[ ! "${AFFECTED_CHIP_SET[*]}" =~ "$part" ]]; then
                     # Add space delimiter if list is not empty
-                    if [[ ${#CHANGED_REG_FILES_PER_PART[@]} ]]; then
+                    if [[ ${#AFFECTED_CHIP_SET[@]} ]]; then
                       AFFECTED_CHIP_SET+=" "
                     fi
                     AFFECTED_CHIP_SET+=$part
