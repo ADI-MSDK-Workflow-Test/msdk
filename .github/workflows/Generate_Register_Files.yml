@@ -193,7 +193,7 @@ jobs:
               done
             done
 
-            echo AFFECTED_CHIP_SET
+            echo $AFFECTED_CHIP_SET
           }
           #---------= END - find_affected_parts =---------
 
