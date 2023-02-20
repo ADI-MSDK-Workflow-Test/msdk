@@ -246,8 +246,10 @@ jobs:
           echo "CMD: ${#cmdarr[@]} or $part"
           if [[ ${#cmdarr[@]} == 1 ]]; then
             list_affected_parts_die_name=$(find_affected_parts .)
-            
-            for part_die_name in $list_affected_parts
+
+            echo $list_affected_parts_die_name
+
+            for part_die_name in $list_affected_parts_die_name
             do
               echo "Part:  ${DIE_TO_CHIP_NAMES[$part_die_name]} ; $part_die_name"
               generate_register_file_for_part ${DIE_TO_CHIP_NAMES[$part_die_name]} $part_die_name .
