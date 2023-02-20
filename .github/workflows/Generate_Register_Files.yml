@@ -248,6 +248,7 @@ jobs:
           echo "CMD: ${#cmdarr[@]} or $part"
           if [[ ${#cmdarr[@]} == 1 ]]; then
             list_affected_parts_die_name=$(find_affected_parts .)
+            find_affected_parts .
             echo $list_affected_parts
             for part_die_name in $list_affected_parts
             do
